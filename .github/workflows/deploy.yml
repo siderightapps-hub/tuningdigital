@@ -25,12 +25,12 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: npm run build   # next build only
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: out          # MUST be out/
 
   deploy:
     needs: build
@@ -39,6 +39,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Download artifact
+        uses: actions/download-pages-artifact@v3   # ❗ REQUIRED
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
