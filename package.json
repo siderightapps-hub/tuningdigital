@@ -1,0 +1,19 @@
+{
+  "name": "tuningdigital",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "new-post": "node scripts/new-post.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "next": "14.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
+  }
+}
