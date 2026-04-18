@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Cost Calculator – Free Tool to Audit Your Software Stack | Tuning Digital</title>
+  <meta name="description" content="Free SaaS cost calculator. Add all your subscriptions, see your monthly and annual spend, identify overlaps, and get a stack health score. No signup required.">
+  <meta name="keywords" content="SaaS cost calculator, software subscription calculator, SaaS spend audit, tool stack cost, reduce SaaS spend">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tuningdigital.com/tools/saas-cost-calculator.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tuningdigital.com/tools/saas-cost-calculator.html">
+  <meta property="og:title" content="Free SaaS Cost Calculator – Audit Your Software Stack">
+  <meta property="og:description" content="Add all your SaaS subscriptions and instantly see monthly spend, annual cost, and overlap warnings.">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"SaaS Cost Calculator",
+    "url":"https://tuningdigital.com/tools/saas-cost-calculator.html",
+    "description":"Free tool to calculate total SaaS subscription costs and identify redundant tools in your stack.",
+    "applicationCategory":"BusinessApplication",
+    "operatingSystem":"Web",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://tuningdigital.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://tuningdigital.com/tools/"},{"@type":"ListItem","position":3,"name":"SaaS Cost Calculator","item":"https://tuningdigital.com/tools/saas-cost-calculator.html"}]}
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <style>
+    .calc-row{display:grid;grid-template-columns:2fr 1.2fr 1fr 0.7fr 44px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+    .calc-row:last-child{border:none}
+    .remove-btn{width:36px;height:36px;border-radius:var(--r);border:1px solid var(--border);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s;cursor:pointer;flex-shrink:0}
+    .remove-btn:hover{background:rgba(255,92,122,.1);border-color:var(--red)}
+    .calc-header{display:grid;grid-template-columns:2fr 1.2fr 1fr 0.7fr 44px;gap:10px;padding:0 0 8px;margin-bottom:4px;border-bottom:2px solid var(--border)}
+    .calc-header span{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+    .score-ring{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:var(--font-display);position:relative}
+    .score-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+    .score-num{font-size:1.8rem;font-weight:800;z-index:1}
+    .score-label{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);z-index:1}
+    .overlap-badge{background:rgba(255,92,122,.1);border:1px solid rgba(255,92,122,.3);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:.88rem}
+    @media(max-width:640px){.calc-row,.calc-header{grid-template-columns:1fr 1fr;}.calc-row .col-billing,.calc-row .col-users,.calc-row .col-remove,.calc-header .col-billing,.calc-header .col-users,.calc-header .col-remove{display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><span class="dot"></span>Tuning Digital</a>
+      <ul class="nav-links">
+        <li><a href="/tools/" class="active">Tools</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+      <a href="/tools/" class="nav-cta">All Tools →</a>
+      <button class="nav-mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/about.html">About</a>
+</div>
+
+<!-- Hero -->
+<section style="padding:64px 0 48px;border-bottom:1px solid var(--border)">
+  <div class="container">
+    <nav class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/tools/">Tools</a><span>/</span><span>SaaS Cost Calculator</span></nav>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:24px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <span style="font-size:2rem">🧮</span>
+          <span class="tag tag-accent">Free Tool</span>
+          <span class="tag">No Signup</span>
+        </div>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);max-width:18ch">SaaS Cost Calculator</h1>
+        <p style="margin-top:12px;font-size:1.05rem;max-width:52ch">Add your software subscriptions, see your real annual spend, and get a stack health score with overlap warnings.</p>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div class="stat-num" id="totalMonthly">£0</div>
+          <div class="stat-label">Monthly</div>
+        </div>
+        <div style="text-align:center">
+          <div class="stat-num" id="totalAnnual">£0</div>
+          <div class="stat-label">Annual</div>
+        </div>
+        <div style="text-align:center">
+          <div class="stat-num" id="toolCount">0</div>
+          <div class="stat-label">Tools</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ad Banner -->
+<div class="container" style="padding-top:32px">
+  <div class="ad-slot ad-slot-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="6666666666" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- Calculator -->
+<section class="section">
+  <div class="container">
+    <div class="tool-layout">
+
+      <!-- Main calculator -->
+      <div>
+        <div class="tool-interface">
+          <div class="tool-interface-header">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--accent)" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M8 5v6" stroke-linecap="round"/></svg>
+            <span style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted)">Your SaaS Stack</span>
+            <span style="margin-left:auto;font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim)" id="lastUpdated">Unsaved · changes stay in browser</span>
+          </div>
+          <div class="tool-interface-body">
+
+            <!-- Table header -->
+            <div class="calc-header">
+              <span>Tool / Service</span>
+              <span>Monthly Cost</span>
+              <span class="col-billing">Billing</span>
+              <span class="col-users">Category</span>
+              <span class="col-remove"></span>
+            </div>
+
+            <!-- Tool rows container -->
+            <div id="toolRows"></div>
+
+            <!-- Add row button -->
+            <button class="btn btn-ghost btn-sm mt-16" id="addRowBtn" style="width:100%;justify-content:center">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
+              Add Tool
+            </button>
+
+            <!-- Quick add popular tools -->
+            <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+              <p style="font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;max-width:none">Quick Add Popular Tools</p>
+              <div style="display:flex;flex-wrap:wrap;gap:8px" id="quickAddBtns"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px" id="resultsPanel">
+
+          <div class="card" style="text-align:center;padding:20px">
+            <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Monthly Spend</div>
+            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--text)" id="resultMonthly">£0</div>
+          </div>
+
+          <div class="card" style="text-align:center;padding:20px">
+            <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Annual Spend</div>
+            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--accent-2)" id="resultAnnual">£0</div>
+          </div>
+
+          <div class="card" style="text-align:center;padding:20px">
+            <div style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Stack Score</div>
+            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800" id="stackScore" style="color:var(--accent)">—</div>
+          </div>
+        </div>
+
+        <!-- Category breakdown -->
+        <div class="card mt-16" id="categoryBreakdown" style="display:none">
+          <h4 style="margin-bottom:16px;font-size:1rem">Spend by Category</h4>
+          <div id="categoryBars"></div>
+        </div>
+
+        <!-- Overlap warnings -->
+        <div id="overlapWarnings" style="margin-top:16px"></div>
+
+        <!-- Export -->
+        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="exportCSV">⬇ Export CSV</button>
+          <button class="btn btn-ghost btn-sm" id="saveBtn">💾 Save to Browser</button>
+          <button class="btn btn-ghost btn-sm" id="shareBtn">🔗 Copy Share Link</button>
+          <button class="btn btn-ghost btn-sm" id="clearBtn" style="color:var(--red)">✕ Clear All</button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <!-- Ad -->
+        <div class="ad-slot ad-slot-rectangle" style="margin-bottom:20px">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXX" data-ad-slot="7777777777" data-ad-format="auto"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <div class="sidebar-card">
+          <h4>How to Use This</h4>
+          <ul>
+            <li><a href="#">→ Add each tool with its monthly cost</a></li>
+            <li><a href="#">→ Switch billing to annual to see true cost</a></li>
+            <li><a href="#">→ Check the category bars for lopsided spend</a></li>
+            <li><a href="#">→ Orange warnings = potential overlaps</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card mt-16">
+          <h4>Industry Benchmarks</h4>
+          <ul style="gap:12px">
+            <li style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;font-size:.82rem"><span>Startup (1–10)</span><span style="font-family:var(--font-mono);color:var(--accent)">$2k–8k/yr</span></div>
+              <div class="progress-bar"><div class="progress-bar-fill" style="width:20%"></div></div>
+            </li>
+            <li style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;font-size:.82rem"><span>SMB (10–50)</span><span style="font-family:var(--font-mono);color:var(--accent)">$15k–60k/yr</span></div>
+              <div class="progress-bar"><div class="progress-bar-fill" style="width:45%"></div></div>
+            </li>
+            <li style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:flex;justify-content:space-between;font-size:.82rem"><span>Mid-market (50+)</span><span style="font-family:var(--font-mono);color:var(--accent)">$80k+/yr</span></div>
+              <div class="progress-bar"><div class="progress-bar-fill" style="width:80%"></div></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-card mt-16" style="background:var(--accent-glow);border-color:rgba(0,229,212,.2)">
+          <h4>Need to Cut Costs?</h4>
+          <p style="font-size:.85rem;margin:8px 0 14px;max-width:none">Read our guide on auditing your stack and negotiating SaaS contracts.</p>
+          <a href="/blog/" class="btn btn-primary btn-sm w-full" style="justify-content:center">Read the Guide →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo"><span class="dot"></span>Tuning Digital</div>
+        <p>Independent reviews of AI and SaaS productivity tools.</p>
+      </div>
+      <div class="footer-col"><h5>Tools</h5><ul><li><a href="/tools/">All Tools</a></li><li><a href="/tools/saas-cost-calculator.html">SaaS Calculator</a></li></ul></div>
+      <div class="footer-col"><h5>Content</h5><ul><li><a href="/blog/">Blog</a></li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Tuning Digital.</p>
+      <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script>
+// ─── SaaS Cost Calculator ───────────────────────────────────
+const CATEGORIES = ['AI / ML','Writing','Design','Project Mgmt','Analytics','Automation','HR / People','Finance','CRM','DevOps','Security','Other'];
+const POPULAR_TOOLS = [
+  {name:'Notion',cost:16,cat:'Project Mgmt'},
+  {name:'Slack',cost:8,cat:'Project Mgmt'},
+  {name:'Figma',cost:15,cat:'Design'},
+  {name:'Zapier',cost:49,cat:'Automation'},
+  {name:'HubSpot',cost:50,cat:'CRM'},
+  {name:'Linear',cost:8,cat:'Project Mgmt'},
+  {name:'Loom',cost:12,cat:'Other'},
+  {name:'Claude Pro',cost:20,cat:'AI / ML'},
+  {name:'ChatGPT Plus',cost:20,cat:'AI / ML'},
+  {name:'Framer',cost:25,cat:'Design'},
+  {name:'Ahrefs',cost:99,cat:'Analytics'},
+  {name:'Webflow',cost:23,cat:'Design'},
+];
+const OVERLAP_RULES = [
+  {cats:['AI / ML'],threshold:3,msg:'You have 3+ AI tools — consider consolidating to 1–2.'},
+  {cats:['Project Mgmt'],threshold:2,msg:'Multiple project management tools detected — potential duplication.'},
+  {cats:['Design'],threshold:3,msg:'Heavy design tool spend — are all these actively used?'},
+];
+
+let tools = [];
+let nextId = 0;
+
+function formatCurrency(n){return '£'+n.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function createRow(t){
+  const div=document.createElement('div');
+  div.className='calc-row';
+  div.dataset.id=t.id;
+  div.innerHTML=`
+    <input class="form-input" style="font-size:.88rem;padding:9px 12px" placeholder="e.g. Notion" value="${t.name}" data-field="name">
+    <input class="form-input" style="font-size:.88rem;padding:9px 12px;font-family:var(--font-mono)" type="number" min="0" step="0.01" placeholder="0.00" value="${t.cost||''}" data-field="cost">
+    <select class="form-select col-billing" style="font-size:.82rem;padding:9px 12px" data-field="billing">
+      <option value="monthly" ${t.billing==='monthly'?'selected':''}>Monthly</option>
+      <option value="annual" ${t.billing==='annual'?'selected':''}>Annual (/12)</option>
+    </select>
+    <select class="form-select col-users" style="font-size:.78rem;padding:9px 8px" data-field="cat">
+      ${CATEGORIES.map(c=>`<option value="${c}" ${t.cat===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <button class="remove-btn col-remove" aria-label="Remove">✕</button>
+  `;
+  div.querySelectorAll('[data-field]').forEach(el=>{
+    el.addEventListener('input',()=>{
+      const f=el.dataset.field;
+      const row=tools.find(r=>r.id===t.id);
+      if(!row)return;
+      if(f==='cost') row.cost=parseFloat(el.value)||0;
+      else row[f]=el.value;
+      updateCalc();
+    });
+    el.addEventListener('change',()=>el.dispatchEvent(new Event('input')));
+  });
+  div.querySelector('.remove-btn').addEventListener('click',()=>{
+    tools=tools.filter(r=>r.id!==t.id);
+    div.remove();
+    updateCalc();
+  });
+  return div;
+}
+
+function addTool(name='',cost=0,cat='Other',billing='monthly'){
+  const t={id:nextId++,name,cost,cat,billing};
+  tools.push(t);
+  document.getElementById('toolRows').appendChild(createRow(t));
+  updateCalc();
+}
+
+function updateCalc(){
+  const monthly=tools.reduce((s,t)=>s+(t.billing==='annual'?t.cost/12*12/12:t.cost),0);
+  // actually annual = monthly*12 for monthly billing, or cost for annual billing
+  const trueMonthly=tools.reduce((s,t)=>s+(t.billing==='annual'?t.cost/12:t.cost),0);
+  const trueAnnual=tools.reduce((s,t)=>s+(t.billing==='annual'?t.cost:t.cost*12),0);
+
+  document.getElementById('totalMonthly').textContent=formatCurrency(trueMonthly);
+  document.getElementById('totalAnnual').textContent=formatCurrency(trueAnnual);
+  document.getElementById('toolCount').textContent=tools.length;
+  document.getElementById('resultMonthly').textContent=formatCurrency(trueMonthly);
+  document.getElementById('resultAnnual').textContent=formatCurrency(trueAnnual);
+
+  // Stack score (0–100)
+  let score = 100;
+  if(tools.length>15) score-=20;
+  else if(tools.length>10) score-=10;
+  OVERLAP_RULES.forEach(rule=>{
+    const count=tools.filter(t=>rule.cats.includes(t.cat)).length;
+    if(count>=rule.threshold) score-=15;
+  });
+  score=Math.max(0,score);
+  const scoreEl=document.getElementById('stackScore');
+  scoreEl.textContent=tools.length?score+'%':'—';
+  scoreEl.style.color=score>=80?'var(--accent)':score>=60?'var(--accent-2)':'var(--red)';
+
+  // Category breakdown
+  const cats={};
+  tools.forEach(t=>{
+    const m=t.billing==='annual'?t.cost/12:t.cost;
+    cats[t.cat]=(cats[t.cat]||0)+m;
+  });
+  const maxCat=Math.max(...Object.values(cats),1);
+  const breakdownEl=document.getElementById('categoryBreakdown');
+  const barsEl=document.getElementById('categoryBars');
+  if(tools.length){
+    breakdownEl.style.display='';
+    barsEl.innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,val])=>`
+      <div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px">
+          <span>${cat}</span>
+          <span style="font-family:var(--font-mono);color:var(--accent)">${formatCurrency(val)}/mo</span>
+        </div>
+        <div class="progress-bar"><div class="progress-bar-fill" style="width:${(val/maxCat*100).toFixed(1)}%"></div></div>
+      </div>
+    `).join('');
+  }else{breakdownEl.style.display='none';}
+
+  // Overlap warnings
+  const warnEl=document.getElementById('overlapWarnings');
+  const warns=OVERLAP_RULES.filter(r=>tools.filter(t=>r.cats.includes(t.cat)).length>=r.threshold);
+  warnEl.innerHTML=warns.map(w=>`<div class="overlap-badge" style="margin-bottom:8px"><span>⚠️</span><span>${w.msg}</span></div>`).join('');
+
+  // Save to localStorage
+  try{localStorage.setItem('td_calc_tools',JSON.stringify(tools));localStorage.setItem('td_calc_nextId',nextId);}catch(e){}
+  document.getElementById('lastUpdated').textContent='Auto-saved · '+new Date().toLocaleTimeString();
+}
+
+// Quick add buttons
+const qEl=document.getElementById('quickAddBtns');
+POPULAR_TOOLS.forEach(p=>{
+  const btn=document.createElement('button');
+  btn.className='pill';
+  btn.textContent=p.name;
+  btn.addEventListener('click',()=>{
+    if(!tools.find(t=>t.name===p.name)) addTool(p.name,p.cost,p.cat,'monthly');
+    else alert(p.name+' is already in your list');
+  });
+  qEl.appendChild(btn);
+});
+
+document.getElementById('addRowBtn').addEventListener('click',()=>addTool());
+
+// Export CSV
+document.getElementById('exportCSV').addEventListener('click',()=>{
+  const rows=[['Tool','Monthly Cost','Billing','Category']];
+  tools.forEach(t=>rows.push([t.name,t.cost,t.billing,t.cat]));
+  const csv=rows.map(r=>r.join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='saas-stack-'+Date.now()+'.csv';
+  a.click();
+  gtag('event','export_csv',{tool:'saas_calculator'});
+});
+
+// Share link
+document.getElementById('shareBtn').addEventListener('click',()=>{
+  const encoded=btoa(JSON.stringify(tools.map(t=>({n:t.name,c:t.cost,b:t.billing,cat:t.cat}))));
+  const url=window.location.origin+window.location.pathname+'?stack='+encoded;
+  navigator.clipboard.writeText(url).then(()=>alert('Share link copied to clipboard!'));
+});
+
+// Clear
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  if(confirm('Clear all tools?')){
+    tools=[];nextId=0;
+    document.getElementById('toolRows').innerHTML='';
+    updateCalc();
+  }
+});
+
+// Save
+document.getElementById('saveBtn').addEventListener('click',()=>{
+  try{localStorage.setItem('td_calc_tools',JSON.stringify(tools));alert('Saved to browser storage!');}catch(e){alert('Could not save');}
+});
+
+// Load from URL param
+(()=>{
+  try{
+    const p=new URLSearchParams(window.location.search).get('stack');
+    if(p){
+      const loaded=JSON.parse(atob(p));
+      loaded.forEach(t=>addTool(t.n,t.c,t.cat,t.b));
+      return;
+    }
+  }catch(e){}
+  // Load from localStorage
+  try{
+    const saved=localStorage.getItem('td_calc_tools');
+    const savedId=localStorage.getItem('td_calc_nextId');
+    if(saved){
+      const loaded=JSON.parse(saved);
+      if(savedId) nextId=parseInt(savedId)||0;
+      loaded.forEach(t=>addTool(t.name,t.cost,t.cat,t.billing));
+      return;
+    }
+  }catch(e){}
+  // Default starter rows
+  addTool('',0,'Other','monthly');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Tuning Digital",
+  "short_name": "TuningDigital",
+  "description": "AI & SaaS productivity tools reviews and comparisons",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#060812",
+  "background_color": "#060812",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "categories": ["productivity", "technology", "business"]
+}

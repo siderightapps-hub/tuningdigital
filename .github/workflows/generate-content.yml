@@ -1,0 +1,62 @@
+name: Generate Content (Weekly)
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC
+  workflow_dispatch:        # Manual trigger from GitHub UI
+    inputs:
+      count:
+        description: 'Number of articles to generate'
+        required: false
+        default: '1'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate article(s)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          COUNT="${{ github.event.inputs.count || '1' }}"
+          echo "Generating $COUNT article(s)..."
+          node assets/js/content-engine.js batch $COUNT
+
+      - name: Check for new files
+        id: check
+        run: |
+          if git diff --name-only | grep -q "\.html"; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push new articles
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "content-bot@tuningdigital.com"
+          git config --local user.name "Tuning Digital Bot"
+          git add blog/*.html sitemap.xml
+          git commit -m "chore: auto-generate articles [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "## Content Generation Complete" >> $GITHUB_STEP_SUMMARY
+          echo "New articles committed to /blog/" >> $GITHUB_STEP_SUMMARY
+          echo "Sitemap updated." >> $GITHUB_STEP_SUMMARY
