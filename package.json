@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "node scripts/generate-sitemap.js",
 	"dev": "next dev",
-	"build": "next build && next export",
+	"build": "next build",
 	"start": "next start",
 	"new-post": "node scripts/new-post.js"
   },
