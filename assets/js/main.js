@@ -156,3 +156,60 @@
     });
   });
 })();
+
+
+// ─── Cookie Consent Banner ────────────────────────────────
+(function(){
+  if(localStorage.getItem('td_cookie_consent')) return;
+
+  var banner = document.createElement('div');
+  banner.id = 'cookie-banner';
+  banner.innerHTML = `
+    <div style="
+      position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;
+      background:#0b0e1c;border:1px solid #1c2040;border-radius:16px;
+      padding:20px 24px;max-width:680px;width:calc(100% - 48px);
+      display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+      box-shadow:0 8px 40px rgba(0,0,0,.6);
+      font-family:'DM Sans',sans-serif;
+    ">
+      <div style="flex:1;min-width:240px">
+        <p style="
+          font-size:.85rem;color:#5c6488;margin:0;line-height:1.55;max-width:none;
+        ">
+          🍪 We use cookies for analytics (GA4) and personalised ads (AdSense).
+          See our <a href="/privacy-policy.html#cookies" style="color:#00e5d4;text-decoration:underline">Cookie Policy</a>.
+        </p>
+      </div>
+      <div style="display:flex;gap:10px;flex-shrink:0">
+        <button id="cookie-decline" style="
+          font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;
+          padding:9px 18px;border-radius:8px;border:1px solid #1c2040;
+          background:none;color:#5c6488;cursor:pointer;transition:all .2s;
+        ">Decline</button>
+        <button id="cookie-accept" style="
+          font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;
+          padding:9px 18px;border-radius:8px;border:none;
+          background:#00e5d4;color:#060812;cursor:pointer;transition:all .2s;
+        ">Accept All</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  function dismiss(consent){
+    localStorage.setItem('td_cookie_consent', consent);
+    banner.style.opacity = '0';
+    banner.style.transition = 'opacity .3s';
+    setTimeout(function(){ banner.remove(); }, 300);
+    if(consent === 'accepted' && typeof gtag !== 'undefined'){
+      gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted'
+      });
+    }
+  }
+
+  document.getElementById('cookie-accept').addEventListener('click', function(){ dismiss('accepted'); });
+  document.getElementById('cookie-decline').addEventListener('click', function(){ dismiss('declined'); });
+})();
