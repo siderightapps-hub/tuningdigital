@@ -22,7 +22,7 @@ const CONFIG = {
   outputDir: path.join(__dirname, '../../blog'),
   siteUrl: 'https://tuningdigital.com',
   siteName: 'Tuning Digital',
-  gaMeasurementId: 'G-XXXXXXXXXX',
+  gaMeasurementId: 'G-LSE8074X3B',
   adsenseClient: 'ca-pub-XXXXXXXXXX',
 };
 
