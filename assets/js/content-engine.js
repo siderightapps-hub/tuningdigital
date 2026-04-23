@@ -23,21 +23,21 @@ const CONFIG = {
   siteUrl: 'https://tuningdigital.com',
   siteName: 'Tuning Digital',
   gaMeasurementId: 'G-LSE8074X3B',
-  adsenseClient: 'ca-pub-XXXXXXXXXX',
+  adsenseClient: 'ca-pub-1606633100797174',
 };
 
 // ─── TOPIC BANK ──────────────────────────────────────────
 const TOPIC_BANK = [
-  { slug: 'best-ai-productivity-apps-2025',      title: 'Best AI Productivity Apps 2025',         category: 'AI Tools',     keywords: ['AI productivity apps','best AI apps 2025'] },
+  { slug: 'best-ai-productivity-apps-2026',      title: 'Best AI Productivity Apps 2026',         category: 'AI Tools',     keywords: ['AI productivity apps','best AI apps 2026'] },
   { slug: 'notion-vs-obsidian-pkm',              title: 'Notion vs Obsidian for PKM',             category: 'Productivity', keywords: ['notion vs obsidian','best note taking app'] },
   { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   keywords: ['chatgpt vs perplexity','AI research tools'] },
-  { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         keywords: ['free SaaS tools','startup tools 2025'] },
-  { slug: 'zapier-vs-make-automation',           title: 'Zapier vs Make: Full Comparison 2025',   category: 'Automation',   keywords: ['zapier vs make','no-code automation tools'] },
-  { slug: 'ai-image-generators-ranked',          title: 'AI Image Generators Ranked 2025',        category: 'AI Design',    keywords: ['best AI image generator','midjourney vs dall-e'] },
+  { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         keywords: ['free SaaS tools','startup tools 2026'] },
+  { slug: 'zapier-vs-make-automation',           title: 'Zapier vs Make: Full Comparison 2026',   category: 'Automation',   keywords: ['zapier vs make','no-code automation tools'] },
+  { slug: 'ai-image-generators-ranked',          title: 'AI Image Generators Ranked 2026',        category: 'AI Design',    keywords: ['best AI image generator','midjourney vs dall-e'] },
   { slug: 'reduce-saas-spend-guide',             title: 'How to Reduce SaaS Spend by 40%',        category: 'SaaS',         keywords: ['reduce SaaS costs','SaaS spend optimization'] },
-  { slug: 'best-project-management-saas-2025',   title: 'Best Project Management SaaS 2025',      category: 'Productivity', keywords: ['best project management tool','jira vs linear'] },
-  { slug: 'ahrefs-vs-semrush-seo-tools',        title: 'Ahrefs vs SEMrush: SEO Tools in 2025',  category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2025'] },
-  { slug: 'linear-app-review',                   title: 'Linear App Review 2025',                 category: 'Productivity', keywords: ['linear app review','linear project management'] },
+  { slug: 'best-project-management-saas-2026',   title: 'Best Project Management SaaS 2026',      category: 'Productivity', keywords: ['best project management tool','jira vs linear'] },
+  { slug: 'ahrefs-vs-semrush-seo-tools',        title: 'Ahrefs vs SEMrush: SEO Tools in 2026',  category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2026'] },
+  { slug: 'linear-app-review',                   title: 'Linear App Review 2026',                 category: 'Productivity', keywords: ['linear app review','linear project management'] },
   { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   keywords: ['chatgpt vs perplexity', 'AI research tools'] },
 ];
 
