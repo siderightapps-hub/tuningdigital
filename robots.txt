@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /drafts/
+
+Sitemap: https://tuningdigital.com/sitemap.xml
+
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 10
