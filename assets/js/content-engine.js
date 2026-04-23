@@ -38,6 +38,7 @@ const TOPIC_BANK = [
   { slug: 'best-project-management-saas-2025',   title: 'Best Project Management SaaS 2025',      category: 'Productivity', keywords: ['best project management tool','jira vs linear'] },
   { slug: 'ahrefs-vs-semrush-seo-tools',        title: 'Ahrefs vs SEMrush: SEO Tools in 2025',  category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2025'] },
   { slug: 'linear-app-review',                   title: 'Linear App Review 2025',                 category: 'Productivity', keywords: ['linear app review','linear project management'] },
+  { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   keywords: ['chatgpt vs perplexity', 'AI research tools'] },
 ];
 
 // ─── PROMPT TEMPLATE ─────────────────────────────────────
