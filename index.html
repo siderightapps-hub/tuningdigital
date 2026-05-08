@@ -623,10 +623,9 @@
       <p style="margin-top:12px;max-width:44ch">
         Get independent AI and SaaS tool reviews delivered weekly. No fluff, no vendor bias.
       </p>
-      <form class="newsletter-form" id="newsletterForm" action="https://tuning-digital.beehiiv.com/subscribe" method="POST">
-        <input type="email" name="email" placeholder="you@company.com" required autocomplete="email">
-        <button type="submit" class="btn btn-primary">Subscribe Free</button>
-      </form>
+      <div class="beehiiv-embed">
+        <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="c469056c-9905-42d5-b7a5-3e3be95b91f2"></script>
+      </div>
       <p style="font-size:.78rem;color:var(--text-dim);margin-top:12px;max-width:none">No spam. Unsubscribe anytime. We never sell your data.</p>
     </div>
   </div>
@@ -700,5 +699,7 @@
 </footer>
 
 <script src="/assets/js/main.js"></script>
+<!-- Beehiiv attribution tracking — captures UTM params for newsletter signups -->
+<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 </body>
 </html>
