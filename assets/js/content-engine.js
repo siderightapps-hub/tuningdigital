@@ -36,9 +36,10 @@ const TOPIC_BANK = [
   { slug: 'ai-image-generators-ranked',          title: 'AI Image Generators Ranked 2026',        category: 'AI Design',    keywords: ['best AI image generator','midjourney vs dall-e'] },
   { slug: 'reduce-saas-spend-guide',             title: 'How to Reduce SaaS Spend by 40%',        category: 'SaaS',         keywords: ['reduce SaaS costs','SaaS spend optimization'] },
   { slug: 'best-project-management-saas-2026',   title: 'Best Project Management SaaS 2026',      category: 'Productivity', keywords: ['best project management tool','jira vs linear'] },
-  { slug: 'ahrefs-vs-semrush-seo-tools',        title: 'Ahrefs vs SEMrush: SEO Tools in 2026',  category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2026'] },
+  { slug: 'ahrefs-vs-semrush-seo-tools',         title: 'Ahrefs vs SEMrush: SEO Tools in 2026',   category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2026'] },
   { slug: 'linear-app-review',                   title: 'Linear App Review 2026',                 category: 'Productivity', keywords: ['linear app review','linear project management'] },
   { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   keywords: ['chatgpt vs perplexity', 'AI research tools'] },
+  { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         keywords: ['free saas tools', 'best free tools for startups'] },
 ];
 
 // ─── PROMPT TEMPLATE ─────────────────────────────────────
