@@ -99,6 +99,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   <meta property="og:title" content="${topic.title} | ${CONFIG.siteName}">
   <meta property="og:description" content="Independent review: ${topic.title}. Expert analysis and honest recommendations.">
   <meta property="article:published_time" content="${isoDate}">
+  <meta property="og:image" content="${CONFIG.siteUrl}/assets/img/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#060812">
