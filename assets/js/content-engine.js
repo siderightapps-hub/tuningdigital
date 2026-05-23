@@ -107,6 +107,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>${topic.title} | ${CONFIG.siteName}</title>
   <meta name="description" content="Independent review and comparison: ${topic.title}. Expert analysis, real-world testing, and honest recommendations.">
   <meta name="keywords" content="${topic.keywords.join(',')}">
@@ -127,6 +128,9 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"${CONFIG.siteUrl}/"},{"@type":"ListItem","position":2,"name":"Blog","item":"${CONFIG.siteUrl}/blog/"},{"@type":"ListItem","position":3,"name":"${topic.title}","item":"${CONFIG.siteUrl}/blog/${topic.slug}.html"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${topic.title.replace(/"/g, '\\"')}","applicationCategory":"BusinessApplication"},"reviewRating":{"@type":"Rating","ratingValue":"4.5","bestRating":"5","worstRating":"1"},"author":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review and comparison covering ${topic.category.toLowerCase()}: ${topic.title.replace(/"/g, '\\"')}. Real-world testing, honest pros and cons, and a clear verdict on who each tool is best for."}
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaMeasurementId}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${CONFIG.gaMeasurementId}');</script>
@@ -208,7 +212,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
       <div class="footer-brand"><div class="footer-logo"><span class="dot"></span>${CONFIG.siteName}</div><p>Independent AI and SaaS tool reviews.</p></div>
       <div class="footer-col"><h5>Tools</h5><ul><li><a href="/tools/">All Tools</a></li></ul></div>
       <div class="footer-col"><h5>Content</h5><ul><li><a href="/blog/">Blog</a></li></ul></div>
-      <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>

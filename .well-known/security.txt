@@ -1,0 +1,10 @@
+# Security contact for tuningdigital.com — RFC 9116
+
+Contact: mailto:privacy@tuningdigital.com
+Expires: 2027-05-23T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://tuningdigital.com/.well-known/security.txt
+Policy: https://tuningdigital.com/privacy-policy.html
+
+# Please report security vulnerabilities responsibly.
+# We aim to acknowledge reports within 5 business days.
