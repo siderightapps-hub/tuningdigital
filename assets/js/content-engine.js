@@ -52,22 +52,40 @@ READING LEVEL: Professional but accessible (like TechCrunch or The Verge)
 TONE: Direct, knowledgeable, opinionated but fair — no fluff
 AFFILIATE DISCLOSURE: Include a brief callout at the top noting some links may earn a commission
 
-STRUCTURE REQUIRED:
-1. A compelling intro that addresses the reader's problem (3–4 sentences, no "In this article...")
-2. A "Quick Verdict / TL;DR" box (2–3 sentences summary)
-3. 4–6 main H2 sections covering: what each tool is, key features, pricing, pros/cons, best for
-4. A "Final Verdict" section with clear recommendation
-5. 3–4 FAQ questions with answers (for FAQ schema)
+STRUCTURE REQUIRED (in this exact order):
+1. Affiliate disclosure callout (see formatting below)
+2. A compelling intro that addresses the reader's problem (3–4 sentences, no "In this article...")
+3. A TL;DR / Quick Verdict block (see exact structure below) — front-loads the answer for featured snippets and AI citation engines
+4. 4–6 main H2 sections covering: what each tool is, key features, pricing, pros/cons, who it's best for
+5. A "Final Verdict" H2 with a clear recommendation, plus explicit "Best for" and "Avoid if" sentences
+6. A "Frequently Asked Questions" H2 with 4+ Q/A pairs. Each answer MUST be 1–3 sentences only — short enough to be lifted as a featured snippet or read aloud by a voice assistant
+
+CITATION REQUIREMENTS (GEO/AEO):
+- Include at least 3 outbound citations to authoritative sources within the body
+  (official product pages, official pricing pages, published studies, or reputable
+  tech publications like TechCrunch, The Verge, Wired). Use descriptive anchor text —
+  never "click here" or "this article".
+- Citations must use rel="noopener" and target="_blank" — and rel="nofollow sponsored"
+  for any link to a product you may earn commission on.
 
 FORMATTING REQUIREMENTS:
 - Use proper HTML heading tags (h2, h3) — no markdown
 - Wrap the article content in <article class="article-body"> tags
-- Include an <aside class="toc"> table of contents at the top
+- Include an <aside class="toc"> table of contents at the top, after the disclosure and intro
 - Bold key terms and tool names with <strong>
 - Use <ul> lists for pros/cons
 - Include a <blockquote> with a realistic user quote for social proof
-- Add a <div class="callout callout-accent"> for the affiliate disclosure
-- Add a <div class="callout"> for the TL;DR
+- Affiliate disclosure: <div class="callout callout-accent">…</div>
+- TL;DR block: use EXACTLY this structure (do not deviate from the class names):
+  <div class="tldr-box">
+    <h2 class="tldr-title">Quick Verdict</h2>
+    <p class="tldr-summary">[2–3 sentence direct answer. Name the winner, who it's for, and the single most important reason.]</p>
+    <ul class="tldr-list">
+      <li><strong>Best for:</strong> [one concrete user type]</li>
+      <li><strong>Avoid if:</strong> [one disqualifying scenario]</li>
+      <li><strong>Pricing from:</strong> [headline price, or "Free" — note "check current pricing"]</li>
+    </ul>
+  </div>
 
 DO NOT include:
 - The <html>, <head>, <body>, <nav>, or <footer> tags (this goes inside a template)
@@ -146,14 +164,16 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
       </div>
     </header>
     <div class="ad-slot ad-slot-banner" style="margin-bottom:40px">
-      <ins class="adsbygoogle" style="display:block" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <!-- AdSense: td-article-banner (in-article fluid) -->
+      <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="2699292471"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
     <div class="article-layout">
       ${articleHtml}
       <aside class="sidebar">
         <div class="ad-slot ad-slot-square" style="margin-bottom:20px">
-          <ins class="adsbygoogle" style="display:block" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="0987654321" data-ad-format="auto"></ins>
+          <!-- AdSense: td-article-sidebar -->
+          <ins class="adsbygoogle" style="display:block" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="1853114667" data-ad-format="auto" data-full-width-responsive="true"></ins>
           <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         <div class="sidebar-card">
@@ -169,6 +189,16 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
           <a href="/tools/saas-cost-calculator.html" class="btn btn-primary btn-sm w-full" style="justify-content:center">Open Calculator</a>
         </div>
       </aside>
+    </div>
+    <!-- ─── MULTIPLEX: End-of-article discovery ─────────────── -->
+    <div class="ad-slot ad-slot-multiplex" style="margin:48px 0 16px">
+      <!-- AdSense: td-article-end-multiplex -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-format="autorelaxed"
+           data-ad-client="${CONFIG.adsenseClient}"
+           data-ad-slot="4908550623"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </div>
 </main>

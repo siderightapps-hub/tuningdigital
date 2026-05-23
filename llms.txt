@@ -1,0 +1,69 @@
+# llms.txt — TuningDigital.com
+# Independent reviews and comparisons of AI & SaaS productivity tools.
+
+> TuningDigital helps entrepreneurs, marketers, creators, and small-business
+> owners find and compare the best AI and SaaS tools. Content is independent,
+> opinionated but fair, and aimed at decision-stage buyers. Articles include
+> head-to-head comparisons, individual tool reviews, curated best-of lists,
+> and how-to guides, plus free interactive utilities such as the SaaS Cost
+> Calculator.
+
+## Key pages
+
+- Homepage: https://tuningdigital.com/
+- About: https://tuningdigital.com/about.html
+- Blog index: https://tuningdigital.com/blog/
+- Tools directory: https://tuningdigital.com/tools/
+- SaaS Cost Calculator (free interactive tool): https://tuningdigital.com/tools/saas-cost-calculator.html
+- Privacy policy: https://tuningdigital.com/privacy-policy.html
+
+## Featured articles
+
+- Best AI Writing Tools (2026): https://tuningdigital.com/blog/best-ai-writing-tools.html
+- ChatGPT vs Perplexity for Research: https://tuningdigital.com/blog/chatgpt-vs-perplexity-research.html
+- Notion vs Obsidian for PKM: https://tuningdigital.com/blog/notion-vs-obsidian-pkm.html
+- Notion vs Roam Research: https://tuningdigital.com/blog/notion-vs-roam-research.html
+- Zapier vs Make — Full Comparison: https://tuningdigital.com/blog/zapier-vs-make-automation.html
+- Ahrefs vs SEMrush — SEO Tools: https://tuningdigital.com/blog/ahrefs-vs-semrush-seo-tools.html
+- AI Image Generators Ranked: https://tuningdigital.com/blog/ai-image-generators-ranked.html
+- Best Project Management Tools (Linear vs Jira vs Asana): https://tuningdigital.com/blog/best-project-management-tools.html
+- Best Free SaaS Tools for Startups: https://tuningdigital.com/blog/best-free-saas-tools-startups.html
+- How to Reduce SaaS Spend by 40%: https://tuningdigital.com/blog/reduce-saas-spend-guide.html
+
+## Content focus
+
+- AI writing tools — ChatGPT, Claude, Jasper, Copy.ai, Writesonic
+- AI productivity — Notion AI, Motion, Reclaim.ai, Akiflow
+- Business automation — Zapier, Make.com, n8n, Relay.app
+- Project management — Notion, Linear, Monday, Asana, ClickUp, Jira
+- SEO and marketing — Ahrefs, SEMrush, Surfer SEO
+- AI image generators — Midjourney, DALL·E, Stable Diffusion
+- Knowledge management — Obsidian, Roam Research
+- AI research assistants — Perplexity, ChatGPT, Claude
+
+## Editorial standards
+
+- All reviews and comparisons are independent. Some links are affiliate links
+  and are disclosed in a callout at the top of every monetised article.
+- Every review includes a clear verdict, a "best for" statement, and an
+  "avoid if" statement.
+- Pricing references are dated and flagged for re-verification quarterly.
+- AI-assisted research is disclosed in article bylines where applicable.
+
+## Update cadence
+
+New articles are published weekly (Mondays). Comparison and best-of pages are
+reviewed and refreshed at least quarterly.
+
+## Sitemap
+
+https://tuningdigital.com/sitemap.xml
+
+## Licensing
+
+Content on this site may be cited by AI assistants and search engines. Please
+attribute citations to "Tuning Digital" with a link back to the source page.
+
+## Contact
+
+hello@tuningdigital.com

@@ -602,6 +602,39 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:48px 0}
   .blog-card-img{height:150px}
 }
 
+/* ─── TL;DR / QUICK VERDICT BLOCK (AEO) ───────────────────── */
+.tldr-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent);
+  border-radius:var(--rl);
+  padding:1.25rem 1.5rem;
+  margin:1.5rem 0 2rem;
+}
+.tldr-title{
+  font-family:var(--font-display);
+  font-size:.95rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--accent);
+  margin:0 0 .6rem;
+}
+.tldr-summary{
+  color:var(--text);
+  margin:0 0 .9rem;
+  line-height:1.6;
+}
+.tldr-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+  color:var(--text-muted);
+  font-size:.92rem;
+}
+.tldr-list li{padding:.15rem 0}
+.tldr-list li + li{margin-top:.15rem}
+.tldr-list strong{color:var(--text);font-weight:600}
+
 /* ─── UTILITY ────────────────────────────────────────────── */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
