@@ -24,6 +24,10 @@ const CONFIG = {
   siteName: 'Tuning Digital',
   gaMeasurementId: 'G-LSE8074X3B',
   adsenseClient: 'ca-pub-1606633100797174',
+  // Editorial author identity (single named editor — change here, then re-run
+  // generation or sed-patch existing articles to retroactively rename).
+  authorName: 'Sam Carter',
+  authorRole: 'Editor',
 };
 
 // ─── TOPIC BANK ──────────────────────────────────────────
@@ -124,13 +128,13 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   <meta name="theme-color" content="#060812">
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Article","headline":"${topic.title}","datePublished":"${isoDate}","dateModified":"${isoDate}","author":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}"},"mainEntityOfPage":"${CONFIG.siteUrl}/blog/${topic.slug}.html","keywords":"${topic.keywords.join(',')}","articleSection":"${topic.category}"}
+  {"@context":"https://schema.org","@type":"Article","headline":"${topic.title}","datePublished":"${isoDate}","dateModified":"${isoDate}","author":{"@type":"Person","name":"${CONFIG.authorName}","jobTitle":"${CONFIG.authorRole}","url":"${CONFIG.siteUrl}/about.html#editor","worksFor":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"}},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"mainEntityOfPage":"${CONFIG.siteUrl}/blog/${topic.slug}.html","keywords":"${topic.keywords.join(',')}","articleSection":"${topic.category}"}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"${CONFIG.siteUrl}/"},{"@type":"ListItem","position":2,"name":"Blog","item":"${CONFIG.siteUrl}/blog/"},{"@type":"ListItem","position":3,"name":"${topic.title}","item":"${CONFIG.siteUrl}/blog/${topic.slug}.html"}]}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${topic.title.replace(/"/g, '\\"')}","applicationCategory":"BusinessApplication"},"reviewRating":{"@type":"Rating","ratingValue":"4.5","bestRating":"5","worstRating":"1"},"author":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review and comparison covering ${topic.category.toLowerCase()}: ${topic.title.replace(/"/g, '\\"')}. Real-world testing, honest pros and cons, and a clear verdict on who each tool is best for."}
+  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${topic.title.replace(/"/g, '\\"')}","applicationCategory":"BusinessApplication"},"reviewRating":{"@type":"Rating","ratingValue":"4.5","bestRating":"5","worstRating":"1"},"author":{"@type":"Person","name":"${CONFIG.authorName}","url":"${CONFIG.siteUrl}/about.html#editor"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review and comparison covering ${topic.category.toLowerCase()}: ${topic.title.replace(/"/g, '\\"')}. Real-world testing, honest pros and cons, and a clear verdict on who each tool is best for."}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","url":"${CONFIG.siteUrl}/blog/${topic.slug}.html","speakable":{"@type":"SpeakableSpecification","cssSelector":[".tldr-box",".tldr-summary",".tldr-list"]}}
@@ -168,7 +172,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
       <h1>${topic.title}</h1>
       <div class="article-meta">
         <span>📅 ${formattedDate}</span>
-        <span>✍️ ${CONFIG.siteName} Editorial</span>
+        <span>✍️ <a href="/about.html#editor" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">${CONFIG.authorName}</a></span>
         <span>🔄 AI-assisted research</span>
       </div>
     </header>
@@ -221,7 +225,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
     </div>
     <div class="footer-bottom">
       <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>
-      <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a></div>
+      <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a><a href="#" class="manage-cookies">Manage cookies</a></div>
     </div>
   </div>
 </footer>

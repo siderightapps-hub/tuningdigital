@@ -227,3 +227,26 @@
   document.getElementById('cookie-accept').addEventListener('click', function(){ dismiss('accepted'); });
   document.getElementById('cookie-decline').addEventListener('click', function(){ dismiss('declined'); });
 })();
+
+// ─── "Manage cookies" link — re-opens the consent banner ────
+(function(){
+  // Bind on any element with .manage-cookies class (typically in the footer).
+  document.addEventListener('click', function(e){
+    var trigger = e.target && e.target.closest && e.target.closest('.manage-cookies');
+    if(!trigger) return;
+    e.preventDefault();
+    // Clear stored consent + reassert default-denied so AdSense/GA4 stop
+    // personalising immediately, even before reload.
+    try { localStorage.removeItem('td_cookie_consent'); } catch(e){}
+    if(typeof gtag !== 'undefined'){
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied'
+      });
+    }
+    // Reload so the banner re-injects with a clean slate.
+    location.reload();
+  });
+})();
