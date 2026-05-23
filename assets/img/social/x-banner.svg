@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tuning Digital — X (Twitter) header / banner
+  1500×500 SVG (3:1 ratio as required by X).
+
+  Layout safe-zones to be aware of when X renders this:
+    - Bottom ~150px is partially covered by bio/handle text on desktop.
+    - The profile picture (circular, ~120px diameter) sits roughly at
+      x=70, y=380 (lower-left). All critical content kept clear of that.
+    - Critical content lives in the top 320px and right of x=300 in the
+      lower band.
+
+  Convert to PNG before uploading: see Template.md §5.6.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#0b1430"/>
+      <stop offset="50%" stop-color="#0b0e1c"/>
+      <stop offset="100%" stop-color="#060812"/>
+    </linearGradient>
+    <radialGradient id="cyanGlow" cx="78%" cy="50%" r="38%">
+      <stop offset="0%"  stop-color="#00e5d4" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#00e5d4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="amberGlow" cx="22%" cy="80%" r="28%">
+      <stop offset="0%"  stop-color="#ffb347" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Dot grid pattern matching the site background -->
+    <pattern id="dotGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#343960" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1500" height="500" fill="url(#bg)"/>
+  <rect width="1500" height="500" fill="url(#dotGrid)"/>
+  <rect width="1500" height="500" fill="url(#cyanGlow)"/>
+  <rect width="1500" height="500" fill="url(#amberGlow)"/>
+
+  <!-- Large tuning-dial mark on the right (decorative) -->
+  <g transform="translate(1180, 250)">
+    <circle r="170" fill="none" stroke="#00e5d4" stroke-width="3" opacity="0.22"/>
+    <circle r="130" fill="none" stroke="#00e5d4" stroke-width="3" opacity="0.35"/>
+    <circle r="92"  fill="none" stroke="#00e5d4" stroke-width="4"/>
+    <circle r="22"  fill="#00e5d4"/>
+    <g stroke="#00e5d4" stroke-width="6" stroke-linecap="round">
+      <line x1="0"    y1="-156" x2="0"    y2="-118"/>
+      <line x1="0"    y1="118"  x2="0"    y2="156"/>
+      <line x1="-156" y1="0"    x2="-118" y2="0"/>
+      <line x1="118"  y1="0"    x2="156"  y2="0"/>
+    </g>
+  </g>
+
+  <!-- Wordmark + tagline (left/centre, well above the safe overlay) -->
+  <g font-family="'Syne', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <!-- Small "INDEPENDENT REVIEWS" eyebrow -->
+    <text x="90" y="125"
+          font-size="22"
+          font-weight="600"
+          fill="#00e5d4"
+          letter-spacing="6"
+          font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
+      INDEPENDENT · NO PAY-TO-RANK
+    </text>
+
+    <!-- Main wordmark: "Tuning Digital" -->
+    <text x="90" y="220"
+          font-size="92"
+          font-weight="700"
+          fill="#e2e6f3"
+          letter-spacing="-2">
+      Tuning Digital
+    </text>
+
+    <!-- Tagline -->
+    <text x="90" y="285"
+          font-size="32"
+          font-weight="400"
+          fill="#5c6488"
+          font-family="'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+      AI &amp; SaaS productivity tools, reviewed honestly.
+    </text>
+
+    <!-- URL / handle pill -->
+    <g transform="translate(90, 320)">
+      <rect width="220" height="44" rx="22" fill="none" stroke="#00e5d4" stroke-width="2"/>
+      <text x="22" y="29"
+            font-size="18"
+            font-weight="500"
+            fill="#00e5d4"
+            font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
+        tuningdigital.com
+      </text>
+    </g>
+  </g>
+</svg>

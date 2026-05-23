@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tuning Digital — X (Twitter) profile picture
+  400×400 SVG. X crops to a circle, so all critical content sits inside the
+  inscribed circle (centre 200,200, radius 200).
+  Convert to PNG before uploading: see Template.md §5.6.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#101736"/>
+      <stop offset="60%" stop-color="#0b0e1c"/>
+      <stop offset="100%" stop-color="#060812"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00e5d4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#00e5d4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bg)"/>
+
+  <!-- Soft cyan glow behind the dial -->
+  <circle cx="200" cy="200" r="180" fill="url(#glow)"/>
+
+  <!-- Outer dial ring -->
+  <circle cx="200" cy="200" r="110" fill="none" stroke="#00e5d4" stroke-width="6"/>
+
+  <!-- Inner dot -->
+  <circle cx="200" cy="200" r="32" fill="#00e5d4"/>
+
+  <!-- Cross tick marks (top / bottom / left / right) -->
+  <g stroke="#00e5d4" stroke-width="10" stroke-linecap="round">
+    <line x1="200" y1="40"  x2="200" y2="80"/>
+    <line x1="200" y1="320" x2="200" y2="360"/>
+    <line x1="40"  y1="200" x2="80"  y2="200"/>
+    <line x1="320" y1="200" x2="360" y2="200"/>
+  </g>
+
+  <!-- Diagonal small tick marks for the "tuning dial" feel -->
+  <g stroke="#00e5d4" stroke-width="4" stroke-linecap="round" opacity="0.55">
+    <line x1="89"  y1="89"  x2="108" y2="108"/>
+    <line x1="311" y1="89"  x2="292" y2="108"/>
+    <line x1="89"  y1="311" x2="108" y2="292"/>
+    <line x1="311" y1="311" x2="292" y2="292"/>
+  </g>
+</svg>
