@@ -132,6 +132,11 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${topic.title.replace(/"/g, '\\"')}","applicationCategory":"BusinessApplication"},"reviewRating":{"@type":"Rating","ratingValue":"4.5","bestRating":"5","worstRating":"1"},"author":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review and comparison covering ${topic.category.toLowerCase()}: ${topic.title.replace(/"/g, '\\"')}. Real-world testing, honest pros and cons, and a clear verdict on who each tool is best for."}
   </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","url":"${CONFIG.siteUrl}/blog/${topic.slug}.html","speakable":{"@type":"SpeakableSpecification","cssSelector":[".tldr-box",".tldr-summary",".tldr-list"]}}
+  </script>
+  <!-- Google Consent Mode v2 (default DENIED — GDPR/PECR strict) -->
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});try{if(localStorage.getItem('td_cookie_consent')==='accepted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}catch(e){}</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaMeasurementId}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${CONFIG.gaMeasurementId}');</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${CONFIG.adsenseClient}" crossorigin="anonymous"></script>

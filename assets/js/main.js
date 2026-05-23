@@ -202,10 +202,24 @@
     banner.style.opacity = '0';
     banner.style.transition = 'opacity .3s';
     setTimeout(function(){ banner.remove(); }, 300);
-    if(consent === 'accepted' && typeof gtag !== 'undefined'){
+    if(typeof gtag === 'undefined') return;
+    // Google Consent Mode v2 — update all four signals.
+    // Default state (set in each page's <head>) is denied; only accept switches to granted.
+    if(consent === 'accepted'){
       gtag('consent', 'update', {
-        analytics_storage: 'granted',
-        ad_storage: 'granted'
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted'
+      });
+    } else {
+      // Explicit deny — same as default, but reasserted so any granted state from a
+      // previous session that's been revoked propagates correctly.
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied'
       });
     }
   }
