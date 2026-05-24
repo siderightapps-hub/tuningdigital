@@ -282,7 +282,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
     <div class="ad-slot ad-slot-banner" style="margin-bottom:40px">
       <!-- AdSense: td-article-banner (in-article fluid) -->
       <ins class="adsbygoogle" style="display:block;text-align:center" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="2699292471"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
     </div>
     <div class="article-layout">
       ${articleHtml}
@@ -290,7 +290,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
         <div class="ad-slot ad-slot-square" style="margin-bottom:20px">
           <!-- AdSense: td-article-sidebar -->
           <ins class="adsbygoogle" style="display:block" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="1853114667" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
         </div>
         <div class="sidebar-card">
           <h4>${tool.icon} Try ${xmlEscape(tool.name)}</h4>
@@ -325,7 +325,7 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
            data-ad-format="autorelaxed"
            data-ad-client="${CONFIG.adsenseClient}"
            data-ad-slot="4908550623"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
     </div>
   </div>
 </main>
