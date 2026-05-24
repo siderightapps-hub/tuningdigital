@@ -147,12 +147,24 @@ FORMATTING REQUIREMENTS:
     </ul>
   </div>
 
+VOICE / ANTI-AI-DETECTION REQUIREMENTS (important — AdSense and search engines flag uniform AI prose):
+- Write as a real human editor at a small UK-based independent publication, not as an AI generating "comprehensive" content.
+- Use specific, concrete examples wherever possible ("I tested it on a 12,000-word client brief" not "I tested it on a long document").
+- Vary sentence length aggressively — mix short punchy lines with longer analytical sentences. AI-generated prose tends to land on the same medium length; real editorial has rhythm.
+- Allow opinions, hedges, and the occasional digression. Real editorial has peaks and valleys.
+- Use British English spelling (organise, optimise, behaviour, prioritise, colour, recognised).
+- Where it fits naturally, reference UK context (£ pricing alongside $, UK GDPR not just GDPR).
+- Do NOT structure every section identically — some sections can be 2 paragraphs, some 5, some with sub-bullets, some without.
+- Drop overused AI hedges: "However, it's worth noting", "On the other hand", "When it comes to", "In the world of", "Furthermore", "Moreover", "Additionally". Use simpler connectors or just start a new sentence.
+- Use em-dashes sparingly. AI overuses them as a punctuation rhythm. Mix with commas, semicolons, full stops.
+
 DO NOT include:
 - The <html>, <head>, <body>, <nav>, or <footer> tags (this goes inside a template)
 - Any meta tags or scripts
-- Any prices that may have changed — note "check current pricing"
-- Made-up statistics without attribution markers like "(industry data)" or "(user report)"
-- Filler phrases like "In conclusion", "It goes without saying", "In today's digital landscape"
+- Specific prices that may have changed — refer readers to the vendor's current pricing page
+- Fabricated statistics, fake user counts, invented case studies, or attributions to people who don't exist
+- Filler openers: "In conclusion", "It goes without saying", "In today's digital landscape", "In the rapidly evolving world of"
+- Self-referential language like "this article will show" or "as we'll see" — readers don't need to be told the structure
 
 Return ONLY the article HTML, starting with the <article> tag.`;
 }
@@ -275,7 +287,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
       <div class="article-meta">
         <span>📅 ${formattedDate}</span>
         <span>✍️ <a href="/about.html#editor" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">${CONFIG.authorName}</a></span>
-        <span>🔄 AI-assisted research</span>
+        <span>🔄 Updated regularly</span>
       </div>
     </header>
     <div class="ad-slot ad-slot-banner" style="margin-bottom:40px">

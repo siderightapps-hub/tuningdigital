@@ -180,13 +180,24 @@ FORMATTING REQUIREMENTS:
     </ul>
   </div>
 
+VOICE / ANTI-AI-DETECTION REQUIREMENTS (important — AdSense and search engines flag uniform AI prose):
+- Write as a real human editor at a small UK-based independent publication, not as an AI generating "comprehensive" content.
+- Use concrete examples wherever possible. "I tested ${tool.name} on a 12,000-word client brief" beats "I tested it on a long document".
+- Vary sentence length aggressively. Mix short punchy lines with longer analytical sentences.
+- Allow opinions, hedges, the occasional digression. Real editorial has rhythm; AI prose is too even.
+- Use British English spelling (organise, optimise, behaviour, prioritise, colour, recognised).
+- Where it fits naturally, reference UK context (£ pricing alongside $, UK GDPR not just GDPR).
+- Do NOT structure every section identically.
+- Drop AI hedges: "However, it's worth noting", "On the other hand", "When it comes to", "In the world of", "Furthermore", "Moreover", "Additionally".
+- Use em-dashes sparingly. Mix with commas, semicolons, full stops.
+
 DO NOT include:
 - The <html>, <head>, <body>, <nav>, or <footer> tags (this goes inside a template)
 - Any meta tags or scripts
-- Made-up specific prices that may have changed — refer to "${tool.pricingFrom}" headline but tell readers "check current pricing on ${tool.vendor}'s site"
-- Made-up statistics or user counts without attribution markers like "(vendor data)" or "(user report)"
-- Filler phrases like "In conclusion", "It goes without saying", "In today's digital landscape"
-- Fabricated case studies, customer names, or company logos
+- Specific prices that may have changed — refer to "${tool.pricingFrom}" as the headline but tell readers "check current pricing on ${tool.vendor}'s site"
+- Fabricated statistics, fake user counts, invented case studies, customer logos, or attributions to people who don't exist
+- Filler openers: "In conclusion", "It goes without saying", "In today's digital landscape", "In the rapidly evolving world of"
+- Self-referential language like "this review will cover" or "as we'll see"
 
 Return ONLY the article HTML, starting with the <article> tag.`;
 }
