@@ -127,6 +127,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#060812">
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="alternate" type="application/rss+xml" title="Tuning Digital — Reviews & Comparisons" href="/feed.xml">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Article","headline":"${topic.title}","datePublished":"${isoDate}","dateModified":"${isoDate}","author":{"@type":"Person","name":"${CONFIG.authorName}","jobTitle":"${CONFIG.authorRole}","url":"${CONFIG.siteUrl}/about.html#editor","worksFor":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"}},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"mainEntityOfPage":"${CONFIG.siteUrl}/blog/${topic.slug}.html","keywords":"${topic.keywords.join(',')}","articleSection":"${topic.category}"}
   </script>
@@ -291,8 +292,9 @@ async function generateArticle(topic) {
 
   console.log(`✅ Saved: blog/${topic.slug}.html`);
 
-  // Update sitemap
+  // Update sitemap + RSS feed
   updateSitemap(topic, publishDate);
+  updateFeed(topic, publishDate);
 
   return { topic, path: outputPath, publishDate };
 }
@@ -314,6 +316,36 @@ function updateSitemap(topic, date) {
       console.log(`🗺️  Updated sitemap.xml`);
     }
   } catch(e) { console.warn('⚠️  Could not update sitemap:', e.message); }
+}
+
+// ─── UPDATE RSS FEED ──────────────────────────────────────
+function updateFeed(topic, date) {
+  const feedPath = path.join(__dirname, '../../feed.xml');
+  const url = `${CONFIG.siteUrl}/blog/${topic.slug}.html`;
+  const xmlEscape = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+  // RFC 822 date for RSS pubDate
+  const d = new Date(date);
+  const pubDate = d.toUTCString();
+  const desc = `Independent review and comparison: ${topic.title}. Expert analysis, real-world testing, and honest recommendations.`;
+  const newItem = `    <item>
+      <title>${xmlEscape(topic.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <description>${xmlEscape(desc)}</description>
+      <category>${xmlEscape(topic.category)}</category>
+      <dc:creator>${xmlEscape(CONFIG.authorName)}</dc:creator>
+      <pubDate>${pubDate}</pubDate>
+    </item>`;
+  try {
+    let xml = fs.readFileSync(feedPath, 'utf8');
+    if (xml.includes(url)) return; // already present
+    // Refresh lastBuildDate
+    xml = xml.replace(/<lastBuildDate>[^<]+<\/lastBuildDate>/, `<lastBuildDate>${pubDate}</lastBuildDate>`);
+    // Insert new item right after the <ttl> closing tag (i.e. at the top of the items list — newest first)
+    xml = xml.replace(/(<ttl>\d+<\/ttl>\s*)/, `$1\n${newItem}\n`);
+    fs.writeFileSync(feedPath, xml, 'utf8');
+    console.log(`📰 Updated feed.xml`);
+  } catch(e) { console.warn('⚠️  Could not update feed.xml:', e.message); }
 }
 
 // ─── CLI ──────────────────────────────────────────────────
