@@ -31,18 +31,63 @@ const CONFIG = {
 };
 
 // ─── TOPIC BANK ──────────────────────────────────────────
+// `type` drives prompt nuance and schema choices in future iterations:
+//   'comparison' — A vs B (or A vs B vs C) head-to-head
+//   'review'     — single-tool deep-dive
+//   'list'       — best-of / ranked roundup
+//   'guide'      — how-to / tutorial
+//   'alternatives' — "X alternatives" — captures competitor traffic
 const TOPIC_BANK = [
-  { slug: 'best-ai-productivity-apps-2026',      title: 'Best AI Productivity Apps 2026',         category: 'AI Tools',     keywords: ['AI productivity apps','best AI apps 2026'] },
-  { slug: 'notion-vs-obsidian-pkm',              title: 'Notion vs Obsidian for PKM',             category: 'Productivity', keywords: ['notion vs obsidian','best note taking app'] },
-  { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   keywords: ['chatgpt vs perplexity','AI research tools'] },
-  { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         keywords: ['free SaaS tools','startup tools 2026'] },
-  { slug: 'zapier-vs-make-automation',           title: 'Zapier vs Make: Full Comparison 2026',   category: 'Automation',   keywords: ['zapier vs make','no-code automation tools'] },
-  { slug: 'ai-image-generators-ranked',          title: 'AI Image Generators Ranked 2026',        category: 'AI Design',    keywords: ['best AI image generator','midjourney vs dall-e'] },
-  { slug: 'reduce-saas-spend-guide',             title: 'How to Reduce SaaS Spend by 40%',        category: 'SaaS',         keywords: ['reduce SaaS costs','SaaS spend optimization'] },
-  { slug: 'best-project-management-saas-2026',   title: 'Best Project Management SaaS 2026',      category: 'Productivity', keywords: ['best project management tool','jira vs linear'] },
-  { slug: 'ahrefs-vs-semrush-seo-tools',         title: 'Ahrefs vs SEMrush: SEO Tools in 2026',   category: 'Analytics',    keywords: ['ahrefs vs semrush','best SEO tool 2026'] },
-  { slug: 'linear-app-review',                   title: 'Linear App Review 2026',                 category: 'Productivity', keywords: ['linear app review','linear project management'] },
-  ];
+  // ─── Already published / hand-curated ──────────────────
+  { slug: 'best-ai-productivity-apps-2026',      title: 'Best AI Productivity Apps 2026',         category: 'AI Tools',     type: 'list',         keywords: ['AI productivity apps','best AI apps 2026'] },
+  { slug: 'notion-vs-obsidian-pkm',              title: 'Notion vs Obsidian for PKM',             category: 'Productivity', type: 'comparison',   keywords: ['notion vs obsidian','best note taking app'] },
+  { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   type: 'comparison',   keywords: ['chatgpt vs perplexity','AI research tools'] },
+  { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         type: 'list',         keywords: ['free SaaS tools','startup tools 2026'] },
+  { slug: 'zapier-vs-make-automation',           title: 'Zapier vs Make: Full Comparison 2026',   category: 'Automation',   type: 'comparison',   keywords: ['zapier vs make','no-code automation tools'] },
+  { slug: 'ai-image-generators-ranked',          title: 'AI Image Generators Ranked 2026',        category: 'AI Design',    type: 'list',         keywords: ['best AI image generator','midjourney vs dall-e'] },
+  { slug: 'reduce-saas-spend-guide',             title: 'How to Reduce SaaS Spend by 40%',        category: 'SaaS',         type: 'guide',        keywords: ['reduce SaaS costs','SaaS spend optimization'] },
+  { slug: 'best-project-management-saas-2026',   title: 'Best Project Management SaaS 2026',      category: 'Productivity', type: 'list',         keywords: ['best project management tool','jira vs linear'] },
+  { slug: 'ahrefs-vs-semrush-seo-tools',         title: 'Ahrefs vs SEMrush: SEO Tools in 2026',   category: 'Analytics',    type: 'comparison',   keywords: ['ahrefs vs semrush','best SEO tool 2026'] },
+  { slug: 'linear-app-review',                   title: 'Linear App Review 2026',                 category: 'Productivity', type: 'review',       keywords: ['linear app review','linear project management'] },
+
+  // ─── High-priority comparisons (search-volume gaps from §7.3) ─────
+  { slug: 'claude-vs-chatgpt',                   title: 'Claude vs ChatGPT: Which AI Assistant Wins in 2026?',   category: 'AI Writing',   type: 'comparison',   keywords: ['claude vs chatgpt','best ai assistant'] },
+  { slug: 'gemini-vs-chatgpt',                   title: 'Gemini vs ChatGPT: Full Comparison 2026',                category: 'AI Writing',   type: 'comparison',   keywords: ['gemini vs chatgpt','google gemini review'] },
+  { slug: 'claude-vs-gemini',                    title: 'Claude vs Gemini: Side-by-Side for Real Work',           category: 'AI Writing',   type: 'comparison',   keywords: ['claude vs gemini','anthropic vs google ai'] },
+  { slug: 'cursor-vs-github-copilot',            title: 'Cursor vs GitHub Copilot: AI Coding Tools Tested',       category: 'AI Coding',    type: 'comparison',   keywords: ['cursor vs copilot','best ai coding tool'] },
+  { slug: 'cursor-vs-windsurf',                  title: 'Cursor vs Windsurf: Which AI IDE Should You Use?',       category: 'AI Coding',    type: 'comparison',   keywords: ['cursor vs windsurf','ai ide comparison'] },
+  { slug: 'figma-vs-framer',                     title: 'Figma vs Framer: Design Tool Showdown 2026',             category: 'Design',       type: 'comparison',   keywords: ['figma vs framer','best design tool'] },
+  { slug: 'airtable-vs-notion',                  title: 'Airtable vs Notion: Database or Workspace?',             category: 'Productivity', type: 'comparison',   keywords: ['airtable vs notion','no-code database'] },
+  { slug: 'monday-vs-asana',                     title: 'Monday vs Asana: Project Management Compared',           category: 'Productivity', type: 'comparison',   keywords: ['monday vs asana','project management comparison'] },
+  { slug: 'hubspot-vs-pipedrive',                title: 'HubSpot vs Pipedrive: Best CRM for Small Business',      category: 'CRM',          type: 'comparison',   keywords: ['hubspot vs pipedrive','best small business crm'] },
+  { slug: 'mailchimp-vs-convertkit',             title: 'Mailchimp vs ConvertKit: Newsletter Platform Compared',  category: 'Marketing',    type: 'comparison',   keywords: ['mailchimp vs convertkit','best newsletter platform'] },
+  { slug: 'plausible-vs-google-analytics',       title: 'Plausible vs Google Analytics: Privacy-First Analytics', category: 'Analytics',    type: 'comparison',   keywords: ['plausible vs ga4','privacy-friendly analytics'] },
+
+  // ─── Best-of lists (high-volume informational) ────────────────────
+  { slug: 'best-ai-coding-assistants-2026',      title: 'Best AI Coding Assistants 2026',                         category: 'AI Coding',    type: 'list',         keywords: ['best ai coding tools','ai pair programmer'] },
+  { slug: 'best-ai-meeting-tools-2026',          title: 'Best AI Meeting Tools 2026: Otter, Fireflies & More',    category: 'AI Tools',     type: 'list',         keywords: ['best ai meeting tools','meeting transcription ai'] },
+  { slug: 'best-ai-email-tools-2026',            title: 'Best AI Email Tools 2026: Inbox Zero with AI',           category: 'AI Tools',     type: 'list',         keywords: ['best ai email tools','superhuman alternative'] },
+  { slug: 'best-no-code-tools-2026',             title: 'Best No-Code Tools 2026 for Founders',                   category: 'Automation',   type: 'list',         keywords: ['best no-code tools','no-code app builder'] },
+  { slug: 'best-newsletter-platforms-2026',      title: 'Best Newsletter Platforms 2026: Beehiiv vs the Rest',    category: 'Marketing',    type: 'list',         keywords: ['best newsletter platform','beehiiv alternative'] },
+  { slug: 'best-free-ai-tools-2026',             title: 'Best Free AI Tools 2026 (No Catch, No Trial)',           category: 'AI Tools',     type: 'list',         keywords: ['best free ai tools','free ai tools no signup'] },
+  { slug: 'best-ai-writing-tools-2026',          title: 'Best AI Writing Tools 2026: Beyond ChatGPT',             category: 'AI Writing',   type: 'list',         keywords: ['best ai writing tools 2026','jasper alternatives'] },
+
+  // ─── Single-tool reviews ───────────────────────────────────────
+  { slug: 'cursor-app-review',                   title: 'Cursor App Review 2026: Honest Verdict After 60 Days',   category: 'AI Coding',    type: 'review',       keywords: ['cursor review','cursor app review 2026'] },
+  { slug: 'notion-ai-review',                    title: 'Notion AI Review 2026: Worth the £8/mo?',                category: 'Productivity', type: 'review',       keywords: ['notion ai review','notion ai worth it'] },
+  { slug: 'perplexity-review',                   title: 'Perplexity Review 2026: Search Engine of the Future?',   category: 'AI Writing',   type: 'review',       keywords: ['perplexity review','perplexity ai worth it'] },
+  { slug: 'beehiiv-review',                      title: 'Beehiiv Review 2026: Best Newsletter Platform?',         category: 'Marketing',    type: 'review',       keywords: ['beehiiv review','beehiiv vs substack'] },
+
+  // ─── How-to guides (informational, top-of-funnel) ──────────────
+  { slug: 'how-to-write-prompts-effectively',    title: 'How to Write AI Prompts That Actually Work',             category: 'AI Writing',   type: 'guide',        keywords: ['how to write ai prompts','prompt engineering basics'] },
+  { slug: 'how-to-automate-email-with-ai',       title: 'How to Automate Your Inbox with AI (Step by Step)',      category: 'Automation',   type: 'guide',        keywords: ['ai email automation','automate inbox with ai'] },
+  { slug: 'how-to-audit-saas-stack',             title: 'How to Audit Your SaaS Stack in 30 Minutes',             category: 'SaaS',         type: 'guide',        keywords: ['audit saas stack','saas audit checklist'] },
+
+  // ─── Alternatives pages (competitor traffic) ──────────────────
+  { slug: 'jasper-alternatives',                 title: 'Best Jasper AI Alternatives in 2026',                    category: 'AI Writing',   type: 'alternatives', keywords: ['jasper alternatives','ai writing tools like jasper'] },
+  { slug: 'zapier-alternatives',                 title: 'Best Zapier Alternatives in 2026 (Cheaper & Better)',    category: 'Automation',   type: 'alternatives', keywords: ['zapier alternatives','best zapier replacement'] },
+  { slug: 'notion-alternatives',                 title: 'Best Notion Alternatives in 2026',                       category: 'Productivity', type: 'alternatives', keywords: ['notion alternatives','best notion replacement'] },
+];
 
 // ─── PROMPT TEMPLATE ─────────────────────────────────────
 function buildPrompt(topic) {
@@ -411,6 +456,9 @@ function updateFeed(topic, date) {
 }
 
 // ─── CLI ──────────────────────────────────────────────────
+// Only run the CLI block when this file is executed directly (`node content-engine.js …`),
+// not when it's imported by another module (e.g. tool-page-engine.js requires TOPIC_BANK).
+if (require.main === module) {
 const [,, command, arg] = process.argv;
 
 (async () => {
@@ -450,5 +498,6 @@ Requires: ANTHROPIC_API_KEY=your_key_here
     `);
   }
 })();
+}
 
 module.exports = { generateArticle, TOPIC_BANK };

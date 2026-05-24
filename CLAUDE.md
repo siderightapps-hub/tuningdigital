@@ -12,11 +12,16 @@ Static HTML/CSS/JS site for tuningdigital.com — independent AI/SaaS tool revie
 # Local preview (no build)
 python3 -m http.server 8000          # then open http://localhost:8000
 
-# Content engine (requires ANTHROPIC_API_KEY)
+# Content engine — long-form articles to /blog/ (requires ANTHROPIC_API_KEY)
 node assets/js/content-engine.js topics              # list TOPIC_BANK entries
 node assets/js/content-engine.js generate            # random article
 node assets/js/content-engine.js generate <slug>     # specific topic by slug
 node assets/js/content-engine.js batch 5             # 5 random articles
+
+# Tool-page engine — single-tool reviews to /reviews/<slug>-review.html
+node assets/js/tool-page-engine.js tools             # list TOOL_BANK entries
+node assets/js/tool-page-engine.js generate <slug>   # generate one review
+node assets/js/tool-page-engine.js batch 3           # 3 random tool reviews
 ```
 
 There is no test suite, linter, or formatter configured.
@@ -27,9 +32,16 @@ There is no test suite, linter, or formatter configured.
 
 [.github/workflows/generate-content.yml](.github/workflows/generate-content.yml) runs `content-engine.js batch 1` every Monday 08:00 UTC, commits the new article with `[skip ci]` (so it does NOT auto-redeploy), and uses the `ANTHROPIC_API_KEY` repo secret.
 
-## Content engine architecture
+## Content generation architecture
 
-[assets/js/content-engine.js](assets/js/content-engine.js) is the only piece of "real" code. Important behavior to preserve when editing:
+Two engines, both Node.js CLIs that call the Claude Messages API. Share the same patterns and tokens:
+
+- **[assets/js/content-engine.js](assets/js/content-engine.js)** — writes long-form comparison/list/guide articles to `/blog/<slug>.html`. Source of truth = `TOPIC_BANK` (38 entries with `type` and `category`).
+- **[assets/js/tool-page-engine.js](assets/js/tool-page-engine.js)** — writes single-tool deep-dive reviews to `/reviews/<slug>-review.html`. Source of truth = `TOOL_BANK` (18 entries). Imports `TOPIC_BANK` from content-engine to cross-link reviews to relevant articles.
+
+Both engines: extract FAQs from the generated HTML, emit FAQPage + Review + Speakable JSON-LD, auto-append to `sitemap.xml` and `feed.xml`, and use the centralised `CONFIG.authorName` ("Sam Carter") for byline + Person schema.
+
+### content-engine.js — important behaviour to preserve:
 
 - **TOPIC_BANK** (top of file) is the canonical list of available articles. `slug` becomes the output filename (`blog/<slug>.html`). Adding a topic = adding an entry here.
 - **Two-stage generation**: `buildPrompt()` asks Claude for inner article HTML only (no `<html>/<head>/<body>/<nav>/<footer>`), then `wrapInTemplate()` injects it into the full page shell with nav, footer, JSON-LD, GA4, AdSense, breadcrumbs, and sidebar. Changes to nav/footer/meta tags for generated articles must happen in `wrapInTemplate()`, not by editing existing article files (they won't be retroactively updated).
