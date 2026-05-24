@@ -321,6 +321,7 @@ strong{color:var(--text);font-weight:600}
 .ad-slot-banner{width:100%;min-height:90px}
 .ad-slot-square{width:100%;min-height:250px}
 .ad-slot-rectangle{width:100%;min-height:280px}
+.ad-slot-multiplex{width:100%;min-height:400px}
 .ad-slot ins{display:block!important}
 
 /* ─── SEARCH / FILTER ────────────────────────────────────── */
