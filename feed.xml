@@ -5,13 +5,23 @@
     <link>https://tuningdigital.com/</link>
     <description>Independent reviews of AI &amp; SaaS productivity tools. No vendor bias, no pay-to-rank — just the signal you need to choose the right stack.</description>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 24 May 2026 07:52:39 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 24 May 2026 08:38:56 GMT</lastBuildDate>
     <atom:link href="https://tuningdigital.com/feed.xml" rel="self" type="application/rss+xml" />
     <managingEditor>hello@tuningdigital.com (Sam Carter)</managingEditor>
     <webMaster>hello@tuningdigital.com (Sam Carter)</webMaster>
     <generator>content-engine.js + manual</generator>
     <ttl>1440</ttl>
+    
     <item>
+      <title>Claude Review (2026)</title>
+      <link>https://tuningdigital.com/reviews/claude-review.html</link>
+      <guid isPermaLink="true">https://tuningdigital.com/reviews/claude-review.html</guid>
+      <description>Independent Claude review. Most capable AI assistant for long-form work and complex reasoning. Pricing, features, pros, cons, and who it&apos;s best for.</description>
+      <category>AI Writing</category>
+      <dc:creator>Sam Carter</dc:creator>
+      <pubDate>Sun, 24 May 2026 08:38:56 GMT</pubDate>
+    </item>
+<item>
       <title>ChatGPT vs Perplexity for Research</title>
       <link>https://tuningdigital.com/blog/chatgpt-vs-perplexity-research.html</link>
       <guid isPermaLink="true">https://tuningdigital.com/blog/chatgpt-vs-perplexity-research.html</guid>
