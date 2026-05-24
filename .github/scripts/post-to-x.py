@@ -22,6 +22,7 @@ Required env vars (set as GitHub repo secrets):
 
 import os
 import sys
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -43,6 +44,11 @@ TWEET_ENDPOINT = "https://api.twitter.com/2/tweets"
 URL_SHORTEN_LEN = 23
 MAX_TWEET_LEN = 280
 
+# Per-run guardrails for batch operation (when multiple new articles ship together,
+# e.g. batch 2 from generate-content.yml on Mon+Thu).
+MAX_POSTS_PER_RUN = 5             # safety cap — if the state file got cleared accidentally, don't spam-tweet 30 backlog articles
+POST_DELAY_SECONDS = 60           # space tweets ~1min apart so the timeline doesn't look bot-burst
+
 # Template A — predictable length, can't exceed 280 even with long titles.
 # {title} and {link} are filled at post time.
 TWEET_TEMPLATE = """📰 New review:
@@ -62,8 +68,9 @@ def get_env(name):
     return val
 
 
-def newest_feed_item():
-    """Return (title, link) of the newest <item> in feed.xml, or (None, None)."""
+def all_feed_items():
+    """Return a list of (title, link) tuples for every <item> in feed.xml,
+    in feed order (newest first). Returns [] if feed is empty."""
     if not FEED_PATH.exists():
         print(f"ERROR: {FEED_PATH} not found", file=sys.stderr)
         sys.exit(1)
@@ -72,12 +79,13 @@ def newest_feed_item():
     except ET.ParseError as e:
         print(f"ERROR: feed.xml is malformed: {e}", file=sys.stderr)
         sys.exit(1)
-    item = tree.find(".//item")
-    if item is None:
-        return None, None
-    title = (item.findtext("title") or "").strip()
-    link = (item.findtext("link") or "").strip()
-    return title, link
+    items = []
+    for item in tree.findall(".//item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        if title and link:
+            items.append((title, link))
+    return items
 
 
 def already_posted(url):
@@ -136,24 +144,39 @@ def post_tweet(text):
 
 # ─── MAIN ─────────────────────────────────────────────────
 def main():
-    title, link = newest_feed_item()
-    if not title or not link:
+    items = all_feed_items()
+    if not items:
         print("ℹ️  feed.xml has no items — nothing to post")
         return
 
-    print(f"Newest feed item:\n  title: {title}\n  link:  {link}")
+    # Filter to items we haven't tweeted yet. feed.xml is newest-first, so this
+    # natural order means newest unposted gets tweeted first (the freshest
+    # article gets prime placement on the timeline).
+    unposted = [(t, l) for (t, l) in items if not already_posted(l)]
+    print(f"Feed has {len(items)} items; {len(unposted)} unposted")
 
-    if already_posted(link):
-        print(f"⏭️  Already posted, skipping: {link}")
+    if not unposted:
+        print("ℹ️  Nothing new to post — all caught up")
         return
 
-    tweet = build_tweet(title, link)
-    print(f"\nPrepared tweet ({len(tweet)} chars displayed, "
-          f"effective {len(tweet) - len(link) + URL_SHORTEN_LEN} chars):\n---\n{tweet}\n---\n")
+    to_post = unposted[:MAX_POSTS_PER_RUN]
+    skipped = len(unposted) - len(to_post)
 
-    post_tweet(tweet)
-    mark_posted(link)
-    print(f"📝 Appended to .x-posted.txt: {link}")
+    for i, (title, link) in enumerate(to_post):
+        if i > 0:
+            print(f"\n⏱️  Sleeping {POST_DELAY_SECONDS}s before next post…")
+            time.sleep(POST_DELAY_SECONDS)
+        tweet = build_tweet(title, link)
+        print(f"\n[{i+1}/{len(to_post)}] {title}")
+        print(f"---\n{tweet}\n---")
+        post_tweet(tweet)
+        mark_posted(link)
+        print(f"📝 Recorded: {link}")
+
+    print(f"\n✅ Total posted this run: {len(to_post)}")
+    if skipped > 0:
+        print(f"⚠️  {skipped} additional unposted items deferred to next run "
+              f"(per-run safety cap of {MAX_POSTS_PER_RUN}).")
 
 
 if __name__ == "__main__":

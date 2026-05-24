@@ -1,14 +1,16 @@
-name: Generate Content (Weekly)
+name: Generate Content (Twice-weekly)
 
 on:
   schedule:
-    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC
+    # Monday + Thursday at 08:00 UTC. The post-to-x workflow's daily 10:00 UTC
+    # schedule picks up these new articles ~2h later and posts each to X.
+    - cron: '0 8 * * 1,4'
   workflow_dispatch:        # Manual trigger from GitHub UI
     inputs:
       count:
         description: 'Number of articles to generate'
         required: false
-        default: '1'
+        default: '2'
 
 permissions:
   contents: write
@@ -31,7 +33,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          COUNT="${{ github.event.inputs.count || '1' }}"
+          COUNT="${{ github.event.inputs.count || '2' }}"
           echo "Generating $COUNT article(s)..."
           node assets/js/content-engine.js batch $COUNT
 
@@ -49,7 +51,7 @@ jobs:
         run: |
           git config --local user.email "content-bot@tuningdigital.com"
           git config --local user.name "Tuning Digital Bot"
-          git add blog/*.html sitemap.xml
+          git add blog/*.html sitemap.xml feed.xml
           git commit -m "chore: auto-generate articles"
           git push
         env:
