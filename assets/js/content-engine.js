@@ -347,7 +347,7 @@ function callClaude(prompt) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
       model: CONFIG.model,
-      max_tokens: 4096,
+      max_tokens: 8192, // bumped from 4096 — long-form articles + all required sections (incl. FAQ + Final Verdict) need the headroom
       messages: [{ role: 'user', content: prompt }]
     });
 

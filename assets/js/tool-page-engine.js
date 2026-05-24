@@ -234,7 +234,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <link rel="alternate" type="application/rss+xml" title="Tuning Digital — Reviews & Comparisons" href="/feed.xml">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${xmlEscape(tool.name)}","applicationCategory":"BusinessApplication","operatingSystem":"Web, macOS, Windows, iOS, Android","url":"${tool.websiteUrl}","offers":{"@type":"Offer","price":"${tool.pricingFrom.match(/\\d+/) ? tool.pricingFrom.match(/\\d+/)[0] : '0'}","priceCurrency":"USD"}},"reviewRating":{"@type":"Rating","ratingValue":"${tool.rating}","bestRating":"5","worstRating":"1"},"author":{"@type":"Person","name":"${CONFIG.authorName}","jobTitle":"${CONFIG.authorRole}","url":"${CONFIG.siteUrl}/about.html#editor"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review of ${xmlEscape(tool.name)} — hands-on assessment with honest pros, cons, pricing, and a clear best-for / avoid-if verdict."}
+  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${xmlEscape(tool.name)}","applicationCategory":"BusinessApplication","operatingSystem":"Web, macOS, Windows, iOS, Android","url":"${tool.websiteUrl}","offers":{"@type":"Offer","price":"${(tool.pricingFrom.match(/\d+/) || ['0'])[0]}","priceCurrency":"USD"}},"reviewRating":{"@type":"Rating","ratingValue":"${tool.rating}","bestRating":"5","worstRating":"1"},"author":{"@type":"Person","name":"${CONFIG.authorName}","jobTitle":"${CONFIG.authorRole}","url":"${CONFIG.siteUrl}/about.html#editor"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review of ${xmlEscape(tool.name)} — hands-on assessment with honest pros, cons, pricing, and a clear best-for / avoid-if verdict."}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"${CONFIG.siteUrl}/"},{"@type":"ListItem","position":2,"name":"Reviews","item":"${CONFIG.siteUrl}/reviews/"},{"@type":"ListItem","position":3,"name":"${xmlEscape(tool.name)} Review","item":"${pageUrl}"}]}
@@ -355,7 +355,7 @@ function callClaude(prompt) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
       model: CONFIG.model,
-      max_tokens: 4096,
+      max_tokens: 8192, // bumped from 4096 — tool reviews + all required sections (incl. FAQ + Final Verdict) need the headroom
       messages: [{ role: 'user', content: prompt }]
     });
     const options = {
