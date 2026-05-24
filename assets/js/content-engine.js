@@ -46,6 +46,7 @@ const TOPIC_BANK = [
 
 // ─── PROMPT TEMPLATE ─────────────────────────────────────
 function buildPrompt(topic) {
+  const related = pickRelatedTopics(topic, 3);
   return `You are an expert tech writer for ${CONFIG.siteName}, an independent AI/SaaS productivity tools review site. Write a comprehensive, SEO-optimised blog article with the following specifications:
 
 TOPIC: ${topic.title}
@@ -71,6 +72,16 @@ CITATION REQUIREMENTS (GEO/AEO):
   never "click here" or "this article".
 - Citations must use rel="noopener" and target="_blank" — and rel="nofollow sponsored"
   for any link to a product you may earn commission on.
+
+INTERNAL LINKING (SEO):
+- Include at least 2 inline contextual links to other articles on tuningdigital.com
+  using descriptive anchor text. Choose from the related-articles list shown below
+  if any of those topics fit naturally into your body copy — link them inline rather
+  than only mentioning the tool name in passing.
+- Related articles available (link in the format: /blog/{slug}.html):
+${related.map(r => `    • ${r.title} → /blog/${r.slug}.html`).join('\n')}
+- Internal links use plain href (no rel="nofollow", no target="_blank") so link
+  equity flows internally.
 
 FORMATTING REQUIREMENTS:
 - Use proper HTML heading tags (h2, h3) — no markdown
@@ -101,10 +112,55 @@ DO NOT include:
 Return ONLY the article HTML, starting with the <article> tag.`;
 }
 
+// ─── PICK RELATED TOPICS ──────────────────────────────────
+// Picks `count` topics from TOPIC_BANK that aren't the current topic.
+// Prioritises same-category entries; falls back to other categories if needed.
+function pickRelatedTopics(currentTopic, count = 3) {
+  const others = TOPIC_BANK.filter(t => t.slug !== currentTopic.slug);
+  const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
+  const same = shuffle(others.filter(t => t.category === currentTopic.category));
+  const rest = shuffle(others.filter(t => t.category !== currentTopic.category));
+  return [...same, ...rest].slice(0, count);
+}
+
+// ─── EXTRACT FAQS FROM GENERATED ARTICLE HTML ─────────────
+// Looks for an H2 containing "Frequently Asked Questions" (or "FAQ") and
+// pulls out subsequent H3/Q + paragraph/A pairs until the next H2 or end of body.
+// Returns an array of {question, answer} objects (may be empty if not found).
+function extractFaqs(articleHtml) {
+  const faqs = [];
+  // Match the FAQ section: H2 heading + everything until next H2 (or end)
+  const sectionRe = /<h2[^>]*>\s*(?:Frequently Asked Questions|FAQ|FAQs)[^<]*<\/h2>([\s\S]*?)(?=<h2|<\/article|$)/i;
+  const m = articleHtml.match(sectionRe);
+  if (!m) return faqs;
+  const section = m[1];
+  // Pattern: H3 (question) followed by one or more paragraphs (answer)
+  const itemRe = /<h3[^>]*>([\s\S]*?)<\/h3>\s*((?:<p[^>]*>[\s\S]*?<\/p>\s*)+)/g;
+  let it;
+  while ((it = itemRe.exec(section)) !== null) {
+    const q = it[1].replace(/<[^>]+>/g, '').trim();
+    // Strip HTML tags from answer paragraphs
+    const a = it[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (q && a) faqs.push({ question: q, answer: a });
+  }
+  return faqs;
+}
+
 // ─── HTML PAGE TEMPLATE ───────────────────────────────────
 function wrapInTemplate(topic, articleHtml, publishDate) {
   const formattedDate = new Date(publishDate).toLocaleDateString('en-GB', { year:'numeric', month:'long', day:'numeric' });
   const isoDate = new Date(publishDate).toISOString();
+  const related = pickRelatedTopics(topic, 3);
+  const faqs = extractFaqs(articleHtml);
+  const faqJsonLd = faqs.length ? `\n  <script type="application/ld+json">\n  ${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": { "@type": "Answer", "text": f.answer }
+    }))
+  })}\n  </script>` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -139,7 +195,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","url":"${CONFIG.siteUrl}/blog/${topic.slug}.html","speakable":{"@type":"SpeakableSpecification","cssSelector":[".tldr-box",".tldr-summary",".tldr-list"]}}
-  </script>
+  </script>${faqJsonLd}
   <!-- Google Consent Mode v2 (default DENIED — GDPR/PECR strict) -->
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});try{if(localStorage.getItem('td_cookie_consent')==='accepted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}catch(e){}</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=${CONFIG.gaMeasurementId}"></script>
@@ -191,6 +247,12 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
           <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         <div class="sidebar-card">
+          <h4>Related Articles</h4>
+          <ul>
+${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title}</a></li>`).join('\n')}
+          </ul>
+        </div>
+        <div class="sidebar-card mt-16">
           <h4>Related Tools</h4>
           <ul>
             <li><a href="/tools/">→ Browse All Tools</a></li>
