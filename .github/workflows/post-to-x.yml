@@ -1,0 +1,76 @@
+name: Post new articles to X
+
+# Triggers:
+#   1. push: when a new article HTML or feed.xml lands on main from a human push.
+#      Bot pushes (via GITHUB_TOKEN, e.g. generate-content.yml) DON'T trigger
+#      other workflows by design — caught instead by the daily schedule below.
+#   2. schedule: daily safety net so bot-generated articles still get posted
+#      within 24h of generation.
+#   3. workflow_dispatch: manual trigger for testing.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**.html'
+      - 'reviews/**.html'
+      - 'feed.xml'
+  schedule:
+    - cron: '0 10 * * *'   # Every day at 10:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to commit .x-posted.txt back to main
+
+concurrency:
+  group: post-to-x
+  cancel-in-progress: false   # don't cancel an in-flight post
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install --quiet requests requests-oauthlib
+
+      - name: Post newest unposted article to X
+        env:
+          X_API_KEY:       ${{ secrets.X_API_KEY }}
+          X_API_SECRET:    ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN:  ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: python .github/scripts/post-to-x.py
+
+      - name: Commit updated .x-posted.txt back to main
+        if: success()
+        run: |
+          if git diff --quiet .x-posted.txt; then
+            echo "ℹ️  No new posts to commit"
+            exit 0
+          fi
+          git config user.email "content-bot@tuningdigital.com"
+          git config user.name "Tuning Digital Bot"
+          git add .x-posted.txt
+          git commit -m "chore: record X post [skip ci]"
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## X auto-post run" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Trigger: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          if [ -f .x-posted.txt ]; then
+            echo "- Total URLs in .x-posted.txt: $(wc -l < .x-posted.txt | tr -d ' ')" >> $GITHUB_STEP_SUMMARY
+          fi
