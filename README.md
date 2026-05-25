@@ -1,232 +1,149 @@
 # Tuning Digital — tuningdigital.com
 
-> Independent reviews and comparisons of AI & SaaS productivity tools.  
-> AdSense + affiliate + sponsored posts · Static site · GitHub Pages
+> Independent reviews and comparisons of AI & SaaS productivity tools.
+> AdSense + affiliate + sponsored posts · Static site · GitHub Pages + Cloudflare front
+
+**Site is live.** This README is the operator runbook for ongoing maintenance, not initial setup.
+
+For full project context (architecture, credentials, editorial standards, agenda), see [Template.md](../MD%20Files/TuningDigital/Template.md). For Claude Code session guidance, see [CLAUDE.md](CLAUDE.md).
 
 ---
 
-## 🗂 Project Structure
+## 🗂 Project structure
 
 ```
 tuningdigital/
-├── index.html                        ← Homepage
-├── blog/
-│   ├── index.html                    ← Blog listing
-│   └── best-ai-writing-tools-2025.html ← Sample article
-├── tools/
-│   ├── index.html                    ← Tools directory
-│   └── saas-cost-calculator.html     ← Interactive tool
-├── about.html
-├── privacy-policy.html               ← Required for AdSense
+├── index.html                          ← Homepage
+├── about.html                          ← About + editorial standards + "How We Use AI"
+├── contact.html                        ← 4-channel contact (general / privacy / sponsorship / security)
+├── privacy-policy.html                 ← GDPR + cookie policy + affiliate disclosure
 ├── 404.html
-├── sitemap.xml
-├── robots.txt
+├── ads.txt                             ← AdSense ownership claim
+├── robots.txt                          ← Permissive — AI crawlers explicitly allowed (GEO/AEO)
+├── llms.txt                            ← AI crawler site descriptor (ChatGPT/Perplexity/Gemini/Claude)
+├── sitemap.xml                         ← Auto-extended by content + tool engines
+├── feed.xml                            ← RSS 2.0 — drives X auto-post; auto-extended by engines
 ├── manifest.json
+├── .x-posted.txt                       ← State file: URLs already auto-tweeted (don't edit by hand)
+├── .well-known/
+│   └── security.txt                    ← RFC 9116 vuln disclosure contact
+├── blog/
+│   ├── index.html                      ← Blog listing
+│   └── <slug>.html                     ← Generated articles (currently 10)
+├── reviews/
+│   ├── index.html                      ← Reviews landing page
+│   └── <slug>-review.html              ← Single-tool reviews (currently 1: Claude)
+├── tools/
+│   ├── index.html                      ← Tools directory
+│   └── saas-cost-calculator.html       ← Interactive calculator
 ├── assets/
-│   ├── css/main.css                  ← All styles
+│   ├── css/main.css                    ← Single global stylesheet + design tokens
 │   ├── js/
-│   │   ├── main.js                   ← Shared JS
-│   │   └── content-engine.js         ← Claude API article generator
+│   │   ├── main.js                     ← Shared front-end JS (nav, filter, cookie banner, lazy-load ads)
+│   │   ├── content-engine.js           ← Article generator (TOPIC_BANK, 38 entries)
+│   │   └── tool-page-engine.js         ← Tool review generator (TOOL_BANK, 18 entries)
 │   └── img/
-│       └── favicon.svg
-├── .github/workflows/
-│   ├── deploy.yml                    ← Auto-deploy to GitHub Pages
-│   └── generate-content.yml          ← Weekly article generation
-├── SEO-BACKLINK-STRATEGY.md
-└── README.md
+│       ├── favicon.svg
+│       ├── og-image.jpg
+│       └── social/
+│           ├── x-profile.svg           ← 400×400 — convert to PNG before uploading to X
+│           └── x-banner.svg            ← 1500×500 — same
+└── .github/
+    ├── workflows/
+    │   ├── deploy.yml                  ← Push-to-deploy GitHub Pages
+    │   ├── generate-content.yml        ← Article generation (Mon + Thu 08:00 UTC, batch 2)
+    │   └── post-to-x.yml               ← Auto-tweet new articles (daily 14:00 UTC)
+    └── scripts/
+        └── post-to-x.py                ← OAuth1.0a tweet poster, called by post-to-x.yml
 ```
 
 ---
 
-## 🚀 Deployment to GitHub Pages
+## 🤖 Automation cadence (what runs on its own)
 
-### Step 1: Create a GitHub repository
-1. Go to https://github.com/new
-2. Name it `tuningdigital` (or anything you like)
-3. Set to **Public**
-4. Don't initialise with README (you already have one)
+| Workflow | Schedule (UTC) | Schedule (BST) | What it does |
+|---|---|---|---|
+| `generate-content.yml` | `0 8 * * 1,4` (Mon + Thu 08:00) | Mon + Thu 09:00 | Generates 2 articles via `content-engine.js batch 2`, commits to main, deploy auto-fires |
+| `post-to-x.yml` | `0 14 * * *` (daily 14:00) | daily 15:00 | Tweets each new article from `feed.xml` to `@TuningDigital`, 60s apart, capped at 5/run |
+| `deploy.yml` | on push to main | — | Uploads repo root as GH Pages artifact, deploys |
 
-### Step 2: Push the files
-```bash
-cd tuningdigital/
-git init
-git add .
-git commit -m "Initial site build"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/tuningdigital.git
-git push -u origin main
-```
-
-### Step 3: Enable GitHub Pages
-1. Go to your repo → **Settings** → **Pages**
-2. Under "Source", select **GitHub Actions**
-3. The deploy workflow will run automatically on every push to `main`
-4. Your site will be live at `https://YOUR_USERNAME.github.io/tuningdigital/`
-
-### Step 4: Connect custom domain
-1. In GitHub Pages settings, enter `tuningdigital.com` as custom domain
-2. In your domain registrar's DNS settings, add:
-   - `A` record: `185.199.108.153`
-   - `A` record: `185.199.109.153`
-   - `A` record: `185.199.110.153`
-   - `A` record: `185.199.111.153`
-   - `CNAME` record: `www` → `YOUR_USERNAME.github.io`
-3. Enable "Enforce HTTPS" in GitHub Pages settings
+Net effect: every Monday and Thursday morning you get 2 new articles. Six hours later they auto-tweet at peak UK + US-East engagement time. Zero manual intervention.
 
 ---
 
-## 🔧 Required Replacements
+## ✍️ Manual content generation (when you want extras)
 
-Before going live, replace these placeholders in all HTML files:
+Requires `ANTHROPIC_API_KEY` exported in your shell (also persisted in GitHub repo secrets for the workflows).
 
-| Placeholder | Replace with | Where |
-|------------|-------------|-------|
-| `G-XXXXXXXXXX` | Your GA4 Measurement ID | All HTML files |
-| `ca-pub-XXXXXXXXXX` | Your AdSense publisher ID | All HTML files |
-| `https://your-email-service.com/subscribe` | Your Mailchimp/ConvertKit endpoint | index.html, blog/index.html, tools/index.html |
-| `@tuningdigital` | Your actual Twitter/X handle | index.html footer |
-| `privacy@tuningdigital.com` | Your actual email | privacy-policy.html |
-| `hello@tuningdigital.com` | Your actual contact email | about.html |
-
-**Quick find-and-replace command (runs on Mac/Linux):**
 ```bash
-# Replace GA4 ID
-find . -name "*.html" -exec sed -i '' 's/G-XXXXXXXXXX/G-YOUR_REAL_ID/g' {} \;
+# List what's available in the topic bank
+node assets/js/content-engine.js topics
 
-# Replace AdSense ID
-find . -name "*.html" -exec sed -i '' 's/ca-pub-XXXXXXXXXX/ca-pub-YOUR_REAL_ID/g' {} \;
-```
+# Generate one specific article (slug must match a TOPIC_BANK entry)
+node assets/js/content-engine.js generate claude-vs-chatgpt
 
----
-
-## ✍️ Automated Content Generation
-
-The content engine generates SEO-optimised articles using the Claude API.
-
-### Setup
-```bash
-# Install Node.js (if not already installed)
-node --version   # should be v18+
-
-# Set your API key
-export ANTHROPIC_API_KEY=sk-ant-your-key-here
-
-# Generate a single article
+# Generate a random article
 node assets/js/content-engine.js generate
 
-# Generate 3 articles
-node assets/js/content-engine.js batch 3
+# Generate 5 random articles
+node assets/js/content-engine.js batch 5
 
-# List all available topics
-node assets/js/content-engine.js topics
+# List tools available for review generation
+node assets/js/tool-page-engine.js tools
+
+# Generate a tool review
+node assets/js/tool-page-engine.js generate cursor
 ```
 
-### GitHub Actions (automated weekly)
-1. Go to your repo → **Settings** → **Secrets and variables** → **Actions**
-2. Click **New repository secret**
-3. Name: `ANTHROPIC_API_KEY`
-4. Value: your Anthropic API key
-5. Every Monday at 08:00 UTC, one new article is generated and committed automatically
+After generation: `git add` the new file(s) + `sitemap.xml` + `feed.xml`, commit, push. Deploy auto-fires; X post fires at the next 14:00 UTC.
 
-### Add new topics
-Edit `assets/js/content-engine.js` — add entries to the `TOPIC_BANK` array:
-```js
-{ 
-  slug: 'my-new-article-slug', 
-  title: 'My Article Title', 
-  category: 'AI Tools', 
-  keywords: ['keyword one', 'keyword two'] 
-},
-```
+### Adding new topics or tools
+
+Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine.js` (`TOOL_BANK`). Follow the existing object schema — every field is required for the prompt to compose correctly.
 
 ---
 
-## 💰 AdSense Setup
+## 🔧 Live credentials and IDs (embedded in the site)
 
-1. Apply at https://adsense.google.com
-2. Add your site URL
-3. Google will review your site (takes 1–14 days — Privacy Policy is already included)
-4. Once approved, replace `ca-pub-XXXXXXXXXX` with your real publisher ID
-5. Replace ad slot IDs (`1234567890` etc.) with your actual slot IDs from AdSense dashboard
-
-**Ad slots placed:**
-- Homepage: leaderboard (top), rectangle (mid-page)
-- Blog listing: leaderboard (top), square (in grid)
-- Article pages: leaderboard (top), in-article square, sidebar square
-- Tools pages: leaderboard (top), sidebar rectangle
+| Item | Value | Where used |
+|------|-------|------------|
+| GA4 Measurement ID | `G-LSE8074X3B` | All HTML pages + content engine template |
+| AdSense Publisher | `ca-pub-1606633100797174` | All HTML pages + `ads.txt` + both engines |
+| 11 AdSense ad slots | listed in [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) | named `td-*-*` per placement |
+| X handle | `@TuningDigital` | `index.html` Twitter card meta + sidebar bio |
+| Beehiiv form | `c469056c-9905-42d5-b7a5-3e3be95b91f2` | homepage, blog index, tools index newsletter sections |
+| Editor identity | Sam Carter | `CONFIG.authorName` in both engines |
 
 ---
 
-## 🔗 Affiliate Setup
+## 💰 Monetisation
 
-Apply to these programmes first (highest commission, most relevant):
-
-1. **Notion** — notion.so/affiliate
-2. **HubSpot** — hubspot.com/partners (30% recurring)
-3. **Jasper AI** — jasper.ai/affiliate (30% recurring)
-4. **Ahrefs** — ahrefs.com/affiliate
-5. **Amazon Associates** — affiliate-program.amazon.co.uk
-
-After approval, replace the raw tool URLs in HTML files with your affiliate tracking links.
+- **AdSense**: live publisher ID across the site. 11 slots created (homepage, blog, tools, articles, multiplex). See [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) for the named-unit inventory.
+- **Affiliate**: deferred until organic traffic > 1K sessions/mo (affiliate programmes routinely reject low-traffic sites — see [Template.md §6.2](../MD%20Files/TuningDigital/Template.md)).
+- **Sponsored content**: clearly labelled when accepted; declined when conflicting with editorial standards.
+- **Newsletter**: Beehiiv (`tuning-digital.beehiiv.com`); reply-to wired to `hello@`.
 
 ---
 
-## 📊 SEO Checklist (post-launch)
+## 🛠 Local development
 
-- [ ] Submit sitemap: https://search.google.com/search-console → Sitemaps → Add `/sitemap.xml`
-- [ ] Verify domain in Search Console
-- [ ] Submit to Bing Webmaster Tools: https://www.bing.com/webmasters
-- [ ] Test structured data: https://search.google.com/test/rich-results
-- [ ] Test Core Web Vitals: https://pagespeed.web.dev
-- [ ] Create Google My Business if you have a physical address (optional)
-- [ ] List SaaS Calculator on Product Hunt
-- [ ] Submit to AI tool directories (see SEO-BACKLINK-STRATEGY.md)
-
----
-
-## 📧 Newsletter Setup
-
-The forms currently POST to `https://your-email-service.com/subscribe`.  
-Replace with your email service's API endpoint or embed form:
-
-- **Mailchimp**: Use their embedded form action URL
-- **ConvertKit**: Use their form embed or API endpoint
-- **Beehiiv**: Use their subscribe URL
-- **Ghost**: If you migrate to Ghost, newsletter is built in
-
----
-
-## 🛠 Local Development
-
-No build step needed — this is plain HTML/CSS/JS.
+No build step.
 
 ```bash
-# Option 1: Python HTTP server
-python3 -m http.server 8000
-# Visit http://localhost:8000
-
-# Option 2: VS Code Live Server extension
-# Right-click index.html → "Open with Live Server"
-
-# Option 3: Node.js http-server
-npx http-server . -p 8000
+python3 -m http.server 8000     # → http://localhost:8000
 ```
 
----
-
-## 📁 Adding New Pages
-
-**New blog article:**
-1. Copy `blog/best-ai-writing-tools-2025.html` as a template
-2. Update: title, meta description, canonical URL, h1, article content, JSON-LD dates
-3. Add to `sitemap.xml`
-4. Link from `blog/index.html`
-
-**New tool:**
-1. Copy `tools/saas-cost-calculator.html` as a template
-2. Build your tool logic in the `<script>` at the bottom
-3. Add to `sitemap.xml` and `tools/index.html`
+Editing existing pages: copy a similar page as a template. Engine output should be the canonical pattern for any new article.
 
 ---
 
-*Built by Claude for Tuning Digital — tuningdigital.com*
+## 📚 Where the deep documentation lives
+
+- **[Template.md](../MD%20Files/TuningDigital/Template.md)** — comprehensive project doc (architecture, credentials, monetisation, SEO/GEO/AEO, security, X automation, agenda). The single source of truth.
+- **[CLAUDE.md](CLAUDE.md)** — Claude Code session guidance (commands, conventions, gotchas).
+- **[TuningDigital.md](../MD%20Files/TuningDigital/TuningDigital.md)** — brand positioning + site architecture overview.
+- **[tuningdigital-seo-geo-aeo.md](../MD%20Files/TuningDigital/tuningdigital-seo-geo-aeo.md)** — SEO/GEO/AEO implementation history.
+
+---
+
+*Operator: site maintainer. Built with Claude Code support for tuningdigital.com.*

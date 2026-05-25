@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static HTML/CSS/JS site for tuningdigital.com — independent AI/SaaS tool reviews. No build step, no framework, no package.json. Files are served as-is from the repo root by GitHub Pages.
+Static HTML/CSS/JS site for tuningdigital.com — independent AI/SaaS tool reviews. No build step, no framework, no package.json. Files are served as-is from the repo root by GitHub Pages, fronted by Cloudflare (Free plan) for security headers, HTTP/3, edge caching, and Web Analytics RUM.
 
 ## Commands
 
@@ -28,9 +28,17 @@ There is no test suite, linter, or formatter configured.
 
 ## Deployment
 
-`main` is the deployed branch. Every push triggers [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which uploads the entire repo root as the GitHub Pages artifact. There is no staging environment — `main` is production.
+`main` is the deployed branch. Every push triggers [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which uploads the entire repo root as the GitHub Pages artifact and deploys. There is no staging environment — `main` is production. Cloudflare proxies all responses from the origin; if a change isn't visible after deploy, check Cloudflare's edge cache (`cf-cache-status` header).
 
-[.github/workflows/generate-content.yml](.github/workflows/generate-content.yml) runs `content-engine.js batch 1` every Monday 08:00 UTC, commits the new article with `[skip ci]` (so it does NOT auto-redeploy), and uses the `ANTHROPIC_API_KEY` repo secret.
+Three scheduled workflows:
+
+| Workflow | Cron (UTC) | What it does |
+|---|---|---|
+| [generate-content.yml](.github/workflows/generate-content.yml) | `0 8 * * 1,4` (Mon + Thu 08:00) | Runs `content-engine.js batch 2`, commits the 2 new articles + sitemap.xml + feed.xml, pushes. The deploy auto-fires. Uses `ANTHROPIC_API_KEY` secret. |
+| [post-to-x.yml](.github/workflows/post-to-x.yml) | `0 14 * * *` (daily 14:00) | Runs `.github/scripts/post-to-x.py` — tweets each unposted item from `feed.xml` to `@TuningDigital` via X API v2 (OAuth 1.0a). Capped at 5 posts per run, 60s gap between posts. Uses 4 `X_*` secrets. |
+| deploy.yml | on push to main | Uploads repo as GH Pages artifact. |
+
+> **Important: bot pushes don't trigger downstream workflows.** When `generate-content.yml` pushes via `GITHUB_TOKEN`, GitHub's loop-protection prevents `post-to-x.yml` from auto-triggering on that push. The daily 14:00 UTC schedule is the safety net that catches bot-generated articles ~6 hours after generation.
 
 ## Content generation architecture
 
@@ -41,13 +49,24 @@ Two engines, both Node.js CLIs that call the Claude Messages API. Share the same
 
 Both engines: extract FAQs from the generated HTML, emit FAQPage + Review + Speakable JSON-LD, auto-append to `sitemap.xml` and `feed.xml`, and use the centralised `CONFIG.authorName` ("Sam Carter") for byline + Person schema.
 
-### content-engine.js — important behaviour to preserve:
+### Both engines — shared behaviour to preserve:
 
-- **TOPIC_BANK** (top of file) is the canonical list of available articles. `slug` becomes the output filename (`blog/<slug>.html`). Adding a topic = adding an entry here.
-- **Two-stage generation**: `buildPrompt()` asks Claude for inner article HTML only (no `<html>/<head>/<body>/<nav>/<footer>`), then `wrapInTemplate()` injects it into the full page shell with nav, footer, JSON-LD, GA4, AdSense, breadcrumbs, and sidebar. Changes to nav/footer/meta tags for generated articles must happen in `wrapInTemplate()`, not by editing existing article files (they won't be retroactively updated).
-- **`CONFIG` constants are live** — `gaMeasurementId` (`G-LSE8074X3B`) and `adsenseClient` (`ca-pub-1606633100797174`) are the real IDs. The README still mentions `G-XXXXXXXXXX` / `ca-pub-XXXXXXXXXX` placeholders, but those have already been replaced in the engine and most pages.
-- **Sitemap auto-update**: `updateSitemap()` appends a `<url>` entry to [sitemap.xml](sitemap.xml) before `</urlset>` if the slug isn't already present. When hand-editing the sitemap, preserve this insertion point.
+- **TOPIC_BANK / TOOL_BANK** (top of each file) is the canonical list. `slug` becomes the output filename. Adding a topic = adding an entry; the engine doesn't read any external data source.
+- **Two-stage generation**: `buildPrompt()` asks Claude for inner article HTML only (no `<html>/<head>/<body>/<nav>/<footer>`), then `wrapInTemplate()` injects it into the full page shell with nav, footer, JSON-LD (Article + BreadcrumbList + Review + WebPage Speakable + FAQPage auto-extracted), GA4, AdSense, Consent Mode v2 init, breadcrumbs, and sidebar. Changes to nav/footer/meta tags for generated content must happen in `wrapInTemplate()`, not by editing existing article files (they won't be retroactively updated).
+- **`CONFIG` constants are live** — `gaMeasurementId` (`G-LSE8074X3B`), `adsenseClient` (`ca-pub-1606633100797174`), `authorName` (`Sam Carter`). Change `authorName` here to rename globally for future articles; existing files need a separate sed.
+- **Sitemap + Feed auto-update**: `updateSitemap()` and `updateFeed()` append to `sitemap.xml` / `feed.xml` if the slug isn't already present. Preserve the insertion points when hand-editing those files.
+- **FAQPage schema**: `extractFaqs()` greps the generated body for the H2 "Frequently Asked Questions" section, parses H3/Q + P/A pairs, emits a FAQPage JSON-LD block. Don't change the prompt's FAQ structure without updating the regex.
+- **`require.main === module` guard** in content-engine.js: prevents the CLI block from firing when tool-page-engine.js imports `TOPIC_BANK` for cross-linking.
+- **Anti-AI-detection prompt section**: both engines instruct Claude to write British English, vary sentence length, avoid AI-tell phrases ("However, it's worth noting", "On the other hand", overused em-dashes), and use concrete UK-context examples. Edit this section if Google's AI-detection signals shift.
 - **Model**: currently pinned to `claude-opus-4-6`. The CLI runtime is on `claude-opus-4-7`, but the API call uses its own value — don't conflate them.
+
+### tool-page-engine.js specifics:
+
+- Imports `TOPIC_BANK` from content-engine.js for related-article cross-linking
+- Uses `TOOL_BANK` for related-tool sidebar links
+- `pricingFrom` regex extracts the leading dollar number for SoftwareApplication.offers.price schema (e.g. "Free / $20/mo" → "20", "Free" → "0")
+- `websiteUrl` is currently the vendor's homepage — swap for affiliate tracking URL once each programme is approved (see Template.md §6.2)
+- Output URL pattern: `/reviews/<slug>-review.html`
 
 ## Page conventions
 
@@ -64,5 +83,9 @@ Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variabl
 ## Gotchas
 
 - `SEO-BACKLINK-STRATEGY.md` is in [.gitignore](.gitignore) — it exists locally but is intentionally not in the repo. Don't try to commit it.
-- The `assets/.DS_Store` showing as modified in `git status` is macOS noise; do not commit it.
-- Articles generated by the engine have a `🔄 AI-assisted research` byline — keep that label honest if editing the template.
+- The `assets/.DS_Store` / root `.DS_Store` showing as modified in `git status` is macOS noise; do not commit it.
+- Articles use `<span>🔄 Updated regularly</span>` as the cadence signal in the byline. The previous `🔄 AI-assisted research` label was removed because it was an AdSense red flag (literal AI self-attestation). Don't reintroduce.
+- The inline `<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>` after every `<ins>` is wrapped in `try/catch` because Safari (and AdSense itself) reports a `TagError: availableWidth=0` when push runs before layout completes. The real ad render happens via the lazy-loader in `main.js` (IntersectionObserver). Don't unwrap the try/catch.
+- CSP is enforced at the Cloudflare edge via a Transform Rule ("Security Header"), not as a `<meta http-equiv>`. Adding a new external script/CSS/font source requires updating the CSP value in Cloudflare → Rules → Transform Rules → Modify Response Header, not in the HTML.
+- `.x-posted.txt` is auto-committed by the post-to-x.yml workflow (`chore: record X post [skip ci]`). The `[skip ci]` suffix prevents the deploy workflow re-firing on every X post. Don't strip the suffix.
+- AI crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.) are intentionally **allowed** via permissive `robots.txt` + Cloudflare settings. This is the GEO/AEO strategy — we want to be cited. Don't reconfigure to block them.
