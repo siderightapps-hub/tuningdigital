@@ -15,7 +15,11 @@ on:
       - 'reviews/**.html'
       - 'feed.xml'
   schedule:
-    - cron: '0 10 * * *'   # Every day at 10:00 UTC
+    # Every day at 14:00 UTC. Sweet-spot for tech audience engagement:
+    # 15:00 BST (UK afternoon) + 10:00 EDT (US East Coast morning coffee).
+    # Sits comfortably after the Mon/Thu 08:00 UTC content generation, so
+    # newly-generated articles get tweeted ~6 hours later at peak engagement.
+    - cron: '0 14 * * *'
   workflow_dispatch:
 
 permissions:
