@@ -5,14 +5,24 @@
     <link>https://tuningdigital.com/</link>
     <description>Independent reviews of AI &amp; SaaS productivity tools. No vendor bias, no pay-to-rank — just the signal you need to choose the right stack.</description>
     <language>en-gb</language>
-    <lastBuildDate>Sun, 24 May 2026 08:38:56 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 26 May 2026 19:37:17 GMT</lastBuildDate>
     <atom:link href="https://tuningdigital.com/feed.xml" rel="self" type="application/rss+xml" />
     <managingEditor>hello@tuningdigital.com (Sam Carter)</managingEditor>
     <webMaster>hello@tuningdigital.com (Sam Carter)</webMaster>
     <generator>content-engine.js + manual</generator>
     <ttl>1440</ttl>
     
+    
     <item>
+      <title>Figma vs Framer: Design Tool Showdown 2026</title>
+      <link>https://tuningdigital.com/blog/figma-vs-framer.html</link>
+      <guid isPermaLink="true">https://tuningdigital.com/blog/figma-vs-framer.html</guid>
+      <description>Independent review and comparison: Figma vs Framer: Design Tool Showdown 2026. Expert analysis, real-world testing, and honest recommendations.</description>
+      <category>Design</category>
+      <dc:creator>Alex Bacsa</dc:creator>
+      <pubDate>Tue, 26 May 2026 19:37:17 GMT</pubDate>
+    </item>
+<item>
       <title>Claude Review (2026)</title>
       <link>https://tuningdigital.com/reviews/claude-review.html</link>
       <guid isPermaLink="true">https://tuningdigital.com/reviews/claude-review.html</guid>
