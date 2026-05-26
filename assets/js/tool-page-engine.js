@@ -352,6 +352,11 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
       <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>
       <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a><a href="#" class="manage-cookies">Manage cookies</a></div>
     </div>
+    <div class="footer-sister-pubs" style="border-top:0.5px solid #1c2040;margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5c6488;text-align:center;font-family:'JetBrains Mono',monospace;">
+      Sister publications &middot;
+      <a href="https://salestap.com" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">SalesTap</a> &middot;
+      <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">CloudFintech</a>
+    </div>
   </div>
 </footer>
 <script src="/assets/js/main.js"></script>
