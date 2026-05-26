@@ -30,8 +30,8 @@ const CONFIG = {
   siteName: 'Tuning Digital',
   gaMeasurementId: 'G-LSE8074X3B',
   adsenseClient: 'ca-pub-1606633100797174',
-  authorName: 'Sam Carter',
-  authorRole: 'Editor',
+  authorName: 'Alex Bacsa',
+  authorRole: 'Founder & Editor',
 };
 
 // ─── TOOL BANK ───────────────────────────────────────────

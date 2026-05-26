@@ -26,8 +26,8 @@ const CONFIG = {
   adsenseClient: 'ca-pub-1606633100797174',
   // Editorial author identity (single named editor — change here, then re-run
   // generation or sed-patch existing articles to retroactively rename).
-  authorName: 'Sam Carter',
-  authorRole: 'Editor',
+  authorName: 'Alex Bacsa',
+  authorRole: 'Founder & Editor',
 };
 
 // ─── TOPIC BANK ──────────────────────────────────────────
