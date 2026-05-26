@@ -112,7 +112,8 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | 11 AdSense ad slots | listed in [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) | named `td-*-*` per placement |
 | X handle | `@TuningDigital` | `index.html` Twitter card meta + sidebar bio |
 | Beehiiv form | `c469056c-9905-42d5-b7a5-3e3be95b91f2` | homepage, blog index, tools index newsletter sections |
-| Editor identity | Sam Carter | `CONFIG.authorName` in both engines |
+| Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
+| Operator LinkedIn | https://www.linkedin.com/in/alex-bacsa-a06b95410/ | About page Editor card + Person JSON-LD `sameAs` |
 
 ---
 

@@ -47,13 +47,13 @@ Two engines, both Node.js CLIs that call the Claude Messages API. Share the same
 - **[assets/js/content-engine.js](assets/js/content-engine.js)** — writes long-form comparison/list/guide articles to `/blog/<slug>.html`. Source of truth = `TOPIC_BANK` (38 entries with `type` and `category`).
 - **[assets/js/tool-page-engine.js](assets/js/tool-page-engine.js)** — writes single-tool deep-dive reviews to `/reviews/<slug>-review.html`. Source of truth = `TOOL_BANK` (18 entries). Imports `TOPIC_BANK` from content-engine to cross-link reviews to relevant articles.
 
-Both engines: extract FAQs from the generated HTML, emit FAQPage + Review + Speakable JSON-LD, auto-append to `sitemap.xml` and `feed.xml`, and use the centralised `CONFIG.authorName` ("Sam Carter") for byline + Person schema.
+Both engines: extract FAQs from the generated HTML, emit FAQPage + Review + Speakable JSON-LD, auto-append to `sitemap.xml` and `feed.xml`, and use the centralised `CONFIG.authorName` ("Alex Bacsa") for byline + Person schema.
 
 ### Both engines — shared behaviour to preserve:
 
 - **TOPIC_BANK / TOOL_BANK** (top of each file) is the canonical list. `slug` becomes the output filename. Adding a topic = adding an entry; the engine doesn't read any external data source.
 - **Two-stage generation**: `buildPrompt()` asks Claude for inner article HTML only (no `<html>/<head>/<body>/<nav>/<footer>`), then `wrapInTemplate()` injects it into the full page shell with nav, footer, JSON-LD (Article + BreadcrumbList + Review + WebPage Speakable + FAQPage auto-extracted), GA4, AdSense, Consent Mode v2 init, breadcrumbs, and sidebar. Changes to nav/footer/meta tags for generated content must happen in `wrapInTemplate()`, not by editing existing article files (they won't be retroactively updated).
-- **`CONFIG` constants are live** — `gaMeasurementId` (`G-LSE8074X3B`), `adsenseClient` (`ca-pub-1606633100797174`), `authorName` (`Sam Carter`). Change `authorName` here to rename globally for future articles; existing files need a separate sed.
+- **`CONFIG` constants are live** — `gaMeasurementId` (`G-LSE8074X3B`), `adsenseClient` (`ca-pub-1606633100797174`), `authorName` (`Alex Bacsa`), `authorRole` (`Founder & Editor`). Change `authorName` here to rename globally for future articles; existing files need a separate sed.
 - **Sitemap + Feed auto-update**: `updateSitemap()` and `updateFeed()` append to `sitemap.xml` / `feed.xml` if the slug isn't already present. Preserve the insertion points when hand-editing those files.
 - **FAQPage schema**: `extractFaqs()` greps the generated body for the H2 "Frequently Asked Questions" section, parses H3/Q + P/A pairs, emits a FAQPage JSON-LD block. Don't change the prompt's FAQ structure without updating the regex.
 - **`require.main === module` guard** in content-engine.js: prevents the CLI block from firing when tool-page-engine.js imports `TOPIC_BANK` for cross-linking.
