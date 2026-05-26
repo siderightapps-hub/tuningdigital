@@ -467,6 +467,26 @@ function updateFeed(topic, date) {
   } catch(e) { console.warn('⚠️  Could not update feed.xml:', e.message); }
 }
 
+// ─── PUBLISH STATE HELPER ─────────────────────────────────
+// Returns TOPIC_BANK entries whose slug doesn't already have a file in
+// CONFIG.outputDir. Used by `batch` and unscoped `generate` to prevent
+// the random picker from regenerating (and overwriting) hand-curated
+// articles. `generate <slug>` bypasses this — an explicit slug arg
+// signals an intentional refresh, so we let it through.
+function getUnpublishedTopics() {
+  const published = new Set();
+  try {
+    for (const f of fs.readdirSync(CONFIG.outputDir)) {
+      if (f.endsWith('.html') && f !== 'index.html') {
+        published.add(f.replace(/\.html$/, ''));
+      }
+    }
+  } catch (e) {
+    // outputDir doesn't exist yet — treat everything as unpublished
+  }
+  return TOPIC_BANK.filter(t => !published.has(t.slug));
+}
+
 // ─── CLI ──────────────────────────────────────────────────
 // Only run the CLI block when this file is executed directly (`node content-engine.js …`),
 // not when it's imported by another module (e.g. tool-page-engine.js requires TOPIC_BANK).
@@ -476,26 +496,50 @@ const [,, command, arg] = process.argv;
 (async () => {
   if (command === 'topics') {
     console.log('\n📚 Available topics:\n');
-    TOPIC_BANK.forEach((t, i) => console.log(`  ${i+1}. ${t.title}`));
-    console.log(`\nRun: node content-engine.js generate ${'{slug}'}\n`);
+    const unpub = new Set(getUnpublishedTopics().map(t => t.slug));
+    TOPIC_BANK.forEach((t, i) => {
+      const mark = unpub.has(t.slug) ? '⏳' : '✅';
+      console.log(`  ${String(i+1).padStart(2)}. ${mark} ${t.title}`);
+    });
+    console.log(`\n${unpub.size}/${TOPIC_BANK.length} unpublished (⏳). ✅ = already on /blog/.`);
+    console.log(`Run: node content-engine.js generate ${'{slug}'}\n`);
 
   } else if (command === 'generate') {
-    const topic = arg
-      ? TOPIC_BANK.find(t => t.slug === arg) || TOPIC_BANK[0]
-      : TOPIC_BANK[Math.floor(Math.random() * TOPIC_BANK.length)];
+    let topic;
+    if (arg) {
+      // Explicit slug — allow regenerate of an already-published article
+      topic = TOPIC_BANK.find(t => t.slug === arg);
+      if (!topic) { console.error(`❌ Unknown topic slug: "${arg}"`); process.exit(1); }
+    } else {
+      // Random pick — restrict to unpublished to avoid overwriting hand-curated content
+      const unpub = getUnpublishedTopics();
+      if (!unpub.length) {
+        console.log('🎉 All TOPIC_BANK entries published. Add more entries or use `generate <slug>` to refresh an existing article.');
+        return;
+      }
+      topic = unpub[Math.floor(Math.random() * unpub.length)];
+    }
     try { await generateArticle(topic); }
     catch(e) { console.error('❌ Error:', e.message); process.exit(1); }
 
   } else if (command === 'batch') {
     const count = parseInt(arg) || 3;
-    const shuffled = [...TOPIC_BANK].sort(() => Math.random() - .5).slice(0, count);
+    const unpub = getUnpublishedTopics();
+    if (!unpub.length) {
+      console.log('🎉 All TOPIC_BANK entries published. Add more entries or use `generate <slug>` to refresh an existing article.');
+      return;
+    }
+    if (unpub.length < count) {
+      console.log(`⚠️  Only ${unpub.length} unpublished topic(s) remain (requested ${count}). Generating ${unpub.length}.`);
+    }
+    const shuffled = [...unpub].sort(() => Math.random() - .5).slice(0, count);
     for (const topic of shuffled) {
       try {
         await generateArticle(topic);
         await new Promise(r => setTimeout(r, 2000)); // rate limit buffer
       } catch(e) { console.error(`❌ Failed ${topic.slug}:`, e.message); }
     }
-    console.log(`\n🎉 Generated ${count} articles`);
+    console.log(`\n🎉 Generated ${shuffled.length} article(s)`);
 
   } else {
     console.log(`

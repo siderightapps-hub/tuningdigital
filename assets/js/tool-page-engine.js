@@ -463,33 +463,72 @@ function updateFeed(tool, date) {
   } catch(e) { console.warn('⚠️  Could not update feed.xml:', e.message); }
 }
 
+// ─── PUBLISH STATE HELPER ─────────────────────────────────
+// Returns TOOL_BANK entries whose <slug>-review.html doesn't already exist
+// in CONFIG.outputDir. Prevents the random picker from overwriting existing
+// reviews. `generate <slug>` bypasses this for explicit refresh.
+function getUnreviewedTools() {
+  const reviewed = new Set();
+  try {
+    for (const f of fs.readdirSync(CONFIG.outputDir)) {
+      if (f.endsWith('-review.html')) {
+        reviewed.add(f.replace(/-review\.html$/, ''));
+      }
+    }
+  } catch (e) {
+    // outputDir doesn't exist yet — treat everything as unreviewed
+  }
+  return TOOL_BANK.filter(t => !reviewed.has(t.slug));
+}
+
 // ─── CLI ──────────────────────────────────────────────────
 const [,, command, arg] = process.argv;
 
 (async () => {
   if (command === 'tools') {
     console.log('\n🔧 Available tools:\n');
-    TOOL_BANK.forEach((t, i) => console.log(`  ${String(i+1).padStart(2)}. ${t.icon} ${t.name.padEnd(18)} ${t.category.padEnd(14)} ${t.rating}/5  ${t.pricingFrom}`));
-    console.log(`\nRun: node tool-page-engine.js generate <slug>\n`);
+    const unrev = new Set(getUnreviewedTools().map(t => t.slug));
+    TOOL_BANK.forEach((t, i) => {
+      const mark = unrev.has(t.slug) ? '⏳' : '✅';
+      console.log(`  ${String(i+1).padStart(2)}. ${mark} ${t.icon} ${t.name.padEnd(18)} ${t.category.padEnd(14)} ${t.rating}/5  ${t.pricingFrom}`);
+    });
+    console.log(`\n${unrev.size}/${TOOL_BANK.length} unreviewed (⏳). ✅ = already on /reviews/.`);
+    console.log(`Run: node tool-page-engine.js generate <slug>\n`);
 
   } else if (command === 'generate') {
-    const tool = arg
-      ? TOOL_BANK.find(t => t.slug === arg)
-      : TOOL_BANK[Math.floor(Math.random() * TOOL_BANK.length)];
-    if (!tool) { console.error(`❌ Unknown tool slug: "${arg}"`); process.exit(1); }
+    let tool;
+    if (arg) {
+      tool = TOOL_BANK.find(t => t.slug === arg);
+      if (!tool) { console.error(`❌ Unknown tool slug: "${arg}"`); process.exit(1); }
+    } else {
+      const unrev = getUnreviewedTools();
+      if (!unrev.length) {
+        console.log('🎉 All TOOL_BANK entries reviewed. Add more entries or use `generate <slug>` to refresh an existing review.');
+        return;
+      }
+      tool = unrev[Math.floor(Math.random() * unrev.length)];
+    }
     try { await generateToolReview(tool); }
     catch(e) { console.error('❌ Error:', e.message); process.exit(1); }
 
   } else if (command === 'batch') {
     const count = parseInt(arg) || 3;
-    const shuffled = [...TOOL_BANK].sort(() => Math.random() - .5).slice(0, count);
+    const unrev = getUnreviewedTools();
+    if (!unrev.length) {
+      console.log('🎉 All TOOL_BANK entries reviewed. Add more entries or use `generate <slug>` to refresh an existing review.');
+      return;
+    }
+    if (unrev.length < count) {
+      console.log(`⚠️  Only ${unrev.length} unreviewed tool(s) remain (requested ${count}). Generating ${unrev.length}.`);
+    }
+    const shuffled = [...unrev].sort(() => Math.random() - .5).slice(0, count);
     for (const tool of shuffled) {
       try {
         await generateToolReview(tool);
         await new Promise(r => setTimeout(r, 2000)); // rate-limit buffer
       } catch(e) { console.error(`❌ Failed ${tool.slug}:`, e.message); }
     }
-    console.log(`\n🎉 Generated ${count} tool review(s)`);
+    console.log(`\n🎉 Generated ${shuffled.length} tool review(s)`);
 
   } else {
     console.log(`
