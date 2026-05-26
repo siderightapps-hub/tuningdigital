@@ -37,21 +37,19 @@ jobs:
           echo "Generating $COUNT article(s)..."
           node assets/js/content-engine.js batch $COUNT
 
-      - name: Check for new files
-        id: check
-        run: |
-          if git diff --name-only | grep -q "\.html"; then
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Commit and push new articles
-        if: steps.check.outputs.has_changes == 'true'
         run: |
           git config --local user.email "content-bot@tuningdigital.com"
           git config --local user.name "Tuning Digital Bot"
-          git add blog/*.html sitemap.xml feed.xml
+          # Stage modified AND untracked files in the engine's output paths.
+          # The previous "git diff --name-only" check silently dropped untracked
+          # (new) files — caused 2026-05-25 11:57 UTC run to generate articles
+          # but never commit them. Now we stage first, then check the index.
+          git add blog/*.html sitemap.xml feed.xml 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "ℹ️  No staged changes — engine produced nothing to commit"
+            exit 0
+          fi
           git commit -m "chore: auto-generate articles"
           git push
         env:
