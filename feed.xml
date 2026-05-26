@@ -7,8 +7,8 @@
     <language>en-gb</language>
     <lastBuildDate>Tue, 26 May 2026 19:37:17 GMT</lastBuildDate>
     <atom:link href="https://tuningdigital.com/feed.xml" rel="self" type="application/rss+xml" />
-    <managingEditor>hello@tuningdigital.com (Sam Carter)</managingEditor>
-    <webMaster>hello@tuningdigital.com (Sam Carter)</webMaster>
+    <managingEditor>hello@tuningdigital.com (Alex Bacsa)</managingEditor>
+    <webMaster>hello@tuningdigital.com (Alex Bacsa)</webMaster>
     <generator>content-engine.js + manual</generator>
     <ttl>1440</ttl>
     
@@ -28,7 +28,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/reviews/claude-review.html</guid>
       <description>Independent Claude review. Most capable AI assistant for long-form work and complex reasoning. Pricing, features, pros, cons, and who it&apos;s best for.</description>
       <category>AI Writing</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sun, 24 May 2026 08:38:56 GMT</pubDate>
     </item>
 <item>
@@ -37,7 +37,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/chatgpt-vs-perplexity-research.html</guid>
       <description>Independent review and comparison: ChatGPT vs Perplexity for Research. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>AI Writing</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Mon, 18 May 2026 11:40:24 +0000</pubDate>
     </item>
     <item>
@@ -46,7 +46,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/best-free-saas-tools-startups.html</guid>
       <description>Independent review and comparison: Best Free SaaS Tools for Startups. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>SaaS</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sat, 09 May 2026 19:32:29 +0000</pubDate>
     </item>
     <item>
@@ -55,7 +55,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/ai-image-generators-ranked.html</guid>
       <description>Independent review and comparison: AI Image Generators Ranked 2026. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>AI Design</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sat, 09 May 2026 19:27:52 +0000</pubDate>
     </item>
     <item>
@@ -64,7 +64,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/zapier-vs-make-automation.html</guid>
       <description>Independent review and comparison: Zapier vs Make: Full Comparison 2026. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>Automation</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sat, 09 May 2026 19:21:18 +0000</pubDate>
     </item>
     <item>
@@ -73,7 +73,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/notion-vs-obsidian-pkm.html</guid>
       <description>Independent review and comparison: Notion vs Obsidian for PKM. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>Productivity</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sat, 09 May 2026 19:12:51 +0000</pubDate>
     </item>
     <item>
@@ -82,7 +82,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/ahrefs-vs-semrush-seo-tools.html</guid>
       <description>Independent review and comparison: Ahrefs vs SEMrush: SEO Tools in 2026. Expert analysis, real-world testing, and honest recommendations.</description>
       <category>Analytics</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sat, 09 May 2026 19:01:52 +0000</pubDate>
     </item>
     <item>
@@ -91,7 +91,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/notion-vs-roam-research.html</guid>
       <description>Notion vs Roam Research compared after 60 days of daily use. Pricing, features, philosophy, and which knowledge management tool is worth it in 2026.</description>
       <category>Productivity</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Fri, 08 May 2026 08:00:00 +0000</pubDate>
     </item>
     <item>
@@ -100,7 +100,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/best-project-management-tools.html</guid>
       <description>We tested Linear, Jira, and Asana on real client work for 12 weeks. Which project management tool wins for engineering teams, agencies, and product teams in 2026?</description>
       <category>Productivity</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sun, 19 Apr 2026 08:00:00 +0000</pubDate>
     </item>
     <item>
@@ -109,7 +109,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/reduce-saas-spend-guide.html</guid>
       <description>Paying for 5+ SaaS tools that overlap? The exact framework to consolidate your stack and cut hundreds per month — without losing functionality.</description>
       <category>SaaS</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Sun, 19 Apr 2026 08:00:00 +0000</pubDate>
     </item>
     <item>
@@ -118,7 +118,7 @@
       <guid isPermaLink="true">https://tuningdigital.com/blog/best-ai-writing-tools.html</guid>
       <description>We tested Claude, ChatGPT, and Gemini on real writing tasks for 30 days. Honest verdict on which AI writing tool is worth paying for in 2026.</description>
       <category>AI Tools</category>
-      <dc:creator>Sam Carter</dc:creator>
+      <dc:creator>Alex Bacsa</dc:creator>
       <pubDate>Thu, 12 Mar 2026 08:00:00 +0000</pubDate>
     </item>
   </channel>
