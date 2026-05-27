@@ -89,3 +89,11 @@ Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variabl
 - CSP is enforced at the Cloudflare edge via a Transform Rule ("Security Header"), not as a `<meta http-equiv>`. Adding a new external script/CSS/font source requires updating the CSP value in Cloudflare → Rules → Transform Rules → Modify Response Header, not in the HTML.
 - `.x-posted.txt` is auto-committed by the post-to-x.yml workflow (`chore: record X post [skip ci]`). The `[skip ci]` suffix prevents the deploy workflow re-firing on every X post. Don't strip the suffix.
 - AI crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.) are intentionally **allowed** via permissive `robots.txt` + Cloudflare settings. This is the GEO/AEO strategy — we want to be cited. Don't reconfigure to block them.
+
+## Sister-publication network
+
+Alex Bacsa also edits two other AI-assisted publications: [SalesTap.com](https://salestap.com) (B2B sales) and [CloudFintech.ai](https://cloudfintech.ai) (fintech). The three sites share the editor identity but are **editorially independent** — no syndication, no shared content, distinct domains. Linkages:
+
+- **Person schema `sameAs`** in [about.html](about.html) declares the sister-publication editor URLs (`https://salestap.com/about#editor`, `https://cloudfintech.ai/author`). Article-level Person blocks emitted by `content-engine.js` / `tool-page-engine.js` point at this canonical Person via `url`, so the entity unification propagates without per-article changes.
+- **Sister-publications footer block** is rendered on every existing HTML page (20 files) directly before `</footer>`, and is part of `wrapInTemplate()` in both engines so future articles inherit it. The block uses inline tokens that match the existing design system (`#1c2040` border, `#5c6488` muted text, JetBrains Mono uppercase).
+- The historical pseudonym "Sam Carter" was replaced with the real editor name across HTML, JSON-LD, `feed.xml`, and engine `CONFIG`. **Do not reintroduce "Sam Carter" anywhere.** The honest editorial identity is the entire E-E-A-T basis for the cross-publication entity.
