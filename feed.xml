@@ -5,7 +5,7 @@
     <link>https://tuningdigital.com/</link>
     <description>Independent reviews of AI &amp; SaaS productivity tools. No vendor bias, no pay-to-rank — just the signal you need to choose the right stack.</description>
     <language>en-gb</language>
-    <lastBuildDate>Tue, 26 May 2026 19:37:17 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 11:48:27 GMT</lastBuildDate>
     <atom:link href="https://tuningdigital.com/feed.xml" rel="self" type="application/rss+xml" />
     <managingEditor>hello@tuningdigital.com (Alex Bacsa)</managingEditor>
     <webMaster>hello@tuningdigital.com (Alex Bacsa)</webMaster>
@@ -13,7 +13,27 @@
     <ttl>1440</ttl>
     
     
+    
+    
     <item>
+      <title>Gemini vs ChatGPT: Full Comparison 2026</title>
+      <link>https://tuningdigital.com/blog/gemini-vs-chatgpt.html</link>
+      <guid isPermaLink="true">https://tuningdigital.com/blog/gemini-vs-chatgpt.html</guid>
+      <description>Independent review and comparison: Gemini vs ChatGPT: Full Comparison 2026. Expert analysis, real-world testing, and honest recommendations.</description>
+      <category>AI Writing</category>
+      <dc:creator>Alex Bacsa</dc:creator>
+      <pubDate>Thu, 28 May 2026 11:48:27 GMT</pubDate>
+    </item>
+<item>
+      <title>Best AI Email Tools 2026: Inbox Zero with AI</title>
+      <link>https://tuningdigital.com/blog/best-ai-email-tools-2026.html</link>
+      <guid isPermaLink="true">https://tuningdigital.com/blog/best-ai-email-tools-2026.html</guid>
+      <description>Independent review and comparison: Best AI Email Tools 2026: Inbox Zero with AI. Expert analysis, real-world testing, and honest recommendations.</description>
+      <category>AI Tools</category>
+      <dc:creator>Alex Bacsa</dc:creator>
+      <pubDate>Thu, 28 May 2026 11:46:46 GMT</pubDate>
+    </item>
+<item>
       <title>Figma vs Framer: Design Tool Showdown 2026</title>
       <link>https://tuningdigital.com/blog/figma-vs-framer.html</link>
       <guid isPermaLink="true">https://tuningdigital.com/blog/figma-vs-framer.html</guid>
