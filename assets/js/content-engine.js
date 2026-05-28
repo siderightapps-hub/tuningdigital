@@ -431,11 +431,72 @@ async function generateArticle(topic) {
 
   console.log(`✅ Saved: blog/${topic.slug}.html`);
 
-  // Update sitemap + RSS feed
+  // Update sitemap + RSS feed + blog index card
   updateSitemap(topic, publishDate);
   updateFeed(topic, publishDate);
+  updateBlogIndex(topic, publishDate);
 
   return { topic, path: outputPath, publishDate };
+}
+
+// ─── UPDATE BLOG INDEX ────────────────────────────────────
+// blog/index.html is hand-maintained and does NOT otherwise auto-update,
+// so freshly generated articles were becoming orphans (linked only from
+// sitemap.xml + feed.xml, no internal link → SEMrush orphan-page errors).
+// This inserts a card at the <!-- AUTO-CARDS --> marker (placed right after
+// the featured post, so newest shows first) and a matching filter pill at
+// the <!-- AUTO-PILLS --> marker if that category has no pill yet. No-ops if
+// the slug is already carded or the markers are missing.
+function updateBlogIndex(topic, date) {
+  const indexPath = path.join(CONFIG.outputDir, 'index.html');
+  const url = `/blog/${topic.slug}.html`;
+  // category → card visual (emoji + gradient). Falls back to a neutral tile.
+  const visuals = {
+    'AI Writing':   { emoji: '✍️', grad: '#0d1a30,#0a2040' },
+    'AI Design':    { emoji: '🎨', grad: '#1a0d14,#2a0a1e' },
+    'AI Coding':    { emoji: '💻', grad: '#0d1a1a,#0a2a2a' },
+    'AI Tools':     { emoji: '🤖', grad: '#0d1320,#0a1f35' },
+    'Productivity': { emoji: '🗂️', grad: '#1a1a0d,#2a2a0a' },
+    'Automation':   { emoji: '⚡', grad: '#1a0d28,#250a3a' },
+    'SaaS':         { emoji: '📊', grad: '#0d2015,#0a3520' },
+    'Analytics':    { emoji: '📈', grad: '#0d1520,#0a2035' },
+    'CRM':          { emoji: '🤝', grad: '#0a1a15,#0a2a20' },
+    'Marketing':    { emoji: '📣', grad: '#200d0d,#3a0a0a' },
+    'Design':       { emoji: '🎨', grad: '#1a0d1f,#2a0a32' },
+  };
+  const v = visuals[topic.category] || { emoji: '📄', grad: '#14141c,#1c1c28' };
+  const filterCat = topic.category.toLowerCase().replace(/\s+/g, '-');
+  const monthYear = new Date(date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+  const htmlEscape = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const title = htmlEscape(topic.title);
+  const desc = htmlEscape(`Independent comparison and analysis: ${topic.title}. Real-world testing, honest pros and cons, and a clear verdict.`);
+  const card = `      <a href="${url}" class="blog-card" data-category="${filterCat}">
+        <div class="blog-card-img"><div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,${v.grad})">${v.emoji}</div></div>
+        <div class="blog-card-content">
+          <div class="blog-meta"><span class="blog-tag">${htmlEscape(topic.category)}</span><span class="blog-tag" style="background:var(--accent-glow);color:var(--accent)">New</span><span class="blog-date">${monthYear}</span></div>
+          <h3>${title}</h3>
+          <p>${desc}</p>
+          <div class="blog-card-footer"><span class="read-time">8 min read</span><span class="read-more">Read →</span></div>
+        </div>
+      </a>`;
+  try {
+    let html = fs.readFileSync(indexPath, 'utf8');
+    if (html.includes(`href="${url}"`)) return; // already carded
+    const cardMarker = '<!-- AUTO-CARDS -->';
+    if (!html.includes(cardMarker)) {
+      console.warn('⚠️  blog/index.html missing <!-- AUTO-CARDS --> marker; skipping card insert');
+      return;
+    }
+    html = html.replace(cardMarker, `${cardMarker}\n\n${card}\n`);
+    // Add a filter pill if this category doesn't have one yet
+    const pillMarker = '<!-- AUTO-PILLS -->';
+    if (html.includes(pillMarker) && !html.includes(`data-filter="${filterCat}"`)) {
+      const pill = `      <button class="pill" data-filter="${filterCat}">${htmlEscape(topic.category)}</button>\n`;
+      html = html.replace(pillMarker, `${pill}      ${pillMarker}`);
+    }
+    fs.writeFileSync(indexPath, html, 'utf8');
+    console.log(`🗂️  Updated blog/index.html`);
+  } catch(e) { console.warn('⚠️  Could not update blog/index.html:', e.message); }
 }
 
 // ─── UPDATE SITEMAP ───────────────────────────────────────
@@ -576,4 +637,4 @@ Requires: ANTHROPIC_API_KEY=your_key_here
 })();
 }
 
-module.exports = { generateArticle, TOPIC_BANK };
+module.exports = { generateArticle, TOPIC_BANK, updateBlogIndex };
