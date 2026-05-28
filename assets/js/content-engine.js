@@ -119,12 +119,16 @@ CITATION REQUIREMENTS (GEO/AEO):
   for any link to a product you may earn commission on.
 
 INTERNAL LINKING (SEO):
-- Include at least 2 inline contextual links to other articles on tuningdigital.com
-  using descriptive anchor text. Choose from the related-articles list shown below
-  if any of those topics fit naturally into your body copy — link them inline rather
-  than only mentioning the tool name in passing.
-- Related articles available (link in the format: /blog/{slug}.html):
-${related.map(r => `    • ${r.title} → /blog/${r.slug}.html`).join('\n')}
+- Add inline contextual links to other articles on tuningdigital.com using
+  descriptive anchor text where they fit naturally.
+- ⚠️ CRITICAL: ONLY link to URLs from the exact list below. These are the only
+  published pages. Do NOT invent or guess internal URLs (e.g. do NOT link to
+  /blog/claude-vs-chatgpt.html unless it appears in this list) — invented URLs
+  return 404 and break the site audit.
+- If the list below is empty, add NO internal links at all (the site is new and
+  few articles are published yet). That's fine — don't fabricate links.
+- Published articles you may link to (exact URLs):
+${related.length ? related.map(r => `    • ${r.title} → /blog/${r.slug}.html`).join('\n') : '    (none yet — do not add internal article links)'}
 - Internal links use plain href (no rel="nofollow", no target="_blank") so link
   equity flows internally.
 
@@ -170,10 +174,21 @@ Return ONLY the article HTML, starting with the <article> tag.`;
 }
 
 // ─── PICK RELATED TOPICS ──────────────────────────────────
-// Picks `count` topics from TOPIC_BANK that aren't the current topic.
-// Prioritises same-category entries; falls back to other categories if needed.
+// Picks `count` topics from TOPIC_BANK that aren't the current topic AND are
+// already PUBLISHED (i.e. <slug>.html exists in /blog/). Cross-linking to
+// unpublished slugs was the cause of 16 × 404s found in the 2026-05-27 site
+// audit — the sidebar + inline links pointed at pages not yet generated.
+// Prioritises same-category; falls back to other categories. May return fewer
+// than `count` (or zero) early in the site's life when little is published —
+// that's correct: an empty Related card beats a 404.
 function pickRelatedTopics(currentTopic, count = 3) {
-  const others = TOPIC_BANK.filter(t => t.slug !== currentTopic.slug);
+  const published = new Set();
+  try {
+    for (const f of fs.readdirSync(CONFIG.outputDir)) {
+      if (f.endsWith('.html') && f !== 'index.html') published.add(f.replace(/\.html$/, ''));
+    }
+  } catch (e) { /* dir missing — nothing published yet */ }
+  const others = TOPIC_BANK.filter(t => t.slug !== currentTopic.slug && published.has(t.slug));
   const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
   const same = shuffle(others.filter(t => t.category === currentTopic.category));
   const rest = shuffle(others.filter(t => t.category !== currentTopic.category));
@@ -268,7 +283,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
       <ul class="nav-links">
         <li><a href="/tools/">Tools</a></li>
         <li><a href="/blog/" class="active">Blog</a></li>
-        <li><a href="/about.html">About</a></li>
+        <li><a href="/reviews/">Reviews</a></li><li><a href="/about.html">About</a></li>
       </ul>
       <a href="/tools/" class="nav-cta">Explore Tools →</a>
       <button class="nav-mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></button>
@@ -276,7 +291,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   </div>
 </nav>
 <div class="mobile-nav" id="mobileNav">
-  <a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/about.html">About</a>
+  <a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/reviews/">Reviews</a><a href="/about.html">About</a>
 </div>
 <main>
   <div class="container" style="padding-top:48px">
@@ -303,12 +318,12 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
           <ins class="adsbygoogle" style="display:block" data-ad-client="${CONFIG.adsenseClient}" data-ad-slot="1853114667" data-ad-format="auto" data-full-width-responsive="true"></ins>
           <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
         </div>
-        <div class="sidebar-card">
+${related.length ? `        <div class="sidebar-card">
           <h4>Related Articles</h4>
           <ul>
 ${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title}</a></li>`).join('\n')}
           </ul>
-        </div>
+        </div>` : ''}
         <div class="sidebar-card mt-16">
           <h4>Related Tools</h4>
           <ul>

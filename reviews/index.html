@@ -10,6 +10,7 @@
   <link rel="canonical" href="https://tuningdigital.com/reviews/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tuningdigital.com/reviews/">
+  <meta property="og:image" content="https://tuningdigital.com/assets/img/og-image.jpg">
   <meta property="og:title" content="Tool Reviews — Tuning Digital">
   <meta property="og:description" content="In-depth single-tool reviews of AI and SaaS productivity software.">
   <link rel="manifest" href="/manifest.json">
@@ -59,12 +60,23 @@
 </section>
 
 <section class="section">
-  <div class="container" style="max-width:780px">
-    <div class="card" style="padding:32px;text-align:center">
-      <div style="font-size:2.5rem;margin-bottom:12px">🚧</div>
-      <h2 style="margin-bottom:12px">Tool Reviews Coming Soon</h2>
-      <p style="color:var(--text-muted);margin-bottom:20px">We're rolling out in-depth single-tool reviews across all categories. First batch live shortly. In the meantime, our head-to-head comparisons cover most of the same ground.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+  <div class="container">
+    <!-- Published reviews. Add a card here whenever a new /reviews/<slug>-review.html ships. -->
+    <div class="grid-3" id="reviewsGrid">
+      <a href="/reviews/claude-review.html" class="blog-card" data-category="ai-writing">
+        <div class="blog-card-img"><div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#101736,#0a2040);font-size:3rem">🧠</div></div>
+        <div class="blog-card-content">
+          <div class="blog-meta"><span class="blog-tag">AI Writing</span><span class="blog-tag" style="background:var(--accent-glow);color:var(--accent)">★ 5/5</span><span class="blog-date">May 2026</span></div>
+          <h3>Claude Review (2026): Honest Verdict</h3>
+          <p>Anthropic's Claude put through real-world use — pricing, features, pros, cons, and exactly who it's best for.</p>
+          <div class="blog-card-footer"><span class="read-time">Tool review</span><span class="read-more">Read Review →</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="card" style="padding:28px;text-align:center;margin-top:40px">
+      <p style="color:var(--text-muted);margin:0 0 16px">More single-tool reviews are rolling out across every category. In the meantime, our head-to-head comparisons cover most of the same ground.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <a href="/blog/" class="btn btn-primary">Browse Comparisons</a>
         <a href="/tools/" class="btn btn-ghost">Browse Tools Directory</a>
       </div>

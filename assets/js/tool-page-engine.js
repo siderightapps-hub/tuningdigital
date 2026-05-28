@@ -86,20 +86,49 @@ const TOOL_BANK = [
 
 // ─── HELPERS ─────────────────────────────────────────────
 
-// Pick `count` other tools, prioritising same-category, falling back to others.
+// Set of tool slugs whose <slug>-review.html already exists in /reviews/.
+function publishedReviewSlugs() {
+  const s = new Set();
+  try {
+    for (const f of fs.readdirSync(CONFIG.outputDir)) {
+      if (f.endsWith('-review.html')) s.add(f.replace(/-review\.html$/, ''));
+    }
+  } catch (e) {}
+  return s;
+}
+
+// Set of article slugs whose <slug>.html already exists in /blog/.
+function publishedArticleSlugs() {
+  const s = new Set();
+  const blogDir = path.join(__dirname, '../../blog');
+  try {
+    for (const f of fs.readdirSync(blogDir)) {
+      if (f.endsWith('.html') && f !== 'index.html') s.add(f.replace(/\.html$/, ''));
+    }
+  } catch (e) {}
+  return s;
+}
+
+// Pick `count` other tools whose review is ALREADY PUBLISHED (avoids linking to
+// /reviews/<slug>-review.html pages that don't exist — cause of 404s in the
+// 2026-05-27 audit). Prioritises same-category. May return fewer than `count`.
 function pickRelatedTools(currentTool, count = 3) {
-  const others = TOOL_BANK.filter(t => t.slug !== currentTool.slug);
+  const published = publishedReviewSlugs();
+  const others = TOOL_BANK.filter(t => t.slug !== currentTool.slug && published.has(t.slug));
   const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
   const same = shuffle(others.filter(t => t.category === currentTool.category));
   const rest = shuffle(others.filter(t => t.category !== currentTool.category));
   return [...same, ...rest].slice(0, count);
 }
 
-// Pick `count` related articles from TOPIC_BANK that share the tool's category.
+// Pick `count` related articles from TOPIC_BANK that are ALREADY PUBLISHED in
+// /blog/ (avoids linking to ungenerated articles). Prioritises same-category.
 function pickRelatedArticles(currentTool, count = 3) {
+  const published = publishedArticleSlugs();
+  const candidates = TOPIC_BANK.filter(t => published.has(t.slug));
   const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
-  const same = shuffle(TOPIC_BANK.filter(t => t.category === currentTool.category));
-  const rest = shuffle(TOPIC_BANK.filter(t => t.category !== currentTool.category));
+  const same = shuffle(candidates.filter(t => t.category === currentTool.category));
+  const rest = shuffle(candidates.filter(t => t.category !== currentTool.category));
   return [...same, ...rest].slice(0, count);
 }
 
@@ -155,9 +184,14 @@ CITATION REQUIREMENTS (GEO/AEO):
 - Outbound citations: rel="noopener" target="_blank". The vendor's own URLs additionally get rel="nofollow sponsored" (affiliate placeholder).
 
 INTERNAL LINKING (SEO):
-- 2+ inline contextual links to other content on tuningdigital.com using descriptive anchor text. Pick from these available pages:
-${relatedTools.map(t => `    • Tool review: ${t.name} → /reviews/${t.slug}-review.html`).join('\n')}
-${relatedArticles.map(a => `    • Article: ${a.title} → /blog/${a.slug}.html`).join('\n')}
+- Add inline contextual links to other content on tuningdigital.com using descriptive anchor text where natural.
+- ⚠️ CRITICAL: ONLY link to URLs from the exact list below — these are the only published pages. Do NOT invent or guess internal URLs (inventing /reviews/chatgpt-review.html or /blog/claude-vs-chatgpt.html etc. returns 404 and breaks the site audit).
+- If the list below is empty, add NO internal links (the site is new). Don't fabricate.
+- Published pages you may link to (exact URLs):
+${(relatedTools.length || relatedArticles.length)
+  ? [...relatedTools.map(t => `    • Tool review: ${t.name} → /reviews/${t.slug}-review.html`),
+     ...relatedArticles.map(a => `    • Article: ${a.title} → /blog/${a.slug}.html`)].join('\n')
+  : '    (none yet — do not add internal links)'}
 - Internal links use plain href (no rel="nofollow", no target="_blank") so link equity flows internally.
 
 FORMATTING REQUIREMENTS:
@@ -268,7 +302,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
       <ul class="nav-links">
         <li><a href="/tools/">Tools</a></li>
         <li><a href="/blog/">Blog</a></li>
-        <li><a href="/about.html">About</a></li>
+        <li><a href="/reviews/">Reviews</a></li><li><a href="/about.html">About</a></li>
       </ul>
       <a href="/tools/" class="nav-cta">Explore Tools →</a>
       <button class="nav-mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></button>
@@ -276,7 +310,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
   </div>
 </nav>
 <div class="mobile-nav" id="mobileNav">
-  <a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/about.html">About</a>
+  <a href="/tools/">Tools</a><a href="/blog/">Blog</a><a href="/reviews/">Reviews</a><a href="/about.html">About</a>
 </div>
 <main>
   <div class="container" style="padding-top:48px">
@@ -309,18 +343,18 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
           <p style="font-size:.78rem;color:var(--text-dim);margin:0 0 14px">Pricing from ${xmlEscape(tool.pricingFrom)}</p>
           <a href="${tool.websiteUrl}" target="_blank" rel="noopener nofollow sponsored" class="btn btn-primary btn-sm w-full" style="justify-content:center" onclick="gtag('event','affiliate_click',{tool:'${tool.slug}'})">Visit ${xmlEscape(tool.name)} →</a>
         </div>
-        <div class="sidebar-card mt-16">
+${relatedTools.length ? `        <div class="sidebar-card mt-16">
           <h4>Related Reviews</h4>
           <ul>
 ${relatedTools.map(r => `            <li><a href="/reviews/${r.slug}-review.html">${r.icon} ${r.name}</a></li>`).join('\n')}
           </ul>
-        </div>
-        <div class="sidebar-card mt-16">
+        </div>` : ''}
+${relatedArticles.length ? `        <div class="sidebar-card mt-16">
           <h4>Related Articles</h4>
           <ul>
 ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ ${xmlEscape(a.title)}</a></li>`).join('\n')}
           </ul>
-        </div>
+        </div>` : ''}
         <div class="sidebar-card mt-16" style="background:var(--accent-glow);border-color:rgba(0,229,212,.2)">
           <h4>Free Calculator</h4>
           <p style="font-size:.85rem;margin:8px 0 14px;max-width:none">Calculate your total SaaS spend and find overlaps.</p>
