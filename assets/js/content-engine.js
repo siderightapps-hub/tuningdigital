@@ -41,6 +41,7 @@ const TOPIC_BANK = [
   // ─── Already published / hand-curated ──────────────────
   { slug: 'best-ai-productivity-apps-2026',      title: 'Best AI Productivity Apps 2026',         category: 'AI Tools',     type: 'list',         keywords: ['AI productivity apps','best AI apps 2026'] },
   { slug: 'notion-vs-obsidian-pkm',              title: 'Notion vs Obsidian for PKM',             category: 'Productivity', type: 'comparison',   keywords: ['notion vs obsidian','best note taking app'] },
+  { slug: 'notion-vs-roam-research',             title: 'Notion vs Roam Research (2026): Which Wins?', category: 'Productivity', type: 'comparison',   keywords: ['notion vs roam research','roam vs notion','PKM','knowledge management'] },
   { slug: 'chatgpt-vs-perplexity-research',      title: 'ChatGPT vs Perplexity for Research',     category: 'AI Writing',   type: 'comparison',   keywords: ['chatgpt vs perplexity','AI research tools'] },
   { slug: 'best-free-saas-tools-startups',       title: 'Best Free SaaS Tools for Startups',      category: 'SaaS',         type: 'list',         keywords: ['free SaaS tools','startup tools 2026'] },
   { slug: 'zapier-vs-make-automation',           title: 'Zapier vs Make: Full Comparison 2026',   category: 'Automation',   type: 'comparison',   keywords: ['zapier vs make','no-code automation tools'] },
