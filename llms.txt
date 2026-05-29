@@ -1,6 +1,6 @@
-# llms.txt — TuningDigital.com
-# Independent reviews and comparisons of AI & SaaS productivity tools.
+# Tuning Digital
 
+> Independent reviews and comparisons of AI & SaaS productivity tools.
 > TuningDigital helps entrepreneurs, marketers, creators, and small-business
 > owners find and compare the best AI and SaaS tools. Content is independent,
 > opinionated but fair, and aimed at decision-stage buyers. Articles include
