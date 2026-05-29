@@ -48,12 +48,13 @@
 - Every review includes a clear verdict, a "best for" statement, and an
   "avoid if" statement.
 - Pricing references are dated and flagged for re-verification quarterly.
-- AI-assisted research is disclosed in article bylines where applicable.
+- Every article is written and edited under a named human editor — Alex Bacsa,
+  Founder & Editor (https://tuningdigital.com/about.html#editor).
 
 ## Update cadence
 
-New articles are published weekly (Mondays). Comparison and best-of pages are
-reviewed and refreshed at least quarterly.
+New articles are published twice weekly (Mondays and Thursdays). Comparison and
+best-of pages are reviewed and refreshed at least quarterly.
 
 ## Sitemap
 

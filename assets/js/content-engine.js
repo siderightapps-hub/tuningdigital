@@ -104,17 +104,27 @@ AFFILIATE DISCLOSURE: Include a brief callout at the top noting some links may e
 
 STRUCTURE REQUIRED (in this exact order):
 1. Affiliate disclosure callout (see formatting below)
-2. A compelling intro that addresses the reader's problem (3–4 sentences, no "In this article...")
+2. A compelling intro that addresses the reader's problem (3–4 sentences, no "In this article..."). The FIRST sentence must be a direct, self-contained answer to the core question — the kind of line an AI assistant could quote verbatim (name the winner or the headline takeaway up front, don't bury it).
 3. A TL;DR / Quick Verdict block (see exact structure below) — front-loads the answer for featured snippets and AI citation engines
-4. 4–6 main H2 sections covering: what each tool is, key features, pricing, pros/cons, who it's best for
-5. A "Final Verdict" H2 with a clear recommendation, plus explicit "Best for" and "Avoid if" sentences
-6. A "Frequently Asked Questions" H2 with 4+ Q/A pairs. Each answer MUST be 1–3 sentences only — short enough to be lifted as a featured snippet or read aloud by a voice assistant
+4. An at-a-glance comparison table (see formatting below) — REQUIRED when the article compares two or more named tools; for list/guide articles, include a summary table of the options covered instead. Tables are the single most-cited element by AI answer engines, so this is mandatory, placed near the top.
+5. 4–6 main H2 sections covering: what each tool is, key features, pricing, pros/cons, who it's best for. Phrase at least TWO of the H2/H3 headings as the natural-language questions readers actually type or ask aloud (e.g. "Is Ahrefs or SEMrush better for beginners?", "Which one is cheaper for a solo user?") — these match how people and AI assistants phrase queries.
+6. A "Final Verdict" H2 with a clear recommendation, plus explicit "Best for" and "Avoid if" sentences
+7. A "Frequently Asked Questions" H2 with 4+ Q/A pairs. Each answer MUST be 1–3 sentences only — short enough to be lifted as a featured snippet or read aloud by a voice assistant
 
 CITATION REQUIREMENTS (GEO/AEO):
 - Include at least 3 outbound citations to authoritative sources within the body
   (official product pages, official pricing pages, published studies, or reputable
   tech publications like TechCrunch, The Verge, Wired). Use descriptive anchor text —
   never "click here" or "this article".
+- Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published
+  benchmark result, an official user/market-share number) and attribute each to its
+  source via the surrounding link. AI answer engines disproportionately cite content
+  that contains specific, sourced numbers rather than vague claims.
+- ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely
+  known from a real source, write qualitatively instead — don't fabricate a number.
+  Fabricated stats destroy editorial credibility and breach AdSense policy.
+- Entity grounding: the first mention of each named tool/brand should link to that
+  product's official website, so answer engines can disambiguate the entity cleanly.
 - Citations must use rel="noopener" and target="_blank" — and rel="nofollow sponsored"
   for any link to a product you may earn commission on.
 
@@ -138,6 +148,12 @@ FORMATTING REQUIREMENTS:
 - Include an <aside class="toc"> table of contents at the top, after the disclosure and intro
 - Bold key terms and tool names with <strong>
 - Use <ul> lists for pros/cons
+- Comparison/summary table: use <table class="compare-table"> with a <thead> row of
+  column headers (first column header is the dimension label e.g. "" or "Feature",
+  then one column per tool/option) and a <tbody> where each row's FIRST cell is the
+  dimension label (pricing entry point, free tier, best for, standout feature, learning
+  curve, integrations, etc.). 5–8 rows. Keep every cell terse and scannable — concise
+  cells are what get lifted verbatim into AI answers.
 - Include a <blockquote> with a realistic user quote for social proof
 - Affiliate disclosure: <div class="callout callout-accent">…</div>
 - TL;DR block: use EXACTLY this structure (do not deviate from the class names):

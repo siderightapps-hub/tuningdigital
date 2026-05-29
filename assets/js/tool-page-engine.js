@@ -167,20 +167,24 @@ TONE: Direct, knowledgeable, opinionated but fair — no fluff, no marketing-spe
 
 STRUCTURE REQUIRED (in this exact order):
 1. Affiliate disclosure callout
-2. A compelling intro (3–4 sentences) — what ${tool.name} is, why we're reviewing it, what makes our take different from the marketing copy you've already read elsewhere
+2. A compelling intro (3–4 sentences) — what ${tool.name} is, why we're reviewing it, what makes our take different from the marketing copy you've already read elsewhere. The FIRST sentence must be a direct, self-contained one-line summary of the verdict — the kind of line an AI assistant could quote verbatim.
 3. A TL;DR / Quick Verdict block (exact structure below) including the headline rating
-4. <h2>What Is ${tool.name}?</h2> — 2-3 paragraphs explaining the product and who it's built for. Include the vendor name and the year it launched if widely known
-5. <h2>Key Features</h2> — 4-6 features as H3 subsections, each with concrete examples not feature-list bullets
-6. <h2>Pricing</h2> — every paid tier with the headline price, what's included, and who each tier suits. Use a real HTML table
-7. <h2>Pros & Cons</h2> — two <ul> lists; 4-6 items each; opinionated, no fence-sitting
-8. <h2>How We Tested</h2> — 2-3 sentences on the methodology: "We used X for Y days on real work, ran benchmark tasks Z, etc." Be honest — say "limited hands-on testing" if the review is more analytical than empirical
-9. <h2>Who Should Use ${tool.name}?</h2> — explicit "Best for" persona descriptions (3-4)
-10. <h2>Who Should Avoid ${tool.name}?</h2> — explicit "Avoid if" disqualifying scenarios (2-3)
-11. <h2>Final Verdict</h2> — restate the rating, summarise the case in 2-3 sentences, end with a clear yes/no/maybe recommendation
-12. <h2>Frequently Asked Questions</h2> — 4+ Q/A pairs as <h3>Question</h3><p>Answer</p>. Each answer 1-3 sentences MAX — concise enough to be lifted as a featured snippet
+4. An "At a Glance" summary table (<table class="compare-table">) immediately after the TL;DR, with rows for: Category, Best for, Starting price, Free tier / trial, Platforms, Standout feature, and Rating (${tool.rating}/5). Terse cells only. Tables are the single most-cited element by AI answer engines, so this is mandatory.
+5. <h2>What Is ${tool.name}?</h2> — 2-3 paragraphs explaining the product and who it's built for. Include the vendor name and the year it launched if widely known
+6. <h2>Key Features</h2> — 4-6 features as H3 subsections, each with concrete examples not feature-list bullets
+7. <h2>Pricing</h2> — every paid tier with the headline price, what's included, and who each tier suits. Use a real HTML table
+8. <h2>Pros & Cons</h2> — two <ul> lists; 4-6 items each; opinionated, no fence-sitting
+9. <h2>How We Tested</h2> — 2-3 sentences on the methodology: "We used X for Y days on real work, ran benchmark tasks Z, etc." Be honest — say "limited hands-on testing" if the review is more analytical than empirical
+10. <h2>Who Should Use ${tool.name}?</h2> — explicit "Best for" persona descriptions (3-4)
+11. <h2>Who Should Avoid ${tool.name}?</h2> — explicit "Avoid if" disqualifying scenarios (2-3)
+12. <h2>Final Verdict</h2> — restate the rating, summarise the case in 2-3 sentences, end with a clear yes/no/maybe recommendation
+13. <h2>Frequently Asked Questions</h2> — 4+ Q/A pairs as <h3>Question</h3><p>Answer</p>. Each answer 1-3 sentences MAX — concise enough to be lifted as a featured snippet. Phrase at least one or two FAQ questions (or H3s elsewhere) as the exact natural-language queries people ask aloud (e.g. "Is ${tool.name} worth it for freelancers?", "Does ${tool.name} have a free plan?").
 
 CITATION REQUIREMENTS (GEO/AEO):
 - 3+ outbound citations to authoritative sources within the body — vendor docs, official pricing pages, reputable tech publications. Use descriptive anchor text — never "click here".
+- Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published benchmark, an official user/market-share number) and attribute each to its source via the surrounding link. AI answer engines disproportionately cite content with specific, sourced numbers.
+- ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely known from a real source, write qualitatively instead — fabricated stats destroy credibility and breach AdSense policy.
+- Entity grounding: the first mention of ${tool.name} (and any other named tool) should link to its official website so answer engines can disambiguate the entity.
 - Outbound citations: rel="noopener" target="_blank". The vendor's own URLs additionally get rel="nofollow sponsored" (affiliate placeholder).
 
 INTERNAL LINKING (SEO):
@@ -200,7 +204,7 @@ FORMATTING REQUIREMENTS:
 - Include an <aside class="toc"> table of contents at the top, after the disclosure and intro
 - Bold tool names and key terms with <strong>
 - Include a <blockquote> with a realistic user quote (no fake attribution to fake people — frame as "one reviewer noted" or similar)
-- Pricing table: real <table> with <thead> and <tbody>, simple inline styles fine
+- Tables (At-a-Glance + Pricing): use <table class="compare-table"> with <thead> and <tbody>. In the At-a-Glance table the first cell of each row is the dimension label; in the Pricing table the columns are the tiers. Keep cells terse and scannable — concise cells are what AI answer engines lift verbatim
 - Affiliate disclosure: <div class="callout callout-accent">…</div>
 - TL;DR block: use EXACTLY this structure (do not deviate from class names):
   <div class="tldr-box">
