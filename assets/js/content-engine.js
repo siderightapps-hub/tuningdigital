@@ -280,9 +280,6 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"${CONFIG.siteUrl}/"},{"@type":"ListItem","position":2,"name":"Blog","item":"${CONFIG.siteUrl}/blog/"},{"@type":"ListItem","position":3,"name":"${topic.title}","item":"${CONFIG.siteUrl}/blog/${topic.slug}.html"}]}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Review","itemReviewed":{"@type":"SoftwareApplication","name":"${topic.title.replace(/"/g, '\\"')}","applicationCategory":"BusinessApplication"},"reviewRating":{"@type":"Rating","ratingValue":"4.5","bestRating":"5","worstRating":"1"},"author":{"@type":"Person","name":"${CONFIG.authorName}","url":"${CONFIG.siteUrl}/about.html#editor"},"publisher":{"@type":"Organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}"},"datePublished":"${isoDate}","reviewBody":"Independent review and comparison covering ${topic.category.toLowerCase()}: ${topic.title.replace(/"/g, '\\"')}. Real-world testing, honest pros and cons, and a clear verdict on who each tool is best for."}
-  </script>
-  <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","url":"${CONFIG.siteUrl}/blog/${topic.slug}.html","speakable":{"@type":"SpeakableSpecification","cssSelector":[".tldr-box",".tldr-summary",".tldr-list"]}}
   </script>${faqJsonLd}
   <!-- Google Consent Mode v2 (default DENIED — GDPR/PECR strict) -->
