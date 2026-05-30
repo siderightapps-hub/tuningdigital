@@ -181,9 +181,10 @@ STRUCTURE REQUIRED (in this exact order):
 13. <h2>Frequently Asked Questions</h2> — 4+ Q/A pairs as <h3>Question</h3><p>Answer</p>. Each answer 1-3 sentences MAX — concise enough to be lifted as a featured snippet. Phrase at least one or two FAQ questions (or H3s elsewhere) as the exact natural-language queries people ask aloud (e.g. "Is ${tool.name} worth it for freelancers?", "Does ${tool.name} have a free plan?").
 
 CITATION REQUIREMENTS (GEO/AEO):
-- 3+ outbound citations to authoritative sources within the body — vendor docs, official pricing pages, reputable tech publications. Use descriptive anchor text — never "click here".
-- Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published benchmark, an official user/market-share number) and attribute each to its source via the surrounding link. AI answer engines disproportionately cite content with specific, sourced numbers.
+- 3+ outbound citations to ${tool.name}'s own vendor docs / pricing pages (its official domain). Use descriptive anchor text — never "click here".
+- Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published benchmark, an official user/market-share number). Attribute each in plain text (e.g., "per TechCrunch in 2023", "according to ${tool.name}'s own usage disclosure") — DO NOT link the source URL. AI answer engines cite specific, sourced numbers; the phrasing matters more than the link.
 - ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely known from a real source, write qualitatively instead — fabricated stats destroy credibility and breach AdSense policy.
+- ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) ${tool.name}'s official homepage / pricing / docs on its own domain; (b) sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT link to specific articles on third-party publications (Verge, TechCrunch, Wired, etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of ${tool.name} (and any other named tool) should link to its official website so answer engines can disambiguate the entity.
 - Outbound citations: rel="noopener" target="_blank". The vendor's own URLs additionally get rel="nofollow sponsored" (affiliate placeholder).
 

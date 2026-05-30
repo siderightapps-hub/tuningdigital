@@ -118,12 +118,18 @@ CITATION REQUIREMENTS (GEO/AEO):
   tech publications like TechCrunch, The Verge, Wired). Use descriptive anchor text —
   never "click here" or "this article".
 - Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published
-  benchmark result, an official user/market-share number) and attribute each to its
-  source via the surrounding link. AI answer engines disproportionately cite content
-  that contains specific, sourced numbers rather than vague claims.
+  benchmark result, an official user/market-share number). Attribute each in plain text
+  (e.g., "per TechCrunch in 2023", "according to Notion's own usage disclosure") —
+  DO NOT link the source URL. AI answer engines cite content with specific, sourced
+  numbers; the citation phrasing matters more than the link.
 - ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely
   known from a real source, write qualitatively instead — don't fabricate a number.
   Fabricated stats destroy editorial credibility and breach AdSense policy.
+- ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) each named
+  tool's official homepage / pricing / docs page on its own domain; (b) the
+  sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT
+  link to specific articles on third-party publications (Verge, TechCrunch, Wired,
+  etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of each named tool/brand should link to that
   product's official website, so answer engines can disambiguate the entity cleanly.
 - Citations must use rel="noopener" and target="_blank" — and rel="nofollow sponsored"
