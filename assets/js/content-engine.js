@@ -433,6 +433,29 @@ function callClaude(prompt) {
 }
 
 // ─── GENERATE ARTICLE ─────────────────────────────────────
+// ─── SAAS CALCULATOR CTA INJECTION ────────────────────────
+// For SaaS-related articles, inject the calculator callout before the FAQ
+// section (or at the end if no FAQ). Keeps engine + hand-written articles
+// consistent and turns relevant traffic into tool usage.
+function injectSaasCalculatorCta(topic, body) {
+  const text = (topic.title + ' ' + (topic.keywords || []).join(' ') + ' ' + topic.category).toLowerCase();
+  if (!/saas|cost|spend|subscription|stack|consolidat/.test(text)) return body;
+  const cta = `\n<aside class="calc-cta" style="margin:36px 0;padding:24px;background:linear-gradient(135deg,var(--surface-2),var(--surface-3));border:1px solid rgba(0,229,212,.35);border-radius:14px">
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="font-size:2.4rem;line-height:1">💸</div>
+    <div style="flex:1;min-width:220px">
+      <h3 style="font-family:var(--font-display);font-size:1.15rem;margin:0 0 6px;color:var(--text)">Audit your SaaS stack in 60 seconds</h3>
+      <p style="margin:0;color:var(--text-dim);font-size:.92rem">Our free calculator surfaces your true annual spend, flags overlapping tools, and lets you share a link with your team. No signup.</p>
+    </div>
+    <a href="/tools/saas-cost-calculator.html" class="btn btn-primary" style="white-space:nowrap">Open Calculator →</a>
+  </div>
+</aside>\n`;
+  if (/<h2[^>]*>\s*Frequently Asked Questions\s*<\/h2>/i.test(body)) {
+    return body.replace(/(<h2[^>]*>\s*Frequently Asked Questions\s*<\/h2>)/i, cta + '\n$1');
+  }
+  return body + cta;
+}
+
 async function generateArticle(topic) {
   if (!CONFIG.apiKey) {
     throw new Error('ANTHROPIC_API_KEY environment variable not set');
@@ -441,9 +464,10 @@ async function generateArticle(topic) {
   console.log(`\n📝 Generating: "${topic.title}"...`);
   const prompt = buildPrompt(topic);
   const articleHtml = await callClaude(prompt);
+  const articleHtmlWithCta = injectSaasCalculatorCta(topic, articleHtml);
 
   const publishDate = new Date().toISOString();
-  const fullPage = wrapInTemplate(topic, articleHtml, publishDate);
+  const fullPage = wrapInTemplate(topic, articleHtmlWithCta, publishDate);
 
   const outputPath = path.join(CONFIG.outputDir, `${topic.slug}.html`);
   fs.mkdirSync(CONFIG.outputDir, { recursive: true });
