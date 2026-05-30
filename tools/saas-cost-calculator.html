@@ -186,6 +186,21 @@
           <button class="btn btn-ghost btn-sm" id="shareBtn">🔗 Copy Share Link</button>
           <button class="btn btn-ghost btn-sm" id="clearBtn" style="color:var(--red)">✕ Clear All</button>
         </div>
+
+        <!-- Share callout — appears when there's data to share -->
+        <div id="shareCallout" style="display:none;margin-top:20px;padding:18px;background:var(--accent-glow);border:1px solid rgba(0,229,212,.35);border-radius:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px">
+              <div style="font-family:var(--font-display);font-weight:700;color:var(--accent);font-size:1.02rem">💡 Share this audit with your team</div>
+              <div style="font-size:.86rem;color:var(--text-dim);margin-top:4px">Send the link to your CFO or co-founder — it loads your exact stack, no signup.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-primary btn-sm" id="copyShareBtn">🔗 Copy Link</button>
+              <button class="btn btn-ghost btn-sm" id="tweetShareBtn">𝕏 Tweet</button>
+              <button class="btn btn-ghost btn-sm" id="linkedinShareBtn">in Share</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Sidebar -->
@@ -228,7 +243,7 @@
         <div class="sidebar-card mt-16" style="background:var(--accent-glow);border-color:rgba(0,229,212,.2)">
           <h4>Need to Cut Costs?</h4>
           <p style="font-size:.85rem;margin:8px 0 14px;max-width:none">Read our guide on auditing your stack and negotiating SaaS contracts.</p>
-          <a href="/blog/" class="btn btn-primary btn-sm w-full" style="justify-content:center">Read the Guide →</a>
+          <a href="/blog/reduce-saas-spend-guide.html" class="btn btn-primary btn-sm w-full" style="justify-content:center">Read the Guide →</a>
         </div>
       </div>
     </div>
@@ -385,6 +400,7 @@ function updateCalc(){
   // Save to localStorage
   try{localStorage.setItem('td_calc_tools',JSON.stringify(tools));localStorage.setItem('td_calc_nextId',nextId);}catch(e){}
   document.getElementById('lastUpdated').textContent='Auto-saved · '+new Date().toLocaleTimeString();
+  document.getElementById('shareCallout').style.display=tools.length?'':'none';
 }
 
 // Quick add buttons
@@ -414,11 +430,40 @@ document.getElementById('exportCSV').addEventListener('click',()=>{
   gtag('event','export_csv',{tool:'saas_calculator'});
 });
 
-// Share link
-document.getElementById('shareBtn').addEventListener('click',()=>{
+// Share — toast + 3-way share (toolbar button + prominent callout)
+let toastEl;
+function showToast(msg){
+  if(!toastEl){
+    toastEl=document.createElement('div');
+    toastEl.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--surface-3);border:1px solid var(--accent);color:var(--text);padding:12px 20px;border-radius:10px;z-index:9999;opacity:0;transition:all .3s ease;font-family:var(--font-display);font-size:.94rem;box-shadow:0 12px 32px rgba(0,0,0,.4);max-width:90vw;text-align:center';
+    document.body.appendChild(toastEl);
+  }
+  toastEl.textContent=msg;
+  toastEl.style.opacity='1';
+  toastEl.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(toastEl._t);
+  toastEl._t=setTimeout(()=>{toastEl.style.opacity='0';toastEl.style.transform='translateX(-50%) translateY(120px)';},2800);
+}
+function buildShareUrl(){
   const encoded=btoa(JSON.stringify(tools.map(t=>({n:t.name,c:t.cost,b:t.billing,cat:t.cat}))));
-  const url=window.location.origin+window.location.pathname+'?stack='+encoded;
-  navigator.clipboard.writeText(url).then(()=>alert('Share link copied to clipboard!'));
+  return window.location.origin+window.location.pathname+'?stack='+encoded;
+}
+document.getElementById('shareBtn').addEventListener('click',()=>{
+  navigator.clipboard.writeText(buildShareUrl()).then(()=>showToast('Link copied — paste it to share your audit'));
+  gtag('event','share_copy_toolbar',{tool:'saas_calculator'});
+});
+document.getElementById('copyShareBtn').addEventListener('click',()=>{
+  navigator.clipboard.writeText(buildShareUrl()).then(()=>showToast('Link copied — paste it to share your audit'));
+  gtag('event','share_copy',{tool:'saas_calculator'});
+});
+document.getElementById('tweetShareBtn').addEventListener('click',()=>{
+  const text=encodeURIComponent("Just audited my SaaS stack with this calculator — see your true annual spend + overlapping tools 👇");
+  window.open('https://twitter.com/intent/tweet?text='+text+'&url='+encodeURIComponent(buildShareUrl()),'_blank','noopener');
+  gtag('event','share_twitter',{tool:'saas_calculator'});
+});
+document.getElementById('linkedinShareBtn').addEventListener('click',()=>{
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(buildShareUrl()),'_blank','noopener');
+  gtag('event','share_linkedin',{tool:'saas_calculator'});
 });
 
 // Clear
@@ -432,7 +477,7 @@ document.getElementById('clearBtn').addEventListener('click',()=>{
 
 // Save
 document.getElementById('saveBtn').addEventListener('click',()=>{
-  try{localStorage.setItem('td_calc_tools',JSON.stringify(tools));alert('Saved to browser storage!');}catch(e){alert('Could not save');}
+  try{localStorage.setItem('td_calc_tools',JSON.stringify(tools));showToast('Saved to browser storage');}catch(e){showToast('Could not save');}
 });
 
 // Load from URL param
