@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tuning Digital — LinkedIn company page banner
+  1128×191 SVG (LinkedIn's exact required aspect, ~5.9:1).
+
+  Layout notes:
+    - LinkedIn overlays the company logo at the bottom-left of the banner
+      (roughly 130px circle). Critical content kept above + right of that.
+    - Wordmark + tagline + URL biased to upper-left.
+    - Decorative tuning dial on the right.
+
+  Source for the LinkedIn PNG upload: rendered via rsvg-convert.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1128" height="191" viewBox="0 0 1128 191">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"  stop-color="#0b1430"/>
+      <stop offset="55%" stop-color="#0b0e1c"/>
+      <stop offset="100%" stop-color="#060812"/>
+    </linearGradient>
+    <radialGradient id="cyanGlow" cx="88%" cy="50%" r="42%">
+      <stop offset="0%"  stop-color="#00e5d4" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#00e5d4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="amberGlow" cx="18%" cy="85%" r="28%">
+      <stop offset="0%"  stop-color="#ffb347" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dotGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#343960" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1128" height="191" fill="url(#bg)"/>
+  <rect width="1128" height="191" fill="url(#dotGrid)"/>
+  <rect width="1128" height="191" fill="url(#cyanGlow)"/>
+  <rect width="1128" height="191" fill="url(#amberGlow)"/>
+
+  <!-- Tuning-dial mark on the right -->
+  <g transform="translate(1015, 95)">
+    <circle r="65" fill="none" stroke="#00e5d4" stroke-width="2" opacity="0.22"/>
+    <circle r="50" fill="none" stroke="#00e5d4" stroke-width="2" opacity="0.40"/>
+    <circle r="36" fill="none" stroke="#00e5d4" stroke-width="3"/>
+    <circle r="11" fill="#00e5d4"/>
+    <g stroke="#00e5d4" stroke-width="3" stroke-linecap="round">
+      <line x1="0"   y1="-60" x2="0"   y2="-46"/>
+      <line x1="0"   y1="46"  x2="0"   y2="60"/>
+      <line x1="-60" y1="0"   x2="-46" y2="0"/>
+      <line x1="46"  y1="0"   x2="60"  y2="0"/>
+    </g>
+  </g>
+
+  <!-- Eyebrow + wordmark + tagline + URL -->
+  <g font-family="'Syne', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <text x="80" y="50"
+          font-size="13"
+          font-weight="600"
+          fill="#00e5d4"
+          letter-spacing="3.5"
+          font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
+      INDEPENDENT · NO PAY-TO-RANK
+    </text>
+
+    <text x="80" y="100"
+          font-size="46"
+          font-weight="700"
+          fill="#e2e6f3"
+          letter-spacing="-1">
+      Tuning Digital
+    </text>
+
+    <text x="80" y="135"
+          font-size="18"
+          font-weight="400"
+          fill="#9aa1c4"
+          font-family="'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+      AI &amp; SaaS productivity tools, reviewed honestly.
+    </text>
+
+    <text x="80" y="167"
+          font-size="14"
+          font-weight="500"
+          fill="#00e5d4"
+          letter-spacing="0.5"
+          font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
+      tuningdigital.com
+    </text>
+  </g>
+</svg>
