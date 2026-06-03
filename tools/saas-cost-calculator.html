@@ -251,6 +251,41 @@
   </div>
 </section>
 
+<!-- Methodology — explanatory prose under the calculator -->
+<section class="section" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div style="max-width:780px;margin:0 auto">
+      <h2 id="how-it-works">How this audit works</h2>
+      <p>Most teams underestimate their SaaS spend by 30–40%. Subscriptions are scattered across personal cards, departmental budgets, and annual contracts billed once a year so they fall out of mind. This calculator pulls them into one view and surfaces where the slack is.</p>
+
+      <h3>What the stack score means</h3>
+      <p>The score (0–100) penalises two things: <strong>tool count</strong> (more than 10 tools deducts 10 points; more than 15 deducts 20) and <strong>category overlap</strong> (multiple AI tools, multiple project trackers, or multiple design apps each deduct 15). A score above 80 means a lean stack. Below 60 usually signals consolidation opportunity worth hundreds to thousands of pounds a year.</p>
+
+      <h3>Common patterns we see</h3>
+      <ul>
+        <li><strong>The "we tried it and never cancelled" stack:</strong> three or four productivity apps from previous quarters, all auto-renewing. Audit for last-login dates first — these are the easiest cuts.</li>
+        <li><strong>Personal-card sprawl:</strong> individual team members expensing their own subscriptions. Centralise billing to one account for visibility and bulk-discount leverage at renewal.</li>
+        <li><strong>The annual-contract trap:</strong> tools billed yearly look cheap monthly but lock you in. Switch to monthly while you're evaluating, annual only once you're committed.</li>
+        <li><strong>Free-tier outgrowth:</strong> tools adopted on a free plan that quietly migrated to a paid tier as the team grew. Review every "starter" plan quarterly.</li>
+        <li><strong>Shadow IT:</strong> tools individuals signed up for without ops knowing. SSO logs often surface these — anything authenticated via Google or Microsoft SSO leaves a trail.</li>
+      </ul>
+
+      <h3>What to do with your numbers</h3>
+      <ol>
+        <li>Sort by category in the breakdown bars. Anywhere with three or more tools is a consolidation target.</li>
+        <li>Check actual usage in each tool's admin dashboard before cutting. Kill licences for users who haven't logged in within the last 30 days — typically 15–25% of seats sit unused.</li>
+        <li>For tools you keep, request a discount on annual renewal. Vendors will often offer 10–20% off to retain rather than risk churn, especially in the last 60–90 days of a contract.</li>
+        <li>Use the share link to send the audit to your CFO or co-founder. Cost decisions land better when they're shared decisions backed by a number.</li>
+      </ol>
+
+      <h3>How your data is handled</h3>
+      <p>Nothing leaves your browser. Your entered subscriptions are stored in <code>localStorage</code> only, and the share URL encodes the data in the URL itself — no server, no database, no signup. You can verify this by viewing the page source or watching the network tab while you use the tool.</p>
+
+      <p>This calculator is one of several free utilities we publish at Tuning Digital. For a longer-form take on the same topic, see our <a href="/blog/reduce-saas-spend-guide.html">guide to reducing SaaS spend by 40%</a> — it covers the audit playbook step-by-step, including how to handle vendor negotiation and what to escalate to your finance team.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer>
   <div class="container">
