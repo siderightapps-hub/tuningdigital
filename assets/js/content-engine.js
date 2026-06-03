@@ -132,8 +132,11 @@ CITATION REQUIREMENTS (GEO/AEO):
   etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of each named tool/brand should link to that
   product's official website, so answer engines can disambiguate the entity cleanly.
-- Citations must use rel="noopener" and target="_blank" — and rel="nofollow sponsored"
-  for any link to a product you may earn commission on.
+- External links use rel="noopener" target="_blank". DEFAULT IS DOFOLLOW (editorial
+  citation — passes authority, signals real-publication trust, improves E-E-A-T).
+  ONLY add nofollow/sponsored if the URL is an ACTIVE affiliate link. No affiliate
+  programmes are currently approved, so use plain rel="noopener" on every external
+  link. Do NOT preemptively tag vendor URLs as nofollow/sponsored.
 
 INTERNAL LINKING (SEO):
 - Add inline contextual links to other articles on tuningdigital.com using

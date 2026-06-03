@@ -186,7 +186,7 @@ CITATION REQUIREMENTS (GEO/AEO):
 - ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely known from a real source, write qualitatively instead — fabricated stats destroy credibility and breach AdSense policy.
 - ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) ${tool.name}'s official homepage / pricing / docs on its own domain; (b) sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT link to specific articles on third-party publications (Verge, TechCrunch, Wired, etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of ${tool.name} (and any other named tool) should link to its official website so answer engines can disambiguate the entity.
-- Outbound citations: rel="noopener" target="_blank". The vendor's own URLs additionally get rel="nofollow sponsored" (affiliate placeholder).
+- Outbound citations: rel="noopener" target="_blank". DEFAULT IS DOFOLLOW (editorial citation — passes authority, signals real-publication trust). ONLY add nofollow/sponsored if ${tool.name}'s URL is an ACTIVE affiliate link. No affiliate programmes are currently approved, so use plain rel="noopener" on every external link.
 
 INTERNAL LINKING (SEO):
 - Add inline contextual links to other content on tuningdigital.com using descriptive anchor text where natural.
