@@ -8,7 +8,7 @@
 **Editor:** Alex Bacsa, Founder & Editor (real-name identity since 2026-05-26; do NOT reintroduce the earlier "Sam Carter" placeholder).
 
 **Sister publications** (same editor, distinct editorial focus, linked via Person `sameAs` + sister-pubs footer block):
-[SalesTap.com](https://salestap.com) (B2B sales) · [CloudFintech.ai](https://cloudfintech.ai) (fintech)
+[SalesTap.com](https://salestap.com) (B2B sales) · [CloudFintech.ai](https://cloudfintech.ai) (fintech) · [BeatTheScam.com](https://beatthescam.com) (UK consumer protection)
 
 For full project context (architecture, credentials, editorial standards, agenda), see [Template.md](../MD%20Files/TuningDigital/Template.md). For Claude Code session guidance, see [CLAUDE.md](CLAUDE.md).
 

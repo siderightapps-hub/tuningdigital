@@ -127,7 +127,8 @@ CITATION REQUIREMENTS (GEO/AEO):
   Fabricated stats destroy editorial credibility and breach AdSense policy.
 - ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) each named
   tool's official homepage / pricing / docs page on its own domain; (b) the
-  sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT
+  sister-publication URLs (https://salestap.com, https://cloudfintech.ai,
+  https://beatthescam.com). Do NOT
   link to specific articles on third-party publications (Verge, TechCrunch, Wired,
   etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of each named tool/brand should link to that
@@ -388,7 +389,8 @@ ${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title
     <div class="footer-sister-pubs" style="border-top:0.5px solid #1c2040;margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5c6488;text-align:center;font-family:'JetBrains Mono',monospace;">
       Sister publications &middot;
       <a href="https://salestap.com" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">SalesTap</a> &middot;
-      <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">CloudFintech</a>
+      <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">CloudFintech</a> &middot;
+      <a href="https://beatthescam.com" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">Beat the Scam</a>
     </div>
   </div>
 </footer>

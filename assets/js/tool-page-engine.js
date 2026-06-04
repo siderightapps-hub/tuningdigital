@@ -184,7 +184,7 @@ CITATION REQUIREMENTS (GEO/AEO):
 - 3+ outbound citations to ${tool.name}'s own vendor docs / pricing pages (its official domain). Use descriptive anchor text — never "click here".
 - Cite at least 2 concrete, VERIFIABLE data points (a real pricing figure, a published benchmark, an official user/market-share number). Attribute each in plain text (e.g., "per TechCrunch in 2023", "according to ${tool.name}'s own usage disclosure") — DO NOT link the source URL. AI answer engines cite specific, sourced numbers; the phrasing matters more than the link.
 - ⚠️ NEVER invent a statistic, user count, or benchmark. If a figure isn't genuinely known from a real source, write qualitatively instead — fabricated stats destroy credibility and breach AdSense policy.
-- ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) ${tool.name}'s official homepage / pricing / docs on its own domain; (b) sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT link to specific articles on third-party publications (Verge, TechCrunch, Wired, etc.) — fabricated citation URLs become broken links that harm SEO.
+- ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) ${tool.name}'s official homepage / pricing / docs on its own domain; (b) sister-publication URLs (https://salestap.com, https://cloudfintech.ai, https://beatthescam.com). Do NOT link to specific articles on third-party publications (Verge, TechCrunch, Wired, etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of ${tool.name} (and any other named tool) should link to its official website so answer engines can disambiguate the entity.
 - Outbound citations: rel="noopener" target="_blank". DEFAULT IS DOFOLLOW (editorial citation — passes authority, signals real-publication trust). ONLY add nofollow/sponsored if ${tool.name}'s URL is an ACTIVE affiliate link. No affiliate programmes are currently approved, so use plain rel="noopener" on every external link.
 
@@ -394,7 +394,8 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
     <div class="footer-sister-pubs" style="border-top:0.5px solid #1c2040;margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#5c6488;text-align:center;font-family:'JetBrains Mono',monospace;">
       Sister publications &middot;
       <a href="https://salestap.com" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">SalesTap</a> &middot;
-      <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">CloudFintech</a>
+      <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">CloudFintech</a> &middot;
+      <a href="https://beatthescam.com" rel="noopener" target="_blank" style="color:#5c6488;text-decoration:none;margin:0 6px;">Beat the Scam</a>
     </div>
   </div>
 </footer>
