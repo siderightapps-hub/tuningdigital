@@ -54,7 +54,8 @@ async function verifyToken(message, token, secret) {
 
 async function buildUnsubscribeUrl(email, secret) {
   const token = await hmacToken(email, secret);
-  return `https://tuningdigital.com/u?email=${encodeURIComponent(email)}&token=${token}`;
+  // unsub.tuningdigital.com is a Worker Custom Domain — bypasses CF Routes layer.
+  return `https://unsub.tuningdigital.com/?email=${encodeURIComponent(email)}&token=${token}`;
 }
 
 // ─── CORS / JSON helpers ───────────────────────────────────
@@ -381,6 +382,13 @@ async function handleUnsubscribe(request, env) {
 }
 
 // ─── Main router ───────────────────────────────────────────
+// Routing strategy:
+//   tuningdigital.com/api/subscribe     → handleSubscribe   (via Worker Route)
+//   unsub.tuningdigital.com/* (any path) → handleUnsubscribe (via Worker Custom Domain)
+//
+// Custom Domains use a different internal CF mechanism than Routes — they're
+// DNS-bound to the Worker and bypass the route-matching layer that was getting
+// stuck on /u/(/api/unsubscribe routes earlier in this Worker's history.
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
@@ -390,11 +398,15 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
+    // Anything on unsub.tuningdigital.com is an unsubscribe request — regardless
+    // of path. Custom Domain catches the whole hostname.
+    if (url.hostname === 'unsub.tuningdigital.com') {
+      return handleUnsubscribe(request, env);
+    }
+
+    // Apex / www domain — only /api/subscribe is exposed.
     if (url.pathname === '/api/subscribe') {
       return handleSubscribe(request, env, ctx, origin);
-    }
-    if (url.pathname === '/u') {
-      return handleUnsubscribe(request, env);
     }
 
     return json({ error: 'not_found' }, 404, origin);

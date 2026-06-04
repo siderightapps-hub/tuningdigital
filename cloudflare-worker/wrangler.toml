@@ -2,13 +2,13 @@ name = "tuningdigital-subscribe"
 main = "worker.js"
 compatibility_date = "2026-06-04"
 
-# Route this Worker at /api/subscribe and /u.
-# Cloudflare intercepts those paths before they reach the GH Pages origin.
+# Route this Worker at the subscribe paths only.
+# Unsubscribe is handled via a Worker Custom Domain (unsub.tuningdigital.com)
+# configured in the dashboard, NOT via routes here — Custom Domains use a
+# different internal CF mechanism that's more reliable than path-based Routes.
 routes = [
   { pattern = "tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
   { pattern = "www.tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
-  { pattern = "tuningdigital.com/u", zone_name = "tuningdigital.com" },
-  { pattern = "www.tuningdigital.com/u", zone_name = "tuningdigital.com" },
 ]
 
 # Observability — keep logs flowing in `wrangler tail`
