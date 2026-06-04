@@ -127,8 +127,7 @@ CITATION REQUIREMENTS (GEO/AEO):
   Fabricated stats destroy editorial credibility and breach AdSense policy.
 - ⚠️ NEVER invent a URL. The ONLY external links you may include are: (a) each named
   tool's official homepage / pricing / docs page on its own domain; (b) the
-  sister-publication URLs (https://salestap.com, https://cloudfintech.ai,
-  https://beatthescam.com). Do NOT
+  sister-publication URLs (https://salestap.com, https://cloudfintech.ai). Do NOT
   link to specific articles on third-party publications (Verge, TechCrunch, Wired,
   etc.) — fabricated citation URLs become broken links that harm SEO.
 - Entity grounding: the first mention of each named tool/brand should link to that
