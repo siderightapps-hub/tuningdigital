@@ -47,17 +47,73 @@
 })();
 
 // ─── Newsletter Form ──────────────────────────────────────
+// Newsletter signup — AJAX POST to /api/subscribe (Cloudflare Worker → Resend).
+// Replaces the previous beehiiv embed (which carried two third-party scripts +
+// rendered with its own styling). Native form + this handler keeps everything
+// on-theme and removes the loader.js / attribution.js requests entirely.
 (function(){
   var form = document.getElementById('newsletterForm');
   if(!form) return;
+
+  var status = document.getElementById('newsletterStatus');
+  var emailInput = form.querySelector('input[name="email"]');
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var originalBtnText = submitBtn ? submitBtn.textContent : 'Subscribe';
+
+  function setStatus(msg, kind){
+    if(!status) return;
+    status.textContent = msg || '';
+    status.className = 'newsletter-status' + (kind ? ' ' + kind : '');
+  }
+
   form.addEventListener('submit', function(e){
-    var btn = form.querySelector('button[type=submit]');
-    if(btn) btn.textContent = 'Subscribing...';
-    // Analytics event
-    if(typeof gtag !== 'undefined'){
-      gtag('event', 'newsletter_subscribe', { event_category: 'engagement' });
+    e.preventDefault();
+    var email = ((emailInput && emailInput.value) || '').trim();
+    var honeypotField = form.querySelector('input[name="website"]');
+    var honeypot = (honeypotField && honeypotField.value) || '';
+
+    if(!email){
+      setStatus('Please enter your email.', 'error');
+      return;
     }
-    // Form will submit naturally to action URL
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Subscribing…';
+    setStatus('', '');
+
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ email: email, website: honeypot })
+    })
+    .then(function(resp){
+      return resp.json().catch(function(){ return {}; }).then(function(data){
+        return { ok: resp.ok, data: data };
+      });
+    })
+    .then(function(r){
+      if(r.ok && r.data && r.data.success){
+        if(r.data.already_subscribed){
+          setStatus('You\'re already subscribed — nothing to do.', 'success');
+        } else {
+          setStatus('You\'re in. Check your inbox for a welcome email.', 'success');
+        }
+        form.reset();
+        if(typeof gtag !== 'undefined'){
+          gtag('event', 'newsletter_subscribe', { event_category: 'engagement' });
+        }
+      } else {
+        var detail = (r.data && (r.data.detail || r.data.error)) || 'Subscription failed. Try again?';
+        setStatus(detail, 'error');
+      }
+    })
+    .catch(function(){
+      setStatus('Network error. Check your connection and try again.', 'error');
+    })
+    .then(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    });
   });
 })();
 

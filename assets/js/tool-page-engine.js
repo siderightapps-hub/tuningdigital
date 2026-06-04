@@ -400,8 +400,6 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
   </div>
 </footer>
 <script src="/assets/js/main.js"></script>
-<!-- Beehiiv attribution tracking — captures UTM params for newsletter signups -->
-<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 </body>
 </html>`;
 }

@@ -302,9 +302,12 @@
       <p class="label">Never Miss a Review</p>
       <h2 style="margin-top:10px">New tools. Zero fluff. Weekly.</h2>
       <p style="margin-top:12px;max-width:44ch">Get independent AI and SaaS tool reviews delivered weekly.</p>
-      <div class="beehiiv-embed">
-        <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="c469056c-9905-42d5-b7a5-3e3be95b91f2"></script>
-      </div>
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <input type="email" name="email" required placeholder="Enter your email" autocomplete="email" aria-label="Email address">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="newsletter-honeypot" aria-hidden="true">
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></p>
     </div>
   </div>
 </section>
@@ -352,7 +355,5 @@ if(blogFilters){
   });
 }
 </script>
-<!-- Beehiiv attribution tracking — captures UTM params for newsletter signups -->
-<script type="text/javascript" async src="https://subscribe-forms.beehiiv.com/attribution.js"></script>
 </body>
 </html>

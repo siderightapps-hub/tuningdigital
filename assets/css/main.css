@@ -502,6 +502,51 @@ input[type=range]::-webkit-slider-thumb{
   background:var(--accent);box-shadow:0 0 8px var(--accent-glow);
 }
 
+/* ─── NEWSLETTER FORM (native, replaces beehiiv embed) ───── */
+.newsletter-form{
+  display:flex;gap:8px;flex-wrap:wrap;
+  max-width:480px;
+  position:relative; /* honeypot positioning anchor */
+}
+.newsletter-form input[type="email"]{
+  flex:1;min-width:200px;
+  padding:12px 16px;font-size:.94rem;
+  background:var(--surface);color:var(--text);
+  border:1px solid var(--border);border-radius:8px;
+  font-family:var(--font-body);
+  transition:border-color .15s;
+}
+.newsletter-form input[type="email"]:focus{
+  outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-glow);
+}
+.newsletter-form button[type="submit"]{
+  padding:12px 22px;font-size:.94rem;font-weight:600;
+  background:var(--accent);color:#ffffff;
+  border:none;border-radius:8px;
+  font-family:var(--font-body);
+  cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.newsletter-form button[type="submit"]:hover:not(:disabled){
+  background:#0040cc;
+  transform:translateY(-1px);
+}
+.newsletter-form button[type="submit"]:disabled{
+  opacity:.55;cursor:not-allowed;
+}
+.newsletter-honeypot{
+  position:absolute !important;left:-9999px !important;top:-9999px !important;
+  width:1px !important;height:1px !important;
+  opacity:0 !important;pointer-events:none;
+}
+.newsletter-status{
+  margin:12px 0 0;font-size:.88rem;
+  min-height:1.2em;
+}
+.newsletter-status.success{color:var(--accent)}
+.newsletter-status.error{color:var(--red)}
+
 /* ─── FOOTER ─────────────────────────────────────────────── */
 footer{
   background:var(--surface);border-top:1px solid var(--border);
