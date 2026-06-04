@@ -167,30 +167,30 @@
   banner.innerHTML = `
     <div style="
       position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;
-      background:#ffffff;border:1px solid #e8e4d8;border-radius:16px;
+      background:#ffffff;border:1px solid #e2e0d8;border-radius:16px;
       padding:20px 24px;max-width:680px;width:calc(100% - 48px);
       display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
-      box-shadow:0 8px 40px rgba(15,17,23,.12);
+      box-shadow:0 8px 40px rgba(13,13,18,.12);
       font-family:'DM Sans',sans-serif;
     ">
       <div style="flex:1;min-width:240px">
         <p style="
-          font-size:.85rem;color:#56596a;margin:0;line-height:1.55;max-width:none;
+          font-size:.85rem;color:#6b6a64;margin:0;line-height:1.55;max-width:none;
         ">
           🍪 We use cookies for analytics (GA4) and personalised ads (AdSense).
-          See our <a href="/privacy-policy.html#cookies" style="color:#00a896;text-decoration:underline">Cookie Policy</a>.
+          See our <a href="/privacy-policy.html#cookies" style="color:#0052ff;text-decoration:underline">Cookie Policy</a>.
         </p>
       </div>
       <div style="display:flex;gap:10px;flex-shrink:0">
         <button id="cookie-decline" style="
           font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;
-          padding:9px 18px;border-radius:8px;border:1px solid #e8e4d8;
-          background:none;color:#56596a;cursor:pointer;transition:all .2s;
+          padding:9px 18px;border-radius:8px;border:1px solid #e2e0d8;
+          background:none;color:#6b6a64;cursor:pointer;transition:all .2s;
         ">Decline</button>
         <button id="cookie-accept" style="
           font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;
           padding:9px 18px;border-radius:8px;border:none;
-          background:#00a896;color:#ffffff;cursor:pointer;transition:all .2s;
+          background:#0052ff;color:#ffffff;cursor:pointer;transition:all .2s;
         ">Accept All</button>
       </div>
     </div>
