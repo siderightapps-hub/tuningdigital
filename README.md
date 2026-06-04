@@ -118,7 +118,7 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | X handle | `@TuningDigital` | `index.html` Twitter card meta + sidebar bio |
 | Beehiiv form | `c469056c-9905-42d5-b7a5-3e3be95b91f2` | homepage, blog index, tools index newsletter sections |
 | Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
-| Operator LinkedIn | https://www.linkedin.com/in/alex-bacsa-a06b95410/ | About page Editor card + Person JSON-LD `sameAs` |
+| Operator LinkedIn | https://www.linkedin.com/in/alexbacsa/ | About page Editor card + Person JSON-LD `sameAs` |
 
 ---
 
