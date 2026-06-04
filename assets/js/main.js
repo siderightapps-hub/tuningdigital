@@ -48,9 +48,9 @@
 
 // ─── Newsletter Form ──────────────────────────────────────
 // Newsletter signup — AJAX POST to /api/subscribe (Cloudflare Worker → Resend).
-// Replaces the previous beehiiv embed (which carried two third-party scripts +
-// rendered with its own styling). Native form + this handler keeps everything
-// on-theme and removes the loader.js / attribution.js requests entirely.
+// Worker code lives in /cloudflare-worker/. Subscribe runs on tuningdigital.com;
+// the welcome email's unsubscribe link points at unsub.tuningdigital.com (Worker
+// Custom Domain, set up via CF dashboard — not in wrangler.toml).
 (function(){
   var form = document.getElementById('newsletterForm');
   if(!form) return;

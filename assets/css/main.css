@@ -502,7 +502,7 @@ input[type=range]::-webkit-slider-thumb{
   background:var(--accent);box-shadow:0 0 8px var(--accent-glow);
 }
 
-/* ─── NEWSLETTER FORM (native, replaces beehiiv embed) ───── */
+/* ─── NEWSLETTER FORM (native, POSTs to /api/subscribe Worker) ─── */
 .newsletter-form{
   display:flex;gap:8px;flex-wrap:wrap;
   max-width:480px;

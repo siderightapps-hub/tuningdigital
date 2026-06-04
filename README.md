@@ -116,7 +116,8 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | AdSense Publisher | `ca-pub-1606633100797174` | All HTML pages + `ads.txt` + both engines |
 | 11 AdSense ad slots | listed in [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) | named `td-*-*` per placement |
 | X handle | `@TuningDigital` | `index.html` Twitter card meta + sidebar bio |
-| Beehiiv form | `c469056c-9905-42d5-b7a5-3e3be95b91f2` | homepage, blog index, tools index newsletter sections |
+| Newsletter ESP | Resend (audience `6a716b66-d9d6-4c13-aa2c-564b70c8dd50` "General") | sending domain `updates.tuningdigital.com`; from `hello@updates.tuningdigital.com` |
+| Newsletter Worker | `tuningdigital-subscribe` (`/cloudflare-worker/`) | routes: `tuningdigital.com/api/subscribe`; Custom Domain: `unsub.tuningdigital.com` |
 | Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
 | Operator LinkedIn | https://www.linkedin.com/in/alexbacsa/ | About page Editor card + Person JSON-LD `sameAs` |
 
@@ -127,7 +128,7 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 - **AdSense**: live publisher ID across the site. 11 slots created (homepage, blog, tools, articles, multiplex). See [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) for the named-unit inventory.
 - **Affiliate**: deferred until organic traffic > 1K sessions/mo (affiliate programmes routinely reject low-traffic sites — see [Template.md §6.2](../MD%20Files/TuningDigital/Template.md)).
 - **Sponsored content**: clearly labelled when accepted; declined when conflicting with editorial standards.
-- **Newsletter**: Beehiiv (`tuning-digital.beehiiv.com`); reply-to wired to `hello@`.
+- **Newsletter**: native HTML signup form → Cloudflare Worker (`/cloudflare-worker/`) → Resend `audiences.contacts.create` + welcome email via `/emails`. Subscribers managed in Resend audience "General". From address `hello@updates.tuningdigital.com` on the verified `updates.tuningdigital.com` sending subdomain. Unsubscribe: HMAC-signed one-click link to Worker Custom Domain `unsub.tuningdigital.com`.
 
 ---
 

@@ -84,13 +84,45 @@ All HTML pages (homepage, blog articles, tools, static pages) share the same she
 
 Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variable design tokens at the top (`--bg`, `--accent`, `--font-display`, etc.). Use these tokens rather than hardcoding hex values when adding styles.
 
+## Newsletter (Resend + Cloudflare Worker)
+
+Migrated from beehiiv to Resend on 2026-06-04. Architecture:
+
+```
+[native <form id="newsletterForm">] ─POST→ tuningdigital.com/api/subscribe
+                                              │
+                                              ▼
+                                    [Cloudflare Worker: tuningdigital-subscribe]
+                                       (code: /cloudflare-worker/)
+                                              │
+                                              ├─ POST  api.resend.com/audiences/{id}/contacts
+                                              └─ POST  api.resend.com/emails  (welcome, fire-and-forget via ctx.waitUntil)
+
+[user clicks "Unsubscribe" in welcome email]
+            │
+            ▼
+   unsub.tuningdigital.com/?email=…&token=…   (Worker Custom Domain — same Worker)
+            │
+            └─ PATCH api.resend.com/audiences/{id}/contacts/{email}  { unsubscribed: true }
+                            ↓
+                    cream confirmation page returned
+```
+
+Key files / config:
+- **[cloudflare-worker/worker.js](cloudflare-worker/worker.js)** — single Worker handles both subscribe and unsubscribe via hostname-based dispatch (`unsub.tuningdigital.com` → unsubscribe; otherwise the path-based subscribe handler).
+- **[cloudflare-worker/wrangler.toml](cloudflare-worker/wrangler.toml)** — declares the subscribe Routes (`tuningdigital.com/api/subscribe` + www). The unsubscribe Custom Domain (`unsub.tuningdigital.com`) is configured in the CF dashboard, NOT in wrangler.toml.
+- **Worker secrets** (set via `wrangler secret put`): `RESEND_API_KEY`, `RESEND_AUDIENCE_ID` (= `6a716b66-d9d6-4c13-aa2c-564b70c8dd50` for the "General" audience), `UNSUBSCRIBE_SECRET` (any ≥32-char random string — signs HMAC tokens for unsubscribe URLs so they can't be forged).
+- **Welcome email** is sent via Resend's `/emails` API (transactional). Brand-matched cream + blue HTML body + plain-text fallback, with both an in-body unsubscribe link and RFC 8058 `List-Unsubscribe` + `List-Unsubscribe-Post: One-Click` headers (Gmail / Apple Mail render a native "Unsubscribe" button at the top of the email).
+- **Front-end**: `.newsletter-form` component in main.css; `newsletterForm` AJAX handler in main.js (POSTs to `/api/subscribe` with honeypot field + inline success/error status messaging + GA4 event). Both engines' wrapInTemplate emit the same form so future cron articles inherit it.
+- **Auto-broadcast pipeline** (engine cron → Resend `/broadcasts` after each article generation) is NOT built — tracked as R381 in the project tracker, low-priority until subscriber count justifies it.
+
 ## Gotchas
 
 - `SEO-BACKLINK-STRATEGY.md` is in [.gitignore](.gitignore) — it exists locally but is intentionally not in the repo. Don't try to commit it.
 - The `assets/.DS_Store` / root `.DS_Store` showing as modified in `git status` is macOS noise; do not commit it.
 - Articles use `<span>🔄 Updated regularly</span>` as the cadence signal in the byline. The previous `🔄 AI-assisted research` label was removed because it was an AdSense red flag (literal AI self-attestation). Don't reintroduce.
 - The inline `<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>` after every `<ins>` is wrapped in `try/catch` because Safari (and AdSense itself) reports a `TagError: availableWidth=0` when push runs before layout completes. The real ad render happens via the lazy-loader in `main.js` (IntersectionObserver). Don't unwrap the try/catch.
-- CSP is enforced at the Cloudflare edge via a Transform Rule ("Security Header"), not as a `<meta http-equiv>`. Adding a new external script/CSS/font source requires updating the CSP value in Cloudflare → Rules → Transform Rules → Modify Response Header, not in the HTML.
+- CSP is enforced at the Cloudflare edge via a Transform Rule ("Security Header"), not as a `<meta http-equiv>`. Adding a new external script/CSS/font source requires updating the CSP value in Cloudflare → Rules → Transform Rules → Modify Response Header, not in the HTML. **Beehiiv directives were removed on 2026-06-04** as part of the Resend migration — the live CSP no longer contains `https://subscribe-forms.beehiiv.com`, `https://embeds.beehiiv.com`, `https://*.beehiiv.com`. Don't re-add. The Worker fetch happens same-origin (`/api/subscribe`) so no `connect-src` change was needed; the unsubscribe page is rendered by the Worker itself on `unsub.tuningdigital.com` so it doesn't need to appear in the main site's CSP either.
 - `.x-posted.txt` is auto-committed by the post-to-x.yml workflow (`chore: record X post [skip ci]`). The `[skip ci]` suffix prevents the deploy workflow re-firing on every X post. Don't strip the suffix.
 - AI crawlers (GPTBot, ClaudeBot, PerplexityBot, etc.) are intentionally **allowed** via permissive `robots.txt` + Cloudflare settings. This is the GEO/AEO strategy — we want to be cited. Don't reconfigure to block them.
 - **`generate-content.yml` uses `git add` then `git diff --staged --quiet`** to decide whether to commit. The earlier `git diff --name-only | grep .html` pattern silently dropped untracked (new) files, causing the 2026-05-25 11:57 UTC run to generate 2 articles that were never committed (lost ~$0.20 of API spend). Don't revert.
@@ -101,6 +133,10 @@ Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variabl
 - **Related-content cross-links must point only at PUBLISHED pages.** The engines' `pickRelatedTopics`/`pickRelatedTools`/`pickRelatedArticles` filter to slugs that actually exist on disk, and both prompts forbid Claude from inventing internal URLs. This fixed a 16×404 site-audit error (2026-05-27, commit `1bbc680` — see Template.md §16.1 #9). Don't change a picker to draw from the full bank — always intersect with on-disk files, or you'll resurrect the 404s.
 - **External vendor links default to DOFOLLOW editorial (rel="noopener" only) — not `nofollow sponsored`.** Both engine prompts previously told Claude to tag every vendor URL with `rel="noopener nofollow sponsored"` as an "affiliate placeholder" for when programmes are approved. Result: 82 nofollow/sponsored tokens across 8 engine-generated articles, all on legit editorial entity-grounding links (Notion, Zapier, Ahrefs, etc.) with zero affiliate programmes actually active. SEMrush flagged them as a "Notice" but more importantly it kills E-E-A-T (a publication that nofollows every external citation looks like a link farm). Fix (2026-06-03): both prompts now default to plain `rel="noopener"`; `nofollow sponsored` is ONLY added when a URL is an active affiliate link (currently NONE). **Don't reintroduce blanket `nofollow sponsored` on vendor URLs** — apply it per-link, only when an affiliate programme is genuinely approved.
 - **External citation URLs: plain-text attribution only — Claude WILL invent article URLs otherwise.** Both engine prompts now explicitly restrict external links to (a) the named tool's own domain (homepage/pricing/docs), and (b) sister-publication URLs (salestap.com, cloudfintech.ai) — see audience-overlap scoping note in the Sister-publication network section below for why Beat the Scam is intentionally **excluded** from the in-article whitelist. Third-party publication articles (Verge, TechCrunch, Wired, etc.) must be cited in **plain text** ("per TechCrunch in 2023") with NO link. Background (2026-05-30): the original AEO prompt asked Claude to "attribute each statistic to its source via the surrounding link" — Claude obliged by hallucinating plausible-looking but non-existent article URLs (`theverge.com/.../notion-100-million-users-ai`, `techcrunch.com/.../zapier-reportedly-valued-at-5-billion`, etc.). SEMrush flagged 8 broken external links; 6 were engine-fabricated, the rest hand-written stale. The fix: remove the "via the surrounding link" instruction + add a hard ⚠️ NEVER invent a URL bullet listing the only allowed external destinations. **Don't reintroduce the "link the source" wording** — Claude has no way to verify article URLs exist, and fabricated citations destroy both SEO (broken links) and editorial credibility (false attribution).
+- **Cloudflare Workers: use Custom Domains, not pattern-based Routes, for new paths added after first deploy.** Lesson from the Resend migration (2026-06-04, ~3h debug). The Worker initially deployed clean on `tuningdigital.com/api/subscribe`. Adding `/api/unsubscribe` afterwards: the route appeared in the dashboard, `wrangler deploy` succeeded, but traffic to the new path 1016'd / fell through to Pages instead of hitting the Worker. Persisted through: multiple `wrangler deploy` rounds, manual route delete + re-add via dashboard, full CF cache purge, Worker delete + fresh recreate, path renames (`/u`, etc.). What worked: switching unsubscribe to a Worker **Custom Domain** (`unsub.tuningdigital.com`) — that uses DNS-bound routing (a hidden orange-clouded A record points the hostname at the Worker), not Route pattern-matching. First try, no friction. So: subscribe is a Route (it MUST live on the apex), unsubscribe is a Custom Domain. **Rule of thumb: if you need to add a new Worker endpoint and don't have to keep it on the apex, give it its own subdomain via Custom Domain.** Both surfaces are dispatched inside one Worker via `request.url` hostname check (`unsub.tuningdigital.com` → unsubscribe handler; otherwise path-based subscribe).
+- **Don't escape backticks when editing the Worker JS.** `worker.js` uses template literals heavily (`` `Bearer ${env.RESEND_API_KEY}` ``, multi-line HTML). The Edit tool has previously over-escaped these into `\`Bearer \${…}\`` which causes a deploy-time syntax error that wrangler reports as a parse failure at the line in question. If wrangler ever rejects a Worker change with `SyntaxError: Unexpected token`, grep the edited region for backslash-backtick / backslash-dollar.
+- **Resend secrets must be pasted raw (no surrounding whitespace).** `RESEND_AUDIENCE_ID` is a bare UUID — `6a716b66-d9d6-4c13-aa2c-564b70c8dd50`. A trailing newline or space causes `wrangler secret put` to store the padded value and the API rejects requests with `The id must be a valid UUID`. If unsubscribe ever starts 400'ing on a known-good email, that's the first thing to check (`wrangler secret list` shows hashes only, so the way to confirm is to re-put the value).
+- **`cloudflare-worker/` is intentionally outside the GitHub Pages deploy.** GH Pages serves the repo root, so anything in subdirectories with HTML/JS will be published. The Worker code is JS but lives at a directory path (`/cloudflare-worker/worker.js`) that's not linked from any page, has no index.html, and the deploy path doesn't strip it — which is fine because the file is harmless if served. We deploy the Worker via `cd cloudflare-worker && wrangler deploy`, not via the GH Pages workflow. If you ever migrate to a build pipeline with explicit `paths-ignore`, add `cloudflare-worker/**`.
 
 ## Sister-publication network
 
