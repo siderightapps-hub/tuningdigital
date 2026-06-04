@@ -1,0 +1,20 @@
+name = "tuningdigital-subscribe"
+main = "worker.js"
+compatibility_date = "2026-06-04"
+
+# Route this Worker at tuningdigital.com/api/subscribe.
+# Cloudflare intercepts that path before it reaches the GH Pages origin.
+routes = [
+  { pattern = "tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
+  { pattern = "www.tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
+]
+
+# Observability — keep logs flowing in `wrangler tail`
+[observability]
+enabled = true
+
+# Secrets to set BEFORE first deploy (one-time, per environment):
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put RESEND_AUDIENCE_ID
+#
+# To rotate the API key later, run the same command and paste a new value.

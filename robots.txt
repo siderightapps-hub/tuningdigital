@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /drafts/
+Disallow: /cloudflare-worker/
 
 Sitemap: https://tuningdigital.com/sitemap.xml
 
