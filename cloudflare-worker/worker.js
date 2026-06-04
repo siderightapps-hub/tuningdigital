@@ -1,14 +1,15 @@
 /**
- * Tuning Digital — newsletter subscribe endpoint
+ * Tuning Digital — newsletter subscribe + unsubscribe endpoint
  *
- * Routes:  POST https://tuningdigital.com/api/subscribe
- * Backend: Resend
- *   1. POST /audiences/{id}/contacts — adds subscriber to the list
- *   2. POST /emails — fires a welcome email (fire-and-forget via waitUntil)
+ * Routes (set in wrangler.toml):
+ *   POST /api/subscribe   — add to Resend audience, fire welcome email
+ *   GET  /api/unsubscribe — verify HMAC token, mark contact unsubscribed
+ *   POST /api/unsubscribe — same (for List-Unsubscribe-Post one-click)
  *
  * Env (set via `wrangler secret put`):
- *   RESEND_API_KEY      — re_xxx Resend API key
- *   RESEND_AUDIENCE_ID  — UUID of the TD audience in Resend
+ *   RESEND_API_KEY       — re_xxx Resend API key
+ *   RESEND_AUDIENCE_ID   — UUID of the TD audience in Resend
+ *   UNSUBSCRIBE_SECRET   — random ≥32-char string, signs unsub URL tokens
  *
  * Why a Worker: TD is static HTML on GitHub Pages with no server, so the
  * form needs an external endpoint to call. Workers sit in front of GH Pages
@@ -23,6 +24,59 @@ const ALLOWED_ORIGINS = new Set([
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// ─── HMAC sign / verify (for unsubscribe URL tokens) ───────
+async function hmacToken(message, secret) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function verifyToken(message, token, secret) {
+  if (!token || typeof token !== 'string') return false;
+  const expected = await hmacToken(message, secret);
+  if (expected.length !== token.length) return false;
+  // Constant-time comparison
+  let mismatch = 0;
+  for (let i = 0; i < expected.length; i++) {
+    mismatch |= expected.charCodeAt(i) ^ token.charCodeAt(i);
+  }
+  return mismatch === 0;
+}
+
+async function buildUnsubscribeUrl(email, secret) {
+  const token = await hmacToken(email, secret);
+  return `https://tuningdigital.com/api/unsubscribe?email=${encodeURIComponent(email)}&token=${token}`;
+}
+
+// ─── CORS / JSON helpers ───────────────────────────────────
+function corsHeaders(origin) {
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : 'https://tuningdigital.com';
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
+  };
+}
+
+function json(body, status, origin) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
+  });
+}
+
+// ─── Welcome email content ─────────────────────────────────
 const WELCOME_FROM = 'Tuning Digital <hello@updates.tuningdigital.com>';
 const WELCOME_SUBJECT = 'You\'re in — welcome to Tuning Digital';
 
@@ -84,7 +138,8 @@ const WELCOME_HTML = `<!DOCTYPE html>
 
           <tr>
             <td style="padding:24px 40px 32px 40px;border-top:1px solid #e2e0d8;font-size:12px;color:#6b6a64;line-height:1.5;">
-              You're getting this because you subscribed at <a href="https://tuningdigital.com" style="color:#6b6a64;text-decoration:underline;">tuningdigital.com</a>. If this wasn't you, no action needed — you won't hear from us again unless you sign up properly.
+              You're getting this because you subscribed at <a href="https://tuningdigital.com" style="color:#6b6a64;text-decoration:underline;">tuningdigital.com</a>.<br>
+              Changed your mind? <a href="{{UNSUBSCRIBE_URL}}" style="color:#6b6a64;text-decoration:underline;">Unsubscribe in one click</a>.
             </td>
           </tr>
         </table>
@@ -118,10 +173,18 @@ Founder & Editor, Tuning Digital
 
 ---
 
-You're getting this because you subscribed at tuningdigital.com. If this wasn't you, no action needed — you won't hear from us again unless you sign up properly.`;
+You're getting this because you subscribed at tuningdigital.com.
+Changed your mind? Unsubscribe: {{UNSUBSCRIBE_URL}}`;
 
 async function sendWelcomeEmail(toEmail, env) {
   try {
+    const unsubscribeUrl = env.UNSUBSCRIBE_SECRET
+      ? await buildUnsubscribeUrl(toEmail, env.UNSUBSCRIBE_SECRET)
+      : 'https://tuningdigital.com';
+
+    const html = WELCOME_HTML.replace(/{{UNSUBSCRIBE_URL}}/g, unsubscribeUrl);
+    const text = WELCOME_TEXT.replace(/{{UNSUBSCRIBE_URL}}/g, unsubscribeUrl);
+
     const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -132,8 +195,14 @@ async function sendWelcomeEmail(toEmail, env) {
         from: WELCOME_FROM,
         to: [toEmail],
         subject: WELCOME_SUBJECT,
-        html: WELCOME_HTML,
-        text: WELCOME_TEXT,
+        html,
+        text,
+        // RFC 8058 one-click unsubscribe — Gmail / Apple Mail show a native
+        // "Unsubscribe" button at the top of the email when these are set.
+        headers: {
+          'List-Unsubscribe': `<${unsubscribeUrl}>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+        },
       }),
     });
     if (!resp.ok) {
@@ -148,102 +217,186 @@ async function sendWelcomeEmail(toEmail, env) {
   }
 }
 
-function corsHeaders(origin) {
-  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : 'https://tuningdigital.com';
-  return {
-    'Access-Control-Allow-Origin': allowOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-    'Vary': 'Origin',
-  };
+// ─── Unsubscribe confirmation page ─────────────────────────
+function unsubscribeHtml(success, msg) {
+  const title = success ? "You're unsubscribed" : "Couldn't unsubscribe";
+  const subhead = success
+    ? "You won't receive any more emails from Tuning Digital."
+    : (msg || 'Something went wrong.');
+  const body = success
+    ? 'If this was a mistake, you can resubscribe anytime at <a href="https://tuningdigital.com" style="color:#0052ff;text-decoration:underline;">tuningdigital.com</a>.'
+    : "If the problem persists, reply to any TD email and we'll handle it manually.";
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${title} — Tuning Digital</title>
+  <style>
+    body { margin:0; padding:0; background:#f5f4f0; color:#0d0d12; font-family:'DM Sans','Helvetica Neue',Helvetica,Arial,sans-serif; line-height:1.6; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .card { background:#ffffff; border:1px solid #e2e0d8; border-radius:14px; max-width:480px; padding:40px; margin:20px; box-shadow:0 2px 12px rgba(13,13,18,.06); }
+    h1 { font-family:'Syne','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:28px; margin:0 0 12px; letter-spacing:-0.5px; color:#0d0d12; }
+    p { margin:0 0 12px; color:#6b6a64; font-size:15px; }
+    .brand { font-family:'Syne','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:18px; font-weight:700; margin-bottom:24px; color:#0d0d12; letter-spacing:-0.3px; }
+    .brand-dot { display:inline-block; width:8px; height:8px; background:#0052ff; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand"><span class="brand-dot"></span>Tuning Digital</div>
+    <h1>${title}</h1>
+    <p>${subhead}</p>
+    <p>${body}</p>
+  </div>
+</body>
+</html>`;
 }
 
-function json(body, status, origin) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
-  });
+// ─── Route handlers ────────────────────────────────────────
+async function handleSubscribe(request, env, ctx, origin) {
+  if (request.method !== 'POST') {
+    return json({ error: 'method_not_allowed' }, 405, origin);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'invalid_json' }, 400, origin);
+  }
+
+  // Honeypot — bots fill this; humans don't see it
+  if (body.website && body.website.length > 0) {
+    return json({ success: true }, 200, origin);
+  }
+
+  const email = (body.email || '').trim().toLowerCase();
+  if (!email || !EMAIL_RE.test(email) || email.length > 254) {
+    return json({ error: 'invalid_email' }, 400, origin);
+  }
+
+  if (!env.RESEND_API_KEY || !env.RESEND_AUDIENCE_ID) {
+    console.error('Missing RESEND_API_KEY or RESEND_AUDIENCE_ID');
+    return json({ error: 'server_misconfigured' }, 500, origin);
+  }
+
+  let resendResp;
+  try {
+    resendResp = await fetch(
+      `https://api.resend.com/audiences/${env.RESEND_AUDIENCE_ID}/contacts`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, unsubscribed: false }),
+      }
+    );
+  } catch (e) {
+    console.error('Resend fetch failed:', e.message);
+    return json({ error: 'upstream_unreachable' }, 502, origin);
+  }
+
+  const result = await resendResp.json().catch(() => ({}));
+
+  if (resendResp.ok) {
+    ctx.waitUntil(sendWelcomeEmail(email, env));
+    return json({ success: true, contact_id: result.id || null }, 200, origin);
+  }
+  if (resendResp.status === 422 && (result.message || '').toLowerCase().includes('already')) {
+    return json({ success: true, already_subscribed: true }, 200, origin);
+  }
+
+  console.error('Resend error:', resendResp.status, JSON.stringify(result));
+  return json(
+    { error: 'subscribe_failed', detail: result.message || `resend_${resendResp.status}` },
+    502,
+    origin
+  );
 }
 
+async function handleUnsubscribe(request, env) {
+  // GET = link click in email body, POST = List-Unsubscribe one-click header
+  // Both result in the same action: mark contact unsubscribed in Resend.
+  const url = new URL(request.url);
+  const email = (url.searchParams.get('email') || '').trim().toLowerCase();
+  const token = (url.searchParams.get('token') || '').trim();
+  const htmlHeaders = { 'Content-Type': 'text/html; charset=utf-8' };
+
+  if (!email || !token) {
+    return new Response(unsubscribeHtml(false, 'Missing email or token in the URL.'), {
+      status: 400,
+      headers: htmlHeaders,
+    });
+  }
+
+  if (!env.UNSUBSCRIBE_SECRET || !env.RESEND_API_KEY || !env.RESEND_AUDIENCE_ID) {
+    console.error('Unsubscribe: missing secret(s)');
+    return new Response(unsubscribeHtml(false, 'Server is not configured.'), {
+      status: 500,
+      headers: htmlHeaders,
+    });
+  }
+
+  const valid = await verifyToken(email, token, env.UNSUBSCRIBE_SECRET);
+  if (!valid) {
+    return new Response(unsubscribeHtml(false, 'This unsubscribe link is invalid or has expired.'), {
+      status: 400,
+      headers: htmlHeaders,
+    });
+  }
+
+  try {
+    const resp = await fetch(
+      `https://api.resend.com/audiences/${env.RESEND_AUDIENCE_ID}/contacts/${encodeURIComponent(email)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ unsubscribed: true }),
+      }
+    );
+    // 404 = contact not found in Resend (already deleted or never existed)
+    // — still treat as success from the user's perspective
+    if (!resp.ok && resp.status !== 404) {
+      const body = await resp.text();
+      console.error('Resend unsub failed:', resp.status, body);
+      return new Response(
+        unsubscribeHtml(false, "Something went wrong. Reply to any TD email and we'll handle it manually."),
+        { status: 502, headers: htmlHeaders }
+      );
+    }
+  } catch (e) {
+    console.error('Unsub fetch error:', e.message);
+    return new Response(unsubscribeHtml(false, 'Network error. Try again in a moment.'), {
+      status: 502,
+      headers: htmlHeaders,
+    });
+  }
+
+  return new Response(unsubscribeHtml(true), { status: 200, headers: htmlHeaders });
+}
+
+// ─── Main router ───────────────────────────────────────────
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
+    const url = new URL(request.url);
 
-    // Preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
-    if (request.method !== 'POST') {
-      return json({ error: 'method_not_allowed' }, 405, origin);
+    if (url.pathname === '/api/subscribe') {
+      return handleSubscribe(request, env, ctx, origin);
+    }
+    if (url.pathname === '/api/unsubscribe') {
+      return handleUnsubscribe(request, env);
     }
 
-    // Parse body
-    let body;
-    try {
-      body = await request.json();
-    } catch {
-      return json({ error: 'invalid_json' }, 400, origin);
-    }
-
-    // Honeypot — bots fill this; humans don't see it
-    if (body.website && body.website.length > 0) {
-      // Pretend success so bots stop retrying
-      return json({ success: true }, 200, origin);
-    }
-
-    const email = (body.email || '').trim().toLowerCase();
-    if (!email || !EMAIL_RE.test(email) || email.length > 254) {
-      return json({ error: 'invalid_email' }, 400, origin);
-    }
-
-    // Sanity: secrets configured?
-    if (!env.RESEND_API_KEY || !env.RESEND_AUDIENCE_ID) {
-      console.error('Missing RESEND_API_KEY or RESEND_AUDIENCE_ID');
-      return json({ error: 'server_misconfigured' }, 500, origin);
-    }
-
-    // Forward to Resend
-    let resendResp;
-    try {
-      resendResp = await fetch(
-        `https://api.resend.com/audiences/${env.RESEND_AUDIENCE_ID}/contacts`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${env.RESEND_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, unsubscribed: false }),
-        }
-      );
-    } catch (e) {
-      console.error('Resend fetch failed:', e.message);
-      return json({ error: 'upstream_unreachable' }, 502, origin);
-    }
-
-    const result = await resendResp.json().catch(() => ({}));
-
-    // Resend returns 201 on create. Duplicate contacts return 422 with a
-    // specific message — treat that as a soft success (user is already in).
-    if (resendResp.ok) {
-      // Fire welcome email in the background — don't block the response.
-      // ctx.waitUntil keeps the Worker alive long enough to finish the send.
-      ctx.waitUntil(sendWelcomeEmail(email, env));
-      return json({ success: true, contact_id: result.id || null }, 200, origin);
-    }
-    if (resendResp.status === 422 && (result.message || '').toLowerCase().includes('already')) {
-      // Already subscribed — don't re-send welcome email (would feel spammy).
-      return json({ success: true, already_subscribed: true }, 200, origin);
-    }
-
-    // Real error
-    console.error('Resend error:', resendResp.status, JSON.stringify(result));
-    return json(
-      { error: 'subscribe_failed', detail: result.message || `resend_${resendResp.status}` },
-      502,
-      origin
-    );
+    return json({ error: 'not_found' }, 404, origin);
   },
 };
