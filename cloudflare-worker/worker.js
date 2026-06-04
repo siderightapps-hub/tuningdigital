@@ -3,8 +3,8 @@
  *
  * Routes (set in wrangler.toml):
  *   POST /api/subscribe   — add to Resend audience, fire welcome email
- *   GET  /api/unsubscribe — verify HMAC token, mark contact unsubscribed
- *   POST /api/unsubscribe — same (for List-Unsubscribe-Post one-click)
+ *   GET  /u — verify HMAC token, mark contact unsubscribed
+ *   POST /u — same (for List-Unsubscribe-Post one-click)
  *
  * Env (set via `wrangler secret put`):
  *   RESEND_API_KEY       — re_xxx Resend API key
@@ -54,7 +54,7 @@ async function verifyToken(message, token, secret) {
 
 async function buildUnsubscribeUrl(email, secret) {
   const token = await hmacToken(email, secret);
-  return `https://tuningdigital.com/api/unsubscribe?email=${encodeURIComponent(email)}&token=${token}`;
+  return `https://tuningdigital.com/u?email=${encodeURIComponent(email)}&token=${token}`;
 }
 
 // ─── CORS / JSON helpers ───────────────────────────────────
@@ -393,7 +393,7 @@ export default {
     if (url.pathname === '/api/subscribe') {
       return handleSubscribe(request, env, ctx, origin);
     }
-    if (url.pathname === '/api/unsubscribe') {
+    if (url.pathname === '/u') {
       return handleUnsubscribe(request, env);
     }
 

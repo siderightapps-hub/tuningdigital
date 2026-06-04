@@ -2,13 +2,13 @@ name = "tuningdigital-subscribe"
 main = "worker.js"
 compatibility_date = "2026-06-04"
 
-# Route this Worker at /api/subscribe and /api/unsubscribe.
+# Route this Worker at /api/subscribe and /u.
 # Cloudflare intercepts those paths before they reach the GH Pages origin.
 routes = [
   { pattern = "tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
   { pattern = "www.tuningdigital.com/api/subscribe", zone_name = "tuningdigital.com" },
-  { pattern = "tuningdigital.com/api/unsubscribe", zone_name = "tuningdigital.com" },
-  { pattern = "www.tuningdigital.com/api/unsubscribe", zone_name = "tuningdigital.com" },
+  { pattern = "tuningdigital.com/u", zone_name = "tuningdigital.com" },
+  { pattern = "www.tuningdigital.com/u", zone_name = "tuningdigital.com" },
 ]
 
 # Observability — keep logs flowing in `wrangler tail`
