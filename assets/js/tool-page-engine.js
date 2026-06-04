@@ -280,7 +280,7 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
   <meta property="og:image" content="${CONFIG.siteUrl}/assets/img/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#060812">
+  <meta name="theme-color" content="#f5f4f0">
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <link rel="alternate" type="application/rss+xml" title="Tuning Digital — Reviews & Comparisons" href="/feed.xml">
   <script type="application/ld+json">

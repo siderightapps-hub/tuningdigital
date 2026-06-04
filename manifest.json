@@ -4,8 +4,8 @@
   "description": "AI & SaaS productivity tools reviews and comparisons",
   "start_url": "/",
   "display": "browser",
-  "theme_color": "#060812",
-  "background_color": "#060812",
+  "theme_color": "#f5f4f0",
+  "background_color": "#f5f4f0",
   "icons": [
     {
       "src": "/assets/img/favicon.svg",

@@ -279,7 +279,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
   <meta property="og:image" content="${CONFIG.siteUrl}/assets/img/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#060812">
+  <meta name="theme-color" content="#f5f4f0">
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <link rel="alternate" type="application/rss+xml" title="Tuning Digital — Reviews & Comparisons" href="/feed.xml">
   <script type="application/ld+json">
@@ -500,19 +500,19 @@ function updateBlogIndex(topic, date) {
   const url = `/blog/${topic.slug}.html`;
   // category → card visual (emoji + gradient). Falls back to a neutral tile.
   const visuals = {
-    'AI Writing':   { emoji: '✍️', grad: '#0d1a30,#0a2040' },
-    'AI Design':    { emoji: '🎨', grad: '#1a0d14,#2a0a1e' },
-    'AI Coding':    { emoji: '💻', grad: '#0d1a1a,#0a2a2a' },
-    'AI Tools':     { emoji: '🤖', grad: '#0d1320,#0a1f35' },
-    'Productivity': { emoji: '🗂️', grad: '#1a1a0d,#2a2a0a' },
-    'Automation':   { emoji: '⚡', grad: '#1a0d28,#250a3a' },
-    'SaaS':         { emoji: '📊', grad: '#0d2015,#0a3520' },
-    'Analytics':    { emoji: '📈', grad: '#0d1520,#0a2035' },
-    'CRM':          { emoji: '🤝', grad: '#0a1a15,#0a2a20' },
-    'Marketing':    { emoji: '📣', grad: '#200d0d,#3a0a0a' },
-    'Design':       { emoji: '🎨', grad: '#1a0d1f,#2a0a32' },
+    'AI Writing':   { emoji: '✍️', grad: '#e3edff,#cce0ff' },
+    'AI Design':    { emoji: '🎨', grad: '#ffe9f0,#ffd6e3' },
+    'AI Coding':    { emoji: '💻', grad: '#e5f7f1,#ccecd9' },
+    'AI Tools':     { emoji: '🤖', grad: '#e8f0ff,#d0dfff' },
+    'Productivity': { emoji: '🗂️', grad: '#fff7df,#ffeec0' },
+    'Automation':   { emoji: '⚡', grad: '#f0e3ff,#dfc8ff' },
+    'SaaS':         { emoji: '📊', grad: '#dff5e8,#c5edd5' },
+    'Analytics':    { emoji: '📈', grad: '#e3edff,#c8d8f0' },
+    'CRM':          { emoji: '🤝', grad: '#e0f0ea,#c5e3d6' },
+    'Marketing':    { emoji: '📣', grad: '#ffe3e0,#ffcec8' },
+    'Design':       { emoji: '🎨', grad: '#f0e3ff,#dbc1ff' },
   };
-  const v = visuals[topic.category] || { emoji: '📄', grad: '#14141c,#1c1c28' };
+  const v = visuals[topic.category] || { emoji: '📄', grad: '#f0eee8,#e3e0d5' };
   const filterCat = topic.category.toLowerCase().replace(/\s+/g, '-');
   const monthYear = new Date(date).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
   const htmlEscape = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
