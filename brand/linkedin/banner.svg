@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191" width="1128" height="191">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700&amp;family=DM+Sans:wght@400&amp;display=swap');
+      .wordmark { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 60px; fill: #0d0d12; letter-spacing: -0.02em; }
+      .tagline  { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 22px; fill: #6b6a64; }
+    </style>
+  </defs>
+  <rect width="1128" height="191" fill="#f5f4f0"/>
+  <circle cx="94" cy="78" r="14" fill="#0052ff"/>
+  <text class="wordmark" x="132" y="99">Tuning Digital</text>
+  <text class="tagline"  x="132" y="145">Independent AI & SaaS tool reviews.</text>
+</svg>
