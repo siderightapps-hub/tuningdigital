@@ -84,6 +84,19 @@ All HTML pages (homepage, blog articles, tools, static pages) share the same she
 
 Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variable design tokens at the top (`--bg`, `--accent`, `--font-display`, etc.). Use these tokens rather than hardcoding hex values when adding styles.
 
+## Brand assets
+
+Operator-facing brand assets (off-site uploads — LinkedIn, X header, press kits, etc.) live under [brand/](brand/). The favicon and og-image are still under `assets/img/` because those are *site* assets (linked from HTML); `brand/` is for things you upload elsewhere.
+
+- **[brand/linkedin/](brand/linkedin/)** — LinkedIn Company Page assets at exact-pixel spec.
+  - `logo.png` (400×400) — cream square + centered blue dot. Same mark as the favicon, so the brand is consistent across surfaces. Stays recognisable when LinkedIn circle-crops it to 60×60 in feed.
+  - `banner.png` (1128×191) — cream cover with blue dot + "Tuning Digital" wordmark (Syne Bold) + "Independent AI & SaaS tool reviews." tagline (DM Sans).
+  - SVG sources (`logo.svg`, `banner.svg`) committed alongside the PNGs so they're editable in any vector tool / re-renderable at different sizes (e.g. a 1584×396 personal banner variant later).
+
+**Asset build approach** (not checked in — the build script was a throwaway at `/tmp/build_linkedin_assets.py`): downloads Syne Bold + DM Sans Regular from Google Fonts' CSS2 endpoint with the `text=` query param (which subsets the font to *only* the glyphs we render — single @font-face block per family, ~2 KB each, guaranteed to contain our characters); decompresses woff2 → TTF via `fontTools` + `brotli`; composes with Pillow at exact pixel dimensions. **Gotcha for re-rendering**: without `text=`, Google Fonts returns multiple unicode-range subsets per family (latin / latin-ext / etc) and matching the wrong block leaves Pillow with `.notdef` glyphs (all boxes — see the failed first attempt 2026-06-07). Always pass `text=` with every character you'll render across all fonts in the request.
+
+LinkedIn Company Page URL: `https://linkedin.com/company/tuningdigital`. Description / tagline / specialties copy is set on the page itself (not in the repo) — if it ever needs revising, the brand-voice rules (British English, no AI-tell phrases, editorial tone, no sponsored placements / inflated rating claims) apply.
+
 ## Newsletter (Resend + Cloudflare Worker)
 
 Migrated from beehiiv to Resend on 2026-06-04. Architecture:
@@ -137,6 +150,7 @@ Key files / config:
 - **Don't escape backticks when editing the Worker JS.** `worker.js` uses template literals heavily (`` `Bearer ${env.RESEND_API_KEY}` ``, multi-line HTML). The Edit tool has previously over-escaped these into `\`Bearer \${…}\`` which causes a deploy-time syntax error that wrangler reports as a parse failure at the line in question. If wrangler ever rejects a Worker change with `SyntaxError: Unexpected token`, grep the edited region for backslash-backtick / backslash-dollar.
 - **Resend secrets must be pasted raw (no surrounding whitespace).** `RESEND_AUDIENCE_ID` is a bare UUID — `6a716b66-d9d6-4c13-aa2c-564b70c8dd50`. A trailing newline or space causes `wrangler secret put` to store the padded value and the API rejects requests with `The id must be a valid UUID`. If unsubscribe ever starts 400'ing on a known-good email, that's the first thing to check (`wrangler secret list` shows hashes only, so the way to confirm is to re-put the value).
 - **`cloudflare-worker/` is intentionally outside the GitHub Pages deploy.** GH Pages serves the repo root, so anything in subdirectories with HTML/JS will be published. The Worker code is JS but lives at a directory path (`/cloudflare-worker/worker.js`) that's not linked from any page, has no index.html, and the deploy path doesn't strip it — which is fine because the file is harmless if served. We deploy the Worker via `cd cloudflare-worker && wrangler deploy`, not via the GH Pages workflow. If you ever migrate to a build pipeline with explicit `paths-ignore`, add `cloudflare-worker/**`.
+- **Social URLs are duplicated across many surfaces — keep them canonical.** The X (`https://x.com/TuningDigital`) and LinkedIn Company (`https://linkedin.com/company/tuningdigital`) URLs appear in: every page's footer `social-btn` block, the Organization JSON-LD `sameAs` array on `index.html` + `about.html`, the same Organization block emitted by both engines' `wrapInTemplate()`, and the cross-reference table in README.md. If either handle ever changes, grep for the URL and update all surfaces in one sweep. **Canonical forms**: `https://x.com/TuningDigital` (capital T, capital D — case matches the registered handle even though X handles are case-insensitive in practice) and `https://linkedin.com/company/tuningdigital` (all-lowercase, no trailing slash in `sameAs` blocks — LinkedIn auto-redirects). The old `twitter.com/tuningdigital` form was swept out on 2026-06-07; don't reintroduce it (X redirects but it's a stale brand signal in schema.org `sameAs`).
 
 ## Sister-publication network
 

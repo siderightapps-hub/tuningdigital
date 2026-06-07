@@ -291,6 +291,9 @@ function wrapInTemplate(tool, articleHtml, publishDate) {
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebPage","url":"${pageUrl}","speakable":{"@type":"SpeakableSpecification","cssSelector":[".tldr-box",".tldr-summary",".tldr-list"]}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","@id":"${CONFIG.siteUrl}/#organization","name":"${CONFIG.siteName}","url":"${CONFIG.siteUrl}/","logo":"${CONFIG.siteUrl}/assets/img/logo.svg","sameAs":["https://x.com/TuningDigital","https://linkedin.com/company/tuningdigital"]}
   </script>${faqJsonLd}
   <!-- Google Consent Mode v2 (default DENIED — GDPR/PECR strict) -->
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});try{if(localStorage.getItem('td_cookie_consent')==='accepted')gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}catch(e){}</script>
@@ -382,7 +385,7 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
 <footer>
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo"><span class="dot"></span>${CONFIG.siteName}</div><p>Independent AI and SaaS tool reviews.</p></div>
+      <div class="footer-brand"><div class="footer-logo"><span class="dot"></span>${CONFIG.siteName}</div><p>Independent AI and SaaS tool reviews.</p><div class="footer-social"><a href="https://x.com/TuningDigital" class="social-btn" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://linkedin.com/company/tuningdigital" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a></div></div>
       <div class="footer-col"><h5>Tools</h5><ul><li><a href="/tools/">All Tools</a></li></ul></div>
       <div class="footer-col"><h5>Content</h5><ul><li><a href="/blog/">Blog</a></li></ul></div>
       <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>

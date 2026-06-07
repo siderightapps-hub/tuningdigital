@@ -115,11 +115,12 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | GA4 Measurement ID | `G-LSE8074X3B` | All HTML pages + content engine template |
 | AdSense Publisher | `ca-pub-1606633100797174` | All HTML pages + `ads.txt` + both engines |
 | 11 AdSense ad slots | listed in [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) | named `td-*-*` per placement |
-| X handle | `@TuningDigital` | `index.html` Twitter card meta + sidebar bio |
+| X handle | `@TuningDigital` | `https://x.com/TuningDigital` — footer social-btn + `index.html` Twitter card meta + Organization JSON-LD `sameAs` (engines + index.html + about.html) |
+| LinkedIn Company Page | `@TuningDigital` | `https://linkedin.com/company/tuningdigital` — footer social-btn (all pages + both engines) + Organization JSON-LD `sameAs` (engines + index.html + about.html). Brand assets in `brand/linkedin/` (logo 400×400, banner 1128×191, SVG sources). |
 | Newsletter ESP | Resend (audience `6a716b66-d9d6-4c13-aa2c-564b70c8dd50` "General") | sending domain `updates.tuningdigital.com`; from `hello@updates.tuningdigital.com` |
 | Newsletter Worker | `tuningdigital-subscribe` (`/cloudflare-worker/`) | routes: `tuningdigital.com/api/subscribe`; Custom Domain: `unsub.tuningdigital.com` |
 | Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
-| Operator LinkedIn | https://www.linkedin.com/in/alexbacsa/ | About page Editor card + Person JSON-LD `sameAs` |
+| Operator LinkedIn | https://www.linkedin.com/in/alexbacsa/ | About page Editor card + Person JSON-LD `sameAs` (personal profile, distinct from the Company Page above) |
 
 ---
 
