@@ -113,42 +113,48 @@
 
 <!-- ─── HERO ───────────────────────────────────────────────── -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <p class="label animate-in">The Signal in the Noise</p>
-      <h1 class="animate-in delay-1">
-        Find the <em>Right Tools.</em><br>Cut the Rest.
-      </h1>
-      <p class="hero-desc animate-in delay-2">
-        Independent reviews, side-by-side comparisons, and free calculators
-        to help you choose the AI and SaaS tools that actually move the needle.
-      </p>
-      <div class="hero-actions animate-in delay-3">
-        <a href="/tools/" class="btn btn-primary">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"/><path d="M12 12l3 3" stroke-linecap="round"/></svg>
-          Browse Tools
+  <div class="hero-inner">
+    <div>
+      <div class="kicker hero-kicker"><span class="eyebrow-dot"></span>Independent · AI &amp; SaaS Tool Reviews</div>
+      <h1>The tools founders <em>actually</em> use, tested without the spin.</h1>
+      <p class="hero-sub">We buy every subscription, run the same battery of real-world tests, and publish a single honest verdict. No affiliate deals. No sponsored coverage.</p>
+      <div class="hero-cta">
+        <a href="/blog/" class="btn btn-accent">Read latest reviews
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="/blog/" class="btn btn-ghost">Read Reviews</a>
+        <a href="#method" class="btn btn-ghost-rev">How we test</a>
       </div>
-      <div class="hero-stats animate-in delay-4">
-        <div class="stat-item">
-          <div class="stat-num">150+</div>
-          <div class="stat-label">Tools Tracked</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">8</div>
-          <div class="stat-label">Categories</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Independent</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">Updated</div>
-          <div class="stat-label">Weekly</div>
-        </div>
+      <div class="hero-trust">
+        <div class="trust-item"><div class="n">19</div><div class="l">Articles published</div></div>
+        <div class="trust-item"><div class="n">0</div><div class="l">Sponsored coverage</div></div>
+        <div class="trust-item"><div class="n">Mon + Thu</div><div class="l">New reviews</div></div>
       </div>
     </div>
+
+    <!-- Featured editor's pick — Claude review (5.0 — the only complete deep-dive review on the site) -->
+    <article class="feature-card">
+      <div class="feature-shot">
+        <div class="ph"><span class="ph-label">Claude · long-form drafting</span></div>
+        <div class="feature-badge"><span class="eyebrow-dot"></span>Editor's pick</div>
+      </div>
+      <div class="feature-body">
+        <div class="feature-row">
+          <span class="mono-tile" style="width:48px;height:48px;font-size:21px;background:var(--blue)">C</span>
+          <div class="feature-meta">
+            <div class="cat">AI Writing</div>
+            <h3>Claude</h3>
+          </div>
+          <div class="gauge" data-score="5.0" data-size="62"></div>
+        </div>
+        <p class="feature-verdict">Most capable AI assistant for long-form work and complex reasoning. 200k-token context, deliberate refusal model, the one we'd pick if we could only keep one.</p>
+        <div class="feature-foot">
+          <div class="tag-row"><span class="tag">Free tier</span><span class="tag">API</span></div>
+          <a href="/reviews/claude-review.html" class="arrow-link">Full review
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -166,445 +172,190 @@
   </div>
 </div>
 
-<!-- ─── FEATURED TOOLS ─────────────────────────────────────── -->
-<section class="section">
+<!-- ─── CATEGORIES ─────────────────────────────────────────── -->
+<section id="categories" class="section" style="padding-top:64px">
   <div class="container">
-    <div class="flex-between section-header" style="margin-bottom:32px">
+    <div class="sec-head">
       <div>
-        <p class="label">Editor's Picks</p>
-        <h2>Top AI Productivity Tools</h2>
+        <div class="kicker">Browse by category</div>
+        <h2>Every category, calibrated the same way</h2>
       </div>
-      <a href="/tools/" class="btn btn-ghost btn-sm">View All →</a>
+      <a href="/blog/" class="arrow-link">All categories
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
-
-    <div class="filter-pills" style="margin-bottom:32px" id="filterPills">
-      <button class="pill active" data-filter="all">All</button>
-      <button class="pill" data-filter="writing">Writing</button>
-      <button class="pill" data-filter="productivity">Productivity</button>
-      <button class="pill" data-filter="design">Design</button>
-      <button class="pill" data-filter="analytics">Analytics</button>
-      <button class="pill" data-filter="automation">Automation</button>
-    </div>
-
-    <div class="grid-3" id="toolsGrid">
-
-      <!-- Tool 1 -->
-      <a href="/blog/best-ai-writing-tools.html" class="tool-card" data-category="writing">
-        <div class="tool-card-header">
-          <div class="tool-icon">✍️</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">Claude by Anthropic</div>
-            <div class="tool-category">AI Writing</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>The most nuanced AI assistant for long-form writing, research, and code. Context window of 200k tokens sets it apart for complex documents.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★★</span>
-            <span class="rating-num">4.9 / 5</span>
-          </div>
-          <span class="tool-badge badge-freemium">Freemium</span>
-        </div>
-      </a>
-
-      <!-- Tool 2 -->
-      <a href="https://notion.so" target="_blank" rel="noopener nofollow" class="tool-card" data-category="productivity" onclick="gtag('event','affiliate_click',{tool:'notion'})">
-        <div class="tool-card-header">
-          <div class="tool-icon">📝</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">Notion</div>
-            <div class="tool-category">Productivity</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>All-in-one workspace combining notes, tasks, databases, and wikis. Notion AI makes it a serious contender in the AI productivity space.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★☆</span>
-            <span class="rating-num">4.6 / 5</span>
-          </div>
-          <span class="tool-badge badge-freemium">Freemium</span>
-        </div>
-      </a>
-
-      <!-- Tool 3 -->
-      <a href="https://www.figma.com" target="_blank" rel="noopener nofollow" class="tool-card" data-category="design" onclick="gtag('event','affiliate_click',{tool:'figma'})">
-        <div class="tool-card-header">
-          <div class="tool-icon">🎨</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">Figma</div>
-            <div class="tool-category">Design</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>Browser-based collaborative design tool with AI-powered features. The industry standard for UI/UX teams of all sizes.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★★</span>
-            <span class="rating-num">4.8 / 5</span>
-          </div>
-          <span class="tool-badge badge-freemium">Freemium</span>
-        </div>
-      </a>
-
-      <!-- Tool 4 -->
-      <a href="https://zapier.com" target="_blank" rel="noopener nofollow" class="tool-card" data-category="automation" onclick="gtag('event','affiliate_click',{tool:'zapier'})">
-        <div class="tool-card-header">
-          <div class="tool-icon">⚡</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">Zapier</div>
-            <div class="tool-category">Automation</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>Connect 6,000+ apps with no-code automation. AI-powered Zap creation means even non-technical teams can automate complex workflows in minutes.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★☆</span>
-            <span class="rating-num">4.5 / 5</span>
-          </div>
-          <span class="tool-badge badge-paid">Paid</span>
-        </div>
-      </a>
-
-      <!-- Tool 5 -->
-      <a href="https://analytics.google.com" target="_blank" rel="noopener nofollow" class="tool-card" data-category="analytics">
-        <div class="tool-card-header">
-          <div class="tool-icon">📊</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">Google Analytics 4</div>
-            <div class="tool-category">Analytics</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>The most widely used web analytics platform. GA4's AI-powered insights and cross-platform tracking make it essential for any digital business.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★☆</span>
-            <span class="rating-num">4.4 / 5</span>
-          </div>
-          <span class="tool-badge badge-free">Free</span>
-        </div>
-      </a>
-
-      <!-- Tool 6 -->
-      <a href="/tools/saas-cost-calculator.html" class="tool-card" data-category="productivity" style="border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 0 24px var(--accent-glow)">
-        <div class="tool-card-header">
-          <div class="tool-icon" style="background:var(--accent-glow);border-color:rgba(0,229,212,.3)">🧮</div>
-          <div class="tool-card-meta">
-            <div class="tool-name">SaaS Cost Calculator</div>
-            <div class="tool-category">Free Tool</div>
-          </div>
-        </div>
-        <div class="tool-card-body">
-          <p>Calculate your total SaaS spend, identify redundant tools, and find where you're losing budget. Built by us, free to use.</p>
-        </div>
-        <div class="tool-card-footer">
-          <div class="tool-rating">
-            <span class="stars">★★★★★</span>
-            <span class="rating-num">Our Tool</span>
-          </div>
-          <span class="tool-badge badge-free">Free</span>
-        </div>
-      </a>
-
-    </div><!-- /toolsGrid -->
-  </div>
-</section>
-
-<!-- ─── COMPARISON STRIP ───────────────────────────────────── -->
-<section class="section-sm" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div class="container">
-    <div class="section-header center">
-      <p class="label">Quick Compare</p>
-      <h2>AI Writing Tools at a Glance</h2>
-    </div>
-    <div style="overflow-x:auto">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Tool</th>
-            <th>Free Tier</th>
-            <th>API Access</th>
-            <th>Long-form</th>
-            <th>Code</th>
-            <th>Best For</th>
-            <th>Starting Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Claude Sonnet 4.5</strong></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td>Research, long docs</td>
-            <td>$20/mo</td>
-          </tr>
-          <tr>
-            <td><strong>ChatGPT GPT-4.1</strong></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="partial">~</span></td>
-            <td><span class="check">✓</span></td>
-            <td>General use</td>
-            <td>$20/mo</td>
-          </tr>
-          <tr>
-            <td><strong>Gemini 2.5 Pro</strong></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="partial">~</span></td>
-            <td><span class="partial">~</span></td>
-            <td>Google Workspace</td>
-            <td>Free</td>
-          </tr>
-          <tr>
-            <td><strong>Jasper AI</strong></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="partial">~</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="cross">✗</span></td>
-            <td>Marketing copy</td>
-            <td>$49/mo</td>
-          </tr>
-          <tr>
-            <td><strong>Perplexity</strong></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="partial">~</span></td>
-            <td><span class="cross">✗</span></td>
-            <td>Research / search</td>
-            <td>$20/mo</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="mt-24 text-center">
-      <a href="/blog/best-ai-writing-tools.html" class="btn btn-ghost btn-sm">Read Full Comparison →</a>
+    <div class="grid-6">
+      <a class="cat-card" href="/blog/best-ai-writing-tools.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 18 8 7l4 11M5.4 14h5.2M14 7v11M14 7h3.5a2.5 2.5 0 0 1 0 5H14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="nm">AI Writing</div><div class="ct">3 tools tracked</div></div></a>
+      <a class="cat-card" href="/blog/notion-vs-obsidian-pkm.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 4h14a2 2 0 0 1 2 2v14l-3-2-3 2-3-2-3 2-3-2-3 2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="nm">Knowledge</div><div class="ct">3 tools tracked</div></div></a>
+      <a class="cat-card" href="/blog/best-no-code-tools-2026.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="nm">Code &amp; Dev</div><div class="ct">2 tools tracked</div></div></a>
+      <a class="cat-card" href="/blog/zapier-vs-make-automation.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0 3-3m-3 3L9 6M5 12a7 7 0 1 0 14 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="nm">Automation</div><div class="ct">2 tools tracked</div></div></a>
+      <a class="cat-card" href="/blog/figma-vs-framer.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0Z" stroke="currentColor" stroke-width="1.7"/><path d="M12 3a9 9 0 0 0 0 18M3.5 9h17M3.5 15h17" stroke="currentColor" stroke-width="1.7"/></svg></span><div><div class="nm">Design</div><div class="ct">2 tools tracked</div></div></a>
+      <a class="cat-card" href="/blog/ahrefs-vs-semrush-seo-tools.html"><span class="cat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="nm">Analytics</div><div class="ct">2 tools tracked</div></div></a>
     </div>
   </div>
 </section>
 
-<!-- ─── POPULAR COMPARISONS ───────────────────────────────── -->
-<section class="section" style="border-top:1px solid var(--border)">
+<!-- ─── LATEST REVIEWS ─────────────────────────────────────── -->
+<section id="latest" class="section">
   <div class="container">
-    <div class="flex-between section-header" style="margin-bottom:40px">
+    <div class="sec-head">
       <div>
-        <p class="label">Most Read</p>
-        <h2>Popular Tool Comparisons</h2>
+        <div class="kicker">Latest reviews</div>
+        <h2>Fresh from the test bench</h2>
+        <p>Filter by category. Real long-form reviews carry a calibrated score; comparison articles distil the verdict into a paragraph.</p>
       </div>
-      <a href="/blog/" class="btn btn-ghost btn-sm">All Comparisons →</a>
     </div>
-    <div class="grid-3">
+    <div class="filters" id="filterPills" style="margin-bottom:8px">
+      <button class="chip pill active" data-filter="all">All</button>
+      <button class="chip pill" data-filter="ai-writing">AI Writing</button>
+      <button class="chip pill" data-filter="knowledge">Knowledge</button>
+      <button class="chip pill" data-filter="automation">Automation</button>
+      <button class="chip pill" data-filter="analytics">Analytics</button>
+      <button class="chip pill" data-filter="design">Design</button>
+      <button class="chip pill" data-filter="strategy">Strategy</button>
+    </div>
+    <div class="grid review-grid" id="toolsGrid">
 
-      <a href="/blog/notion-vs-roam-research.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#fff7df,#ffeec0)">
-            <span>🗂️</span>
-          </div>
+      <article class="review tool-card" data-category="ai-writing">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--ink)">C</span>
+          <div class="meta"><div class="cat">AI Writing · Review</div><h3>Claude</h3></div>
+          <div class="gauge" data-score="5.0" data-size="52"></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">Note-Taking</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Notion vs Roam Research (2026): Which Note-Taking App Wins?</h3>
-          <p>60 days of daily use comparing both tools. Honest verdict on philosophy, pricing, and which knowledge management tool wins for your workflow.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">9 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>Most capable assistant for long-form work — 200k context, the cleanest refusal logic of the major models, joyful editor. Hard to justify keeping any other if budget is tight.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">Free tier</span><span class="tag">API</span></div><a href="/reviews/claude-review.html" class="arrow-link">Full review</a></div>
+      </article>
 
-      <a href="/blog/notion-vs-obsidian-pkm.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#fff7df,#ffeec0)">
-            <span>🗂️</span>
-          </div>
+      <article class="review tool-card" data-category="ai-writing">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--blue)">A</span>
+          <div class="meta"><div class="cat">AI Writing · Comparison</div><h3>Best AI Writing Tools 2026</h3></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">Note-Taking</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Notion vs Obsidian vs Roam Research: The Definitive PKM Comparison</h3>
-          <p>90 days using all three PKM apps daily. The honest verdict on which note-taking app actually wins for your workflow in 2026.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">9 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>30 days of identical tasks across Claude, ChatGPT, Gemini, Jasper and Perplexity. Ranked breakdown, real examples, where each tool falls short.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">Roundup</span></div><a href="/blog/best-ai-writing-tools.html" class="arrow-link">Read</a></div>
+      </article>
 
-      <a href="/blog/ahrefs-vs-semrush-seo-tools.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#e3edff,#c8d8f0)">
-            <span>📈</span>
-          </div>
+      <article class="review tool-card" data-category="knowledge">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--slate)">N</span>
+          <div class="meta"><div class="cat">Knowledge · Comparison</div><h3>Notion vs Obsidian for PKM</h3></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">SEO Tools</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Ahrefs vs SEMrush (2026): 90 Days With Both — Honest Verdict</h3>
-          <p>Both cost over £100/month. Real comparison after 90 days of daily use — which SEO tool actually wins for small businesses?</p>
-          <div class="blog-card-footer">
-            <span class="read-time">8 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>90 days using both daily. Which note-taking app actually wins for your workflow in 2026 — and which to avoid if you're new to PKM.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">PKM</span><span class="tag">Notes</span></div><a href="/blog/notion-vs-obsidian-pkm.html" class="arrow-link">Read</a></div>
+      </article>
 
-      <a href="/blog/ai-image-generators-ranked.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#ffe9f0,#ffd6e3)">
-            <span>🎨</span>
-          </div>
+      <article class="review tool-card" data-category="automation">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--blue)">Z</span>
+          <div class="meta"><div class="cat">Automation · Comparison</div><h3>Zapier vs Make vs n8n</h3></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">AI Image Tools</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Midjourney vs DALL-E vs Stable Diffusion (2026): 500 Images Generated</h3>
-          <p>Honest 2026 comparison of the three biggest AI image generators. Quality, pricing, and which wins for your use case.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">7 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>We rebuilt 12 identical workflows in all three. Which no-code automation tool is faster, cheaper, and easier to maintain in 2026?</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">No-code</span><span class="tag">Workflows</span></div><a href="/blog/zapier-vs-make-automation.html" class="arrow-link">Read</a></div>
+      </article>
 
-      <a href="/blog/best-project-management-tools.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#e0f0ea,#c5e3d6)">
-            <span>🤝</span>
-          </div>
+      <article class="review tool-card" data-category="analytics">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--ink)">A</span>
+          <div class="meta"><div class="cat">Analytics · Comparison</div><h3>Ahrefs vs SEMrush 2026</h3></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">Project Mgmt</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Linear vs Jira vs Asana (2026): 12 Weeks Testing — Which Wins?</h3>
-          <p>Tested all three on real client work for 12 weeks. Best pick for engineering teams, agencies, and product teams.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">11 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>Both cost over £100/month. Honest verdict after 90 days of daily use — which SEO tool actually wins for small businesses.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">SEO</span><span class="tag">Premium</span></div><a href="/blog/ahrefs-vs-semrush-seo-tools.html" class="arrow-link">Read</a></div>
+      </article>
 
-      <a href="/blog/zapier-vs-make-automation.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#f0e3ff,#dfc8ff)">
-            <span>⚡</span>
-          </div>
+      <article class="review tool-card" data-category="design">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--slate)">F</span>
+          <div class="meta"><div class="cat">Design · Comparison</div><h3>Figma vs Framer</h3></div>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">Automation</span>
-            <span class="blog-date">2026</span>
-          </div>
-          <h3>Zapier vs Make vs n8n (2026): 12 Workflows Tested</h3>
-          <p>Rebuilt 12 identical workflows in all three. Which no-code automation tool is faster, cheaper, easier to maintain?</p>
-          <div class="blog-card-footer">
-            <span class="read-time">10 min read</span>
-            <span class="read-more">Read comparison →</span>
-          </div>
-        </div>
-      </a>
+        <p>Are Framer's new layout primitives finally close enough to Figma to switch? Honest take after running both on real client work.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">Design</span><span class="tag">Web</span></div><a href="/blog/figma-vs-framer.html" class="arrow-link">Read</a></div>
+      </article>
 
+      <article class="review tool-card" data-category="ai-writing">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--ink)">G</span>
+          <div class="meta"><div class="cat">AI Writing · Comparison</div><h3>Claude vs Gemini</h3></div>
+        </div>
+        <p>Side-by-side for real work — research, writing, code review. Which to use when, and where Gemini's "all-in-Google" stack actually pays off.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">LLMs</span></div><a href="/blog/claude-vs-gemini.html" class="arrow-link">Read</a></div>
+      </article>
+
+      <article class="review tool-card" data-category="strategy">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--blue)">$</span>
+          <div class="meta"><div class="cat">Strategy · Guide</div><h3>Reduce SaaS Spend</h3></div>
+        </div>
+        <p>Most teams overspend on SaaS by 40%. Framework to audit your stack, eliminate overlap, and cut hundreds per month — without losing functionality.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">FinOps</span><span class="tag">Audit</span></div><a href="/blog/reduce-saas-spend-guide.html" class="arrow-link">Read</a></div>
+      </article>
+
+      <article class="review tool-card" data-category="ai-writing">
+        <div class="review-top">
+          <span class="mono-tile" style="width:44px;height:44px;font-size:19px;background:var(--slate)">P</span>
+          <div class="meta"><div class="cat">AI Writing · Comparison</div><h3>ChatGPT vs Perplexity</h3></div>
+        </div>
+        <p>Where Perplexity beats ChatGPT for research (and where it doesn't). The honest "which one to keep paying for" call.</p>
+        <div class="review-foot"><div class="tag-row"><span class="tag">Research</span><span class="tag">Citations</span></div><a href="/blog/chatgpt-vs-perplexity-research.html" class="arrow-link">Read</a></div>
+      </article>
+
+    </div>
+    <div style="margin-top:30px;display:flex;justify-content:center">
+      <a href="/blog/" class="btn btn-ghost">Load more reviews</a>
     </div>
   </div>
 </section>
 
-<!-- ─── BLOG POSTS ─────────────────────────────────────────── -->
-<section class="section">
+<!-- ─── RANKINGS + METHODOLOGY ─────────────────────────────── -->
+<section id="rankings" class="section" style="background:var(--paper-2);border-top:1px solid var(--line)">
   <div class="container">
-    <div class="flex-between section-header" style="margin-bottom:40px">
+    <div class="split">
       <div>
-        <p class="label">Latest</p>
-        <h2>From the Blog</h2>
+        <div class="kicker">Top-rated · all time</div>
+        <h2 style="font-size:clamp(27px,3vw,36px);font-weight:700;letter-spacing:-.028em;margin:10px 0 22px;line-height:1.08">The leaderboard, no asterisks</h2>
+        <div class="board">
+          <div class="board-row lead">
+            <div class="board-rank">01</div>
+            <div class="board-name"><span class="mono-tile" style="width:36px;height:36px;font-size:15px;background:var(--blue)">C</span><div><div class="nm">Claude</div><div class="ct">AI Writing</div></div></div>
+            <div class="board-score"><div class="scorebar"><i style="width:100%"></i></div><b>5.0</b></div>
+          </div>
+          <div class="board-row">
+            <div class="board-rank">02</div>
+            <div class="board-name"><span class="mono-tile" style="width:36px;height:36px;font-size:15px;background:var(--ink)">L</span><div><div class="nm">Linear</div><div class="ct">Project Mgmt</div></div></div>
+            <div class="board-score"><div class="scorebar"><i style="width:96%"></i></div><b>4.8</b></div>
+          </div>
+          <div class="board-row">
+            <div class="board-rank">03</div>
+            <div class="board-name"><span class="mono-tile" style="width:36px;height:36px;font-size:15px;background:var(--ink)">F</span><div><div class="nm">Figma</div><div class="ct">Design</div></div></div>
+            <div class="board-score"><div class="scorebar"><i style="width:96%"></i></div><b>4.8</b></div>
+          </div>
+          <div class="board-row">
+            <div class="board-rank">04</div>
+            <div class="board-name"><span class="mono-tile" style="width:36px;height:36px;font-size:15px;background:var(--blue)">G</span><div><div class="nm">ChatGPT</div><div class="ct">AI Writing</div></div></div>
+            <div class="board-score"><div class="scorebar"><i style="width:94%"></i></div><b>4.7</b></div>
+          </div>
+          <div class="board-row">
+            <div class="board-rank">05</div>
+            <div class="board-name"><span class="mono-tile" style="width:36px;height:36px;font-size:15px;background:var(--slate)">O</span><div><div class="nm">Obsidian</div><div class="ct">Knowledge</div></div></div>
+            <div class="board-score"><div class="scorebar"><i style="width:94%"></i></div><b>4.7</b></div>
+          </div>
+        </div>
       </div>
-      <a href="/blog/" class="btn btn-ghost btn-sm">All Posts →</a>
-    </div>
-    <div class="grid-3">
 
-      <a href="/blog/best-ai-writing-tools.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#e3edff,#cce0ff)">
-            <span>✍️</span>
-          </div>
+      <div id="method">
+        <div class="method-card">
+          <div class="kicker">Methodology</div>
+          <h3>How a tool earns its dial</h3>
+          <ul class="method-list">
+            <li><span class="num">01</span><div><div class="mt">We pay full price</div><div class="md">Every subscription is bought at retail on a normal plan. No press seats, no comped enterprise tiers.</div></div></li>
+            <li><span class="num">02</span><div><div class="mt">Same criteria, every time</div><div class="md">Speed, reliability, pricing fairness, support, security, and a handful more — weighted identically across categories so a 4.5 means the same thing in AI as it does in SEO.</div></div></li>
+            <li><span class="num">03</span><div><div class="mt">Real work, not vendor demos</div><div class="md">We ship actual client work with each tool for weeks before writing a single line of the review. Demos lie; production rarely does.</div></div></li>
+            <li><span class="num">04</span><div><div class="mt">One calibrated number</div><div class="md">The criteria collapse into a single score out of five — and we re-test when products ship major changes. The score isn't a snapshot, it's a commitment.</div></div></li>
+          </ul>
         </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">AI Writing</span>
-            <span class="blog-date">Mar 2026</span>
-          </div>
-          <h3>Best AI Writing Tools (2026): Claude vs ChatGPT vs Gemini Tested</h3>
-          <p>30 days of identical tasks through every major AI writing tool. The unbiased, ranked breakdown — with real examples and honest takes on each tool's limitations.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">8 min read</span>
-            <span class="read-more">Read →</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="/blog/reduce-saas-spend-guide.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#dff5e8,#c5edd5)">
-            <span>📊</span>
-          </div>
-        </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">SaaS</span>
-            <span class="blog-date">Mar 2026</span>
-          </div>
-          <h3>Reduce SaaS Spend (2026): Cut Your Tool Stack 40% Without Breaking Workflows</h3>
-          <p>Most teams overspend on SaaS by 40%. The exact framework to audit your tool stack, eliminate overlap, and cut hundreds per month — without losing functionality.</p>
-          <div class="blog-card-footer">
-            <span class="read-time">6 min read</span>
-            <span class="read-more">Read →</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="/blog/zapier-vs-make-automation.html" class="blog-card">
-        <div class="blog-card-img">
-          <div class="blog-card-img-placeholder" style="background:linear-gradient(135deg,#f0e3ff,#dfc8ff)">
-            <span>⚡</span>
-          </div>
-        </div>
-        <div class="blog-card-content">
-          <div class="blog-meta">
-            <span class="blog-tag">Automation</span>
-            <span class="blog-date">Jan 2026</span>
-          </div>
-          <h3>Zapier vs Make vs n8n (2026): 12 Workflows Tested — Which Wins?</h3>
-          <p>We rebuilt 12 identical workflows in all three tools. Which automation platform is faster, cheaper, and easier to maintain in 2026?</p>
-          <div class="blog-card-footer">
-            <span class="read-time">10 min read</span>
-            <span class="read-more">Read →</span>
-          </div>
-        </div>
-      </a>
-
+      </div>
     </div>
   </div>
 </section>
-
 <!-- ─── AD RECTANGLE ──────────────────────────────────────── -->
 <div class="container">
   <div class="ad-slot ad-slot-rectangle" style="margin-bottom:8px">
@@ -620,21 +371,21 @@
 </div>
 
 <!-- ─── NEWSLETTER ─────────────────────────────────────────── -->
-<section class="section-sm">
-  <div class="container">
-    <div class="newsletter-section">
-      <p class="label">Stay Sharp</p>
-      <h2 style="max-width:18ch;margin-top:10px">New tools. Zero fluff. Weekly.</h2>
-      <p style="margin-top:12px;max-width:44ch">
-        Get independent AI and SaaS tool reviews delivered weekly. No fluff, no vendor bias.
-      </p>
+<section id="newsletter" class="news">
+  <div class="container news-inner" style="padding:64px 28px">
+    <div>
+      <div class="kicker">The Tuning Brief</div>
+      <h2 style="margin-top:8px">One honest review in your inbox, Mon &amp; Thu.</h2>
+      <p>New scores, re-tests, and the occasional teardown of a tool that didn't make the cut. No fluff, no vendor bias.</p>
+    </div>
+    <div>
       <form class="newsletter-form" id="newsletterForm" novalidate>
-        <input type="email" name="email" required placeholder="Enter your email" autocomplete="email" aria-label="Email address">
+        <input type="email" name="email" required placeholder="you@company.com" autocomplete="email" aria-label="Email address">
         <input type="text" name="website" tabindex="-1" autocomplete="off" class="newsletter-honeypot" aria-hidden="true">
         <button type="submit">Subscribe</button>
       </form>
       <p class="newsletter-status" id="newsletterStatus" role="status" aria-live="polite"></p>
-      <p style="font-size:.78rem;color:var(--text-dim);margin-top:12px;max-width:none">No spam. Unsubscribe anytime. We never sell your data.</p>
+      <div class="news-note"><span class="eyebrow-dot"></span>Free · Unsubscribe anytime · We never sell your data</div>
     </div>
   </div>
 </section>
