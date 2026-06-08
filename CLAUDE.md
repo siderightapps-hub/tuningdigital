@@ -80,20 +80,39 @@ All HTML pages (homepage, blog articles, tools, static pages) share the same she
 - Tool pages live flat in `/tools/`, self-contained (logic inline in a `<script>` tag at the bottom).
 - [assets/js/main.js](assets/js/main.js) auto-attaches to elements by ID/class (`mobileToggle`, `newsletterForm`, `.article-body`, `.ad-slot`, etc.) — IDs in markup must match what `main.js` queries.
 
-## CSS
+## Design system (calibration palette + dial mark)
 
-Single stylesheet at [assets/css/main.css](assets/css/main.css) with CSS-variable design tokens at the top (`--bg`, `--accent`, `--font-display`, etc.). Use these tokens rather than hardcoding hex values when adding styles.
+The site adopted a new design language on 2026-06-07. Single stylesheet at [assets/css/main.css](assets/css/main.css). All values defined as CSS variables at the top.
+
+**Design tokens (source of truth)** — `oklch()` colorspace, perceptually uniform:
+
+| Token | Value | Use |
+|---|---|---|
+| `--ink` | `oklch(0.215 0.018 256)` | Dark navy. Body text on paper, dark surfaces (hero, footer, methodology card). |
+| `--ink-2` / `--ink-3` | lighter navy variants | Hover states on dark surfaces |
+| `--slate` / `--slate-2` | `oklch(0.30 / 0.47 .03 252)` | Muted text |
+| `--blue` | `oklch(0.56 0.13 252)` | Secondary accent (mono-tile backgrounds, scorebar) |
+| `--cyan` | `oklch(0.74 0.105 215)` | Accent — the dial needle, gauge fills, primary CTA on dark. Sparingly used. |
+| `--paper` / `--paper-2` / `--paper-3` | off-whites | Page background + surface elevation |
+| `--line` / `--line-2` | oklch greys | Borders + dividers |
+| `--accent-ink` | `oklch(0.30 0.06 230)` | "Accent-on-paper" — for hover/active states on light bg where pure cyan would be too pale |
+
+**Back-compat aliases** preserved so older HTML keeps rendering: `--bg → --paper`, `--accent → --cyan`, `--text → --ink`, `--surface → --paper`, `--border → --line`, etc. Existing pages inherit the new look without per-file CSS edits.
+
+**Fonts**: `--font-display` + `--font-body` are both Hanken Grotesk (the same family handles both display and body — design choice). `--font-mono` is IBM Plex Mono. The `@import` is at the top of main.css; pages don't need separate `<link>` tags. **Don't add Syne, DM Sans, or JetBrains Mono back** — those were the pre-2026-06-07 brand stack and have been fully replaced.
+
+**Brand mark — the tuning dial**: rendered by JS into every `<span class="dial-slot" data-dial="N" data-tone="ink|paper">`. The renderer lives in [assets/js/main.js](assets/js/main.js) (`dialSVG()`). Composed of: outer circle ring + four quarter-tick marks + cyan needle at -45° + paper hub. The same geometric primitive (different scale) is the favicon ([assets/img/favicon.svg](assets/img/favicon.svg)) AND every LinkedIn asset AND the **score gauge** rendered on review cards (`<div class="gauge" data-score="8.7" data-size="52">`). The mark *means* something — calibration, tuning, signal — and the gauge is just the brand mark dialed to a score. Don't replace either with a different shape; the unification is load-bearing for the editorial positioning.
 
 ## Brand assets
 
 Operator-facing brand assets (off-site uploads — LinkedIn, X header, press kits, etc.) live under [brand/](brand/). The favicon and og-image are still under `assets/img/` because those are *site* assets (linked from HTML); `brand/` is for things you upload elsewhere.
 
-- **[brand/linkedin/](brand/linkedin/)** — LinkedIn Company Page assets at exact-pixel spec.
-  - `logo.png` (400×400) — cream square + centered blue dot. Same mark as the favicon, so the brand is consistent across surfaces. Stays recognisable when LinkedIn circle-crops it to 60×60 in feed.
-  - `banner.png` (1128×191) — cream cover with blue dot + "Tuning Digital" wordmark (Syne Bold) + "Independent AI & SaaS tool reviews." tagline (DM Sans).
-  - SVG sources (`logo.svg`, `banner.svg`) committed alongside the PNGs so they're editable in any vector tool / re-renderable at different sizes (e.g. a 1584×396 personal banner variant later).
+- **[brand/linkedin/](brand/linkedin/)** — LinkedIn Company Page assets at exact-pixel spec, regenerated 2026-06-07 with the dial mark.
+  - `logo.png` (400×400) — ink-navy square (the SVG carries rounded corners; the PNG is plain square for LinkedIn's circle-crop in feed). Centered dial mark: paper ring + four ticks + cyan needle + paper hub. Stays recognisable at LinkedIn's 60×60 feed crop.
+  - `banner.png` (1128×191) — paper cover, dial mark on the left + "Tuning Digital" wordmark in Hanken Grotesk Bold + "Independent AI & SaaS tool reviews." tagline in Hanken Grotesk Regular.
+  - SVG sources (`logo.svg`, `banner.svg`) committed alongside the PNGs so they're editable in any vector tool / re-renderable at different sizes (e.g. a 1584×396 personal-banner variant later).
 
-**Asset build approach** (not checked in — the build script was a throwaway at `/tmp/build_linkedin_assets.py`): downloads Syne Bold + DM Sans Regular from Google Fonts' CSS2 endpoint with the `text=` query param (which subsets the font to *only* the glyphs we render — single @font-face block per family, ~2 KB each, guaranteed to contain our characters); decompresses woff2 → TTF via `fontTools` + `brotli`; composes with Pillow at exact pixel dimensions. **Gotcha for re-rendering**: without `text=`, Google Fonts returns multiple unicode-range subsets per family (latin / latin-ext / etc) and matching the wrong block leaves Pillow with `.notdef` glyphs (all boxes — see the failed first attempt 2026-06-07). Always pass `text=` with every character you'll render across all fonts in the request.
+**Asset build approach** (not checked in — the build script was a throwaway at `/tmp/build_linkedin_assets.py`): downloads Hanken Grotesk Bold + Regular from Google Fonts' CSS2 endpoint with the `text=` query param (which subsets the font to *only* the glyphs we render — single @font-face block per family, ~6 KB each, guaranteed to contain our characters); decompresses woff2 → TTF via `fontTools` + `brotli`; composes with Pillow at exact pixel dimensions. The dial geometry inside the Python `draw_dial()` matches `assets/img/favicon.svg` exactly so the mark reads the same at 16px and 400px. **Gotcha for re-rendering**: without `text=`, Google Fonts returns multiple unicode-range subsets per family (latin / latin-ext / etc) and matching the wrong block leaves Pillow with `.notdef` glyphs (all boxes — see the failed first attempt 2026-06-07). Always pass `text=` with every character you'll render across all fonts in the request.
 
 LinkedIn Company Page URL: `https://linkedin.com/company/tuningdigital`. Description / tagline / specialties copy is set on the page itself (not in the repo) — if it ever needs revising, the brand-voice rules (British English, no AI-tell phrases, editorial tone, no sponsored placements / inflated rating claims) apply.
 

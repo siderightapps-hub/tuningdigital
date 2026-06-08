@@ -121,6 +121,8 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | Newsletter Worker | `tuningdigital-subscribe` (`/cloudflare-worker/`) | routes: `tuningdigital.com/api/subscribe`; Custom Domain: `unsub.tuningdigital.com` |
 | Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
 | Operator LinkedIn | https://www.linkedin.com/in/alexbacsa/ | About page Editor card + Person JSON-LD `sameAs` (personal profile, distinct from the Company Page above) |
+| Design system | "calibration palette" (2026-06-07) | `oklch()` ink-navy + cyan + paper tokens in [assets/css/main.css](assets/css/main.css). Fonts: Hanken Grotesk (display + body) + IBM Plex Mono. |
+| Brand mark | Tuning dial — circle + four tick marks + cyan needle | Rendered by `dialSVG()` in main.js into every `<span class="dial-slot">`. Same primitive as the favicon + LinkedIn logo + score gauges on review cards. |
 
 ---
 
