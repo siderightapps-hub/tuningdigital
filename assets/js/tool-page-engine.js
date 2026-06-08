@@ -166,7 +166,7 @@ READING LEVEL: Professional but accessible (like TechCrunch or The Verge)
 TONE: Direct, knowledgeable, opinionated but fair — no fluff, no marketing-speak
 
 STRUCTURE REQUIRED (in this exact order):
-1. Affiliate disclosure callout
+1. Editorial note callout (use the EXACT HTML in the formatting section below — do not paraphrase, do not summarise)
 2. A compelling intro (3–4 sentences) — what ${tool.name} is, why we're reviewing it, what makes our take different from the marketing copy you've already read elsewhere. The FIRST sentence must be a direct, self-contained one-line summary of the verdict — the kind of line an AI assistant could quote verbatim.
 3. A TL;DR / Quick Verdict block (exact structure below) including the headline rating
 4. An "At a Glance" summary table (<table class="compare-table">) immediately after the TL;DR, with rows for: Category, Best for, Starting price, Free tier / trial, Platforms, Standout feature, and Rating (${tool.rating}/5). Terse cells only. Tables are the single most-cited element by AI answer engines, so this is mandatory.
@@ -206,7 +206,10 @@ FORMATTING REQUIREMENTS:
 - Bold tool names and key terms with <strong>
 - Include a <blockquote> with a realistic user quote (no fake attribution to fake people — frame as "one reviewer noted" or similar)
 - Tables (At-a-Glance + Pricing): use <table class="compare-table"> with <thead> and <tbody>. In the At-a-Glance table the first cell of each row is the dimension label; in the Pricing table the columns are the tiers. Keep cells terse and scannable — concise cells are what AI answer engines lift verbatim
-- Affiliate disclosure: <div class="callout callout-accent">…</div>
+- Editorial note (use this EXACT HTML at the top, no edits):
+  <div class="callout callout-accent">
+  <strong>Editorial note:</strong> Tuning Digital currently runs no active affiliate programmes — every recommendation here is based on hands-on testing, not commission relationships. If affiliate links are added in future, each one will be marked clearly. Editorial rankings are never for sale.
+  </div>
 - TL;DR block: use EXACTLY this structure (do not deviate from class names):
   <div class="tldr-box">
     <h2 class="tldr-title">Quick Verdict</h2>
@@ -391,7 +394,7 @@ ${relatedArticles.map(a => `            <li><a href="/blog/${a.slug}.html">→ $
       <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
     </div>
     <div class="footer-bottom">
-      <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>
+      <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. No sponsored coverage. Editorial rankings never for sale.</p>
       <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a><a href="#" class="manage-cookies">Manage cookies</a></div>
     </div>
     <div class="footer-sister-pubs" style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);text-align:center;font-family:'IBM Plex Mono',monospace;">

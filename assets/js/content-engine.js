@@ -101,10 +101,10 @@ CATEGORY: ${topic.category}
 WORD COUNT: 1800–2400 words
 READING LEVEL: Professional but accessible (like TechCrunch or The Verge)
 TONE: Direct, knowledgeable, opinionated but fair — no fluff
-AFFILIATE DISCLOSURE: Include a brief callout at the top noting some links may earn a commission
+EDITORIAL NOTE: Include the exact standard editorial note callout at the top (see formatting below). Tuning Digital currently runs no active affiliate programmes; the callout reflects that.
 
 STRUCTURE REQUIRED (in this exact order):
-1. Affiliate disclosure callout (see formatting below)
+1. Editorial note callout (use the EXACT HTML in the formatting section below — do not paraphrase, do not summarise)
 2. A compelling intro that addresses the reader's problem (3–4 sentences, no "In this article..."). The FIRST sentence must be a direct, self-contained answer to the core question — the kind of line an AI assistant could quote verbatim (name the winner or the headline takeaway up front, don't bury it).
 3. A TL;DR / Quick Verdict block (see exact structure below) — front-loads the answer for featured snippets and AI citation engines
 4. An at-a-glance comparison table (see formatting below) — REQUIRED when the article compares two or more named tools; for list/guide articles, include a summary table of the options covered instead. Tables are the single most-cited element by AI answer engines, so this is mandatory, placed near the top.
@@ -165,7 +165,10 @@ FORMATTING REQUIREMENTS:
   curve, integrations, etc.). 5–8 rows. Keep every cell terse and scannable — concise
   cells are what get lifted verbatim into AI answers.
 - Include a <blockquote> with a realistic user quote for social proof
-- Affiliate disclosure: <div class="callout callout-accent">…</div>
+- Editorial note (use this EXACT HTML at the top, no edits):
+  <div class="callout callout-accent">
+  <strong>Editorial note:</strong> Tuning Digital currently runs no active affiliate programmes — every recommendation here is based on hands-on testing, not commission relationships. If affiliate links are added in future, each one will be marked clearly. Editorial rankings are never for sale.
+  </div>
 - TL;DR block: use EXACTLY this structure (do not deviate from the class names):
   <div class="tldr-box">
     <h2 class="tldr-title">Quick Verdict</h2>
@@ -385,7 +388,7 @@ ${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title
       <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
     </div>
     <div class="footer-bottom">
-      <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>
+      <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. No sponsored coverage. Editorial rankings never for sale.</p>
       <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a><a href="#" class="manage-cookies">Manage cookies</a></div>
     </div>
     <div class="footer-sister-pubs" style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);text-align:center;font-family:'IBM Plex Mono',monospace;">
