@@ -305,7 +305,7 @@ function wrapInTemplate(topic, articleHtml, publishDate) {
 <nav class="navbar">
   <div class="container">
     <div class="nav-inner">
-      <a href="/" class="nav-logo"><span class="dot"></span>${CONFIG.siteName}</a>
+      <a href="/" class="nav-logo"><span class="dial-slot" data-dial="22" data-tone="ink"></span>${CONFIG.siteName}</a>
       <ul class="nav-links">
         <li><a href="/tools/">Tools</a></li>
         <li><a href="/blog/" class="active">Blog</a></li>
@@ -379,7 +379,7 @@ ${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title
 <footer>
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo"><span class="dot"></span>${CONFIG.siteName}</div><p>Independent AI and SaaS tool reviews.</p><div class="footer-social"><a href="https://x.com/TuningDigital" class="social-btn" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://linkedin.com/company/tuningdigital" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a></div></div>
+      <div class="footer-brand"><div class="footer-logo"><span class="dial-slot" data-dial="20" data-tone="paper"></span>${CONFIG.siteName}</div><p>Independent AI and SaaS tool reviews.</p><div class="footer-social"><a href="https://x.com/TuningDigital" class="social-btn" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="https://linkedin.com/company/tuningdigital" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a></div></div>
       <div class="footer-col"><h5>Tools</h5><ul><li><a href="/tools/">All Tools</a></li></ul></div>
       <div class="footer-col"><h5>Content</h5><ul><li><a href="/blog/">Blog</a></li></ul></div>
       <div class="footer-col"><h5>Company</h5><ul><li><a href="/about.html">About</a></li><li><a href="/contact.html">Contact</a></li><li><a href="/privacy-policy.html">Privacy</a></li></ul></div>
@@ -388,7 +388,7 @@ ${related.map(r => `            <li><a href="/blog/${r.slug}.html">→ ${r.title
       <p>© ${new Date().getFullYear()} ${CONFIG.siteName}. Affiliate disclosure: some links earn us a commission.</p>
       <div class="footer-bottom-links"><a href="/sitemap.xml">Sitemap</a><a href="/privacy-policy.html">Privacy</a><a href="#" class="manage-cookies">Manage cookies</a></div>
     </div>
-    <div class="footer-sister-pubs" style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);text-align:center;font-family:'JetBrains Mono',monospace;">
+    <div class="footer-sister-pubs" style="border-top:1px solid var(--border);margin-top:16px;padding-top:14px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);text-align:center;font-family:'IBM Plex Mono',monospace;">
       Sister publications &middot;
       <a href="https://salestap.com" rel="noopener" target="_blank" style="color:var(--text-muted);text-decoration:none;margin:0 6px;">SalesTap</a> &middot;
       <a href="https://cloudfintech.ai" rel="noopener" target="_blank" style="color:var(--text-muted);text-decoration:none;margin:0 6px;">CloudFintech</a> &middot;
