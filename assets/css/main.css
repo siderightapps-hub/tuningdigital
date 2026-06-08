@@ -340,12 +340,12 @@ strong{color:var(--ink);font-weight:600}
 .feature-strengths{
   list-style:none;padding:0;margin:0;
   display:flex;flex-direction:column;gap:9px;
-  font-size:14px;color:var(--slate);line-height:1.45;
+  font-size:14px;color:var(--slate);line-height:1.5;
 }
-.feature-strengths li{display:flex;align-items:flex-start;gap:11px}
+.feature-strengths li{position:relative;padding-left:18px}
 .feature-strengths li::before{
-  content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;
-  background:var(--accent);margin-top:7px;
+  content:"";position:absolute;left:0;top:8px;
+  width:6px;height:6px;border-radius:50%;background:var(--accent);
 }
 .feature-strengths li strong{color:var(--ink);font-weight:600}
 .feature-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:2px;padding-top:14px}
