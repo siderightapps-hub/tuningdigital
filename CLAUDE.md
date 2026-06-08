@@ -107,12 +107,12 @@ The site adopted a new design language on 2026-06-07. Single stylesheet at [asse
 
 Operator-facing brand assets (off-site uploads — LinkedIn, X, press kits, etc.) live under [brand/](brand/). The favicon and og-image are still under `assets/img/` because those are *site* assets (linked from HTML); `brand/` is for things you upload elsewhere.
 
-- **[brand/linkedin/](brand/linkedin/)** — LinkedIn Company Page assets at exact-pixel spec, regenerated 2026-06-07 with the dial mark.
+- **[brand/linkedin/](brand/linkedin/)** — LinkedIn Company Page assets at exact-pixel spec, regenerated 2026-06-07 with the dial mark. **Live on the Company Page since 2026-06-08.**
   - `logo.png` (400×400) — ink-navy square (the SVG carries rounded corners; the PNG is plain square for LinkedIn's circle-crop in feed). Centered dial mark: paper ring + four ticks + cyan needle + paper hub. Stays recognisable at LinkedIn's 60×60 feed crop.
   - `banner.png` (1128×191) — paper cover, dial mark on the left + "Tuning Digital" wordmark in Hanken Grotesk Bold + "Independent AI & SaaS tool reviews." tagline in Hanken Grotesk Regular.
   - SVG sources (`logo.svg`, `banner.svg`) committed alongside the PNGs so they're editable in any vector tool / re-renderable at different sizes (e.g. a 1584×396 personal-banner variant later).
 
-- **[brand/x/](brand/x/)** — X (Twitter) @TuningDigital Company assets, generated 2026-06-08.
+- **[brand/x/](brand/x/)** — X (Twitter) @TuningDigital Company assets, generated 2026-06-08. **Live on the X profile since 2026-06-08** (profile pic + header banner + bio all updated in one pass).
   - `profile.png` (400×400) — **identical** to the LinkedIn logo file (same square, same dial, same paper ring + cyan needle). Cross-network brand consistency: the small avatar reads the same on LinkedIn feed crops, X feed crops, and any other surface that does circle-crops at small sizes.
   - `header.png` (1500×500) — dark ink hero (matches the site's `.hero` section). Centered composition: dial mark + "INDEPENDENT · AI & SAAS REVIEWS · EST 2026" kicker (IBM Plex Mono Medium) + "Tuning Digital" wordmark (Hanken Grotesk Bold) + tagline (Hanken Grotesk Regular). Composition is biased ~80px right of horizontal center and ~30px above vertical center to keep the bottom-left profile-pic overlay zone (~250×250) visually clean.
   - SVG sources alongside both PNGs.
