@@ -148,6 +148,18 @@ strong{color:var(--ink);font-weight:600}
 .nav-right,.nav-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
 .nav-mobile-toggle{display:none;flex-direction:column;gap:4px;padding:8px;background:none;border:none;cursor:pointer}
 .nav-mobile-toggle span{width:20px;height:2px;background:var(--ink);transition:.2s}
+.mobile-nav{
+  display:none;
+  position:fixed;left:0;right:0;top:68px;
+  background:var(--paper);border-bottom:1px solid var(--line);
+  flex-direction:column;gap:4px;padding:20px 28px 24px;z-index:35;
+}
+.mobile-nav.open{display:flex}
+.mobile-nav a{
+  color:var(--ink);font-weight:500;font-size:16px;
+  padding:10px 0;border-bottom:1px solid var(--line);
+}
+.mobile-nav a:last-child{border-bottom:none}
 
 .search{
   display:flex;align-items:center;gap:9px;height:40px;padding:0 14px;
@@ -324,8 +336,19 @@ strong{color:var(--ink);font-weight:600}
 .feature-meta{flex:1;min-width:0}
 .feature-meta .cat{color:var(--slate-2);font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
 .feature-meta h3{margin:5px 0 0;font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
-.feature-verdict{font-size:15.5px;color:var(--slate);line-height:1.55;margin:0}
-.feature-foot{display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px solid var(--line);margin-top:2px;padding-top:14px}
+.feature-verdict{font-size:15.5px;color:var(--ink);line-height:1.55;margin:0;font-weight:500}
+.feature-strengths{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-direction:column;gap:9px;
+  font-size:14px;color:var(--slate);line-height:1.45;
+}
+.feature-strengths li{display:flex;align-items:flex-start;gap:11px}
+.feature-strengths li::before{
+  content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;
+  background:var(--accent);margin-top:7px;
+}
+.feature-strengths li strong{color:var(--ink);font-weight:600}
+.feature-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:2px;padding-top:14px}
 /* Legacy classes — preserved for any remaining .feature-shot/.ph usage elsewhere */
 .feature-shot{display:none}
 

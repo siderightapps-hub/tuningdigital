@@ -38,10 +38,13 @@
   function drawGauge(el){
     var score = parseFloat(el.dataset.score);
     if (isNaN(score)) return;
+    // Scale defaults to /10 (matches the new design's leaderboard convention);
+    // tool reviews using TOOL_BANK use data-max="5".
+    var max = parseFloat(el.dataset.max || '10');
     var S = parseInt(el.dataset.size || '52', 10);
     var r = S / 2 - 5;
     var c = 2 * Math.PI * r;
-    var frac = Math.max(0, Math.min(1, score / 10));
+    var frac = Math.max(0, Math.min(1, score / max));
     var cx = S / 2, cy = S / 2;
     var endAng = -90 + frac * 360;
     var er = endAng * Math.PI / 180;
@@ -54,6 +57,7 @@
             + '" stroke="var(--line-2)" stroke-width="1.4" stroke-linecap="round"/>';
     });
     var num = (Math.round(score * 10) / 10).toFixed(1);
+    var maxLabel = Number.isInteger(max) ? String(max) : max.toFixed(1);
     el.style.width = S + 'px';
     el.style.height = S + 'px';
     el.innerHTML =
@@ -65,7 +69,7 @@
         + '<circle cx="' + dotX + '" cy="' + dotY + '" r="3.4" fill="var(--accent)" stroke="var(--paper)" stroke-width="1.5"/>'
       + '</svg>'
       + '<div class="val"><b style="font-size:' + (S * 0.30) + 'px">' + num + '</b>'
-      +   (S >= 58 ? '<small>SCORE</small>' : '') + '</div>';
+      +   (S >= 58 ? '<small>/ ' + maxLabel + '</small>' : '') + '</div>';
   }
   function renderGauges(){
     document.querySelectorAll('.gauge[data-score]').forEach(drawGauge);
