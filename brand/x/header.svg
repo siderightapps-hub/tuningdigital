@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <radialGradient id="accent" cx="88%" cy="-10%" r="60%">
+      <stop offset="0%"  stop-color="#3c6e82" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#3c6e82" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap');
+      .kicker   { font-family: 'IBM Plex Mono', monospace; font-weight: 500; font-size: 18px; fill: #8a93a8; letter-spacing: 0.18em; text-transform: uppercase; }
+      .wordmark { font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 96px; fill: #f8f6f2; letter-spacing: -0.025em; }
+      .tagline  { font-family: 'Hanken Grotesk', sans-serif; font-weight: 400; font-size: 30px; fill: #8a93a8; }
+    </style>
+  </defs>
+  <rect width="1500" height="500" fill="#1a1f2d"/>
+  <rect width="1500" height="500" fill="url(#accent)"/>
+  <g transform="translate(521 213)">
+    <circle cx="0" cy="0" r="46" fill="none" stroke="#f8f6f2" stroke-width="7.8" opacity="0.92"/>
+    <line x1="0" y1="-60" x2="0" y2="-53" stroke="#f8f6f2" stroke-width="6.3" stroke-linecap="round" opacity="0.55"/>
+    <line x1="60" y1="0" x2="53" y2="0" stroke="#f8f6f2" stroke-width="6.3" stroke-linecap="round" opacity="0.55"/>
+    <line x1="0" y1="60" x2="0" y2="53" stroke="#f8f6f2" stroke-width="6.3" stroke-linecap="round" opacity="0.55"/>
+    <line x1="-60" y1="0" x2="-53" y2="0" stroke="#f8f6f2" stroke-width="6.3" stroke-linecap="round" opacity="0.55"/>
+    <line x1="9" y1="9" x2="-23" y2="-23" stroke="#6ec5d6" stroke-width="10.4" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="9" fill="#f8f6f2"/>
+  </g>
+  <text class="kicker"   x="619" y="151">INDEPENDENT · AI & SAAS REVIEWS · EST 2026</text>
+  <text class="wordmark" x="619" y="246">Tuning Digital</text>
+  <text class="tagline"  x="619" y="306">Independent reviews of AI & SaaS tools.</text>
+</svg>
