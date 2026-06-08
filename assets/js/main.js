@@ -1,5 +1,86 @@
 /* assets/js/main.js — shared JS for tuningdigital.com */
 
+// ─── Dial mark (brand) + score gauge renderers ────────────
+// Both render after DOM is parsed. The dial is the tuning-dial brand mark
+// (circle + needle + four tick marks) injected into every `<span class="dial-slot">`.
+// The gauge is the same primitive repurposed as a 0-10 score readout for review
+// cards / leaderboards (`<div class="gauge" data-score="8.7" data-size="52">`).
+(function(){
+  function dialSVG(size, tone){
+    var line = tone === 'paper' ? '#ffffff' : 'currentColor';
+    var accent = 'var(--accent, #6ec5d6)';
+    var cx = 24, cy = 24, ang = -45 * Math.PI / 180;
+    var ux = Math.cos(ang), uy = Math.sin(ang);
+    var tipX = cx + 13 * ux, tipY = cy + 13 * uy;
+    var tailX = cx - 5 * ux, tailY = cy - 5 * uy;
+    var ticks = '';
+    [0,90,180,270].forEach(function(a){
+      var rad = (a - 90) * Math.PI / 180;
+      var r1 = 20.5, r2 = 23;
+      ticks += '<line x1="' + (cx + r1 * Math.cos(rad)) + '" y1="' + (cy + r1 * Math.sin(rad))
+            + '" x2="' + (cx + r2 * Math.cos(rad)) + '" y2="' + (cy + r2 * Math.sin(rad))
+            + '" stroke="' + line + '" stroke-width="2" opacity="0.4" stroke-linecap="round"/>';
+    });
+    return '<svg class="dial" width="' + size + '" height="' + size + '" viewBox="0 0 48 48" fill="none" aria-hidden="true">'
+         + '<circle cx="' + cx + '" cy="' + cy + '" r="17" stroke="' + line + '" stroke-width="2.8" opacity="0.92"/>'
+         + ticks
+         + '<line x1="' + tailX + '" y1="' + tailY + '" x2="' + tipX + '" y2="' + tipY + '" stroke="' + accent + '" stroke-width="3.4" stroke-linecap="round"/>'
+         + '<circle cx="' + cx + '" cy="' + cy + '" r="3" fill="' + line + '"/>'
+         + '</svg>';
+  }
+  function renderDials(){
+    document.querySelectorAll('.dial-slot').forEach(function(el){
+      var size = parseInt(el.dataset.dial || '22', 10);
+      var tone = el.dataset.tone || 'ink';
+      el.innerHTML = dialSVG(size, tone);
+    });
+  }
+  function drawGauge(el){
+    var score = parseFloat(el.dataset.score);
+    if (isNaN(score)) return;
+    var S = parseInt(el.dataset.size || '52', 10);
+    var r = S / 2 - 5;
+    var c = 2 * Math.PI * r;
+    var frac = Math.max(0, Math.min(1, score / 10));
+    var cx = S / 2, cy = S / 2;
+    var endAng = -90 + frac * 360;
+    var er = endAng * Math.PI / 180;
+    var dotX = cx + r * Math.cos(er), dotY = cy + r * Math.sin(er);
+    var ticks = '';
+    [0,90,180,270].forEach(function(a){
+      var rad = (a - 90) * Math.PI / 180, r1 = S / 2 - 2.5, r2 = S / 2;
+      ticks += '<line x1="' + (cx + r1 * Math.cos(rad)) + '" y1="' + (cy + r1 * Math.sin(rad))
+            + '" x2="' + (cx + r2 * Math.cos(rad)) + '" y2="' + (cy + r2 * Math.sin(rad))
+            + '" stroke="var(--line-2)" stroke-width="1.4" stroke-linecap="round"/>';
+    });
+    var num = (Math.round(score * 10) / 10).toFixed(1);
+    el.style.width = S + 'px';
+    el.style.height = S + 'px';
+    el.innerHTML =
+      '<svg width="' + S + '" height="' + S + '" viewBox="0 0 ' + S + ' ' + S + '" fill="none">'
+        + ticks
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="var(--paper-3)" stroke-width="4"/>'
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"'
+        + ' stroke-dasharray="' + c + '" stroke-dashoffset="' + (c * (1 - frac)) + '" transform="rotate(-90 ' + cx + ' ' + cy + ')"/>'
+        + '<circle cx="' + dotX + '" cy="' + dotY + '" r="3.4" fill="var(--accent)" stroke="var(--paper)" stroke-width="1.5"/>'
+      + '</svg>'
+      + '<div class="val"><b style="font-size:' + (S * 0.30) + 'px">' + num + '</b>'
+      +   (S >= 58 ? '<small>SCORE</small>' : '') + '</div>';
+  }
+  function renderGauges(){
+    document.querySelectorAll('.gauge[data-score]').forEach(drawGauge);
+  }
+  function init(){
+    renderDials();
+    renderGauges();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
 // ─── Mobile Nav ───────────────────────────────────────────
 (function(){
   const toggle = document.getElementById('mobileToggle');

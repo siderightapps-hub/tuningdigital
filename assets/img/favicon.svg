@@ -1,3 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <circle cx="16" cy="16" r="14" fill="#0052ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Dark rounded square -->
+  <rect width="64" height="64" rx="14" fill="#1a1f2d"/>
+  <!-- Dial: circle + four ticks + cyan needle -->
+  <g transform="translate(32 32)">
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#f2efe9" stroke-width="3" opacity="0.92"/>
+    <!-- Four quarter-tick marks -->
+    <line x1="0"   y1="-23"  x2="0"     y2="-20.5" stroke="#f2efe9" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+    <line x1="23"  y1="0"    x2="20.5"  y2="0"     stroke="#f2efe9" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+    <line x1="0"   y1="23"   x2="0"     y2="20.5"  stroke="#f2efe9" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+    <line x1="-23" y1="0"    x2="-20.5" y2="0"     stroke="#f2efe9" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+    <!-- Cyan needle at -45 degrees (NE direction), tail-to-tip -->
+    <line x1="3.54" y1="3.54" x2="-9.19" y2="-9.19" stroke="#6ec5d6" stroke-width="4" stroke-linecap="round"/>
+    <!-- Hub -->
+    <circle cx="0" cy="0" r="3.5" fill="#f2efe9"/>
+  </g>
 </svg>
