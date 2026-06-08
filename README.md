@@ -1,7 +1,7 @@
 # Tuning Digital — tuningdigital.com
 
 > Independent reviews and comparisons of AI & SaaS productivity tools.
-> AdSense + affiliate + sponsored posts · Static site · GitHub Pages + Cloudflare front
+> AdSense (live) · Affiliate programmes planned, none active · No sponsored coverage · Static site · GitHub Pages + Cloudflare front
 
 **Site is live.** This README is the operator runbook for ongoing maintenance, not initial setup.
 
@@ -21,7 +21,7 @@ tuningdigital/
 ├── index.html                          ← Homepage
 ├── about.html                          ← About + editorial standards + "How We Use AI"
 ├── contact.html                        ← 4-channel contact (general / privacy / sponsorship / security)
-├── privacy-policy.html                 ← GDPR + cookie policy + affiliate disclosure
+├── privacy-policy.html                 ← GDPR + cookie policy + Editorial note (affiliate stance)
 ├── 404.html
 ├── ads.txt                             ← AdSense ownership claim
 ├── robots.txt                          ← Permissive — AI crawlers explicitly allowed (GEO/AEO)
@@ -116,7 +116,8 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 | AdSense Publisher | `ca-pub-1606633100797174` | All HTML pages + `ads.txt` + both engines |
 | 11 AdSense ad slots | listed in [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) | named `td-*-*` per placement |
 | X handle | `@TuningDigital` | `https://x.com/TuningDigital` — footer social-btn + `index.html` Twitter card meta + Organization JSON-LD `sameAs` (engines + index.html + about.html) |
-| LinkedIn Company Page | `@TuningDigital` | `https://linkedin.com/company/tuningdigital` — footer social-btn (all pages + both engines) + Organization JSON-LD `sameAs` (engines + index.html + about.html). Brand assets in `brand/linkedin/` (logo 400×400, banner 1128×191, SVG sources). |
+| LinkedIn Company Page | `@TuningDigital` | `https://linkedin.com/company/tuningdigital` — footer social-btn (all pages + both engines) + Organization JSON-LD `sameAs` (engines + index.html + about.html). Brand assets in `brand/linkedin/` (logo 400×400, banner 1128×191, SVG sources). Re-uploaded 2026-06-08 with the dial mark, replacing earlier blue-dot versions. |
+| X brand assets | `brand/x/` | `profile.png` (400×400, same design as LinkedIn logo) + `header.png` (1500×500, dark hero with kicker/wordmark/tagline). Generated 2026-06-08. Build script at `/tmp/build_x_assets.py` (not checked in). |
 | Newsletter ESP | Resend (audience `6a716b66-d9d6-4c13-aa2c-564b70c8dd50` "General") | sending domain `updates.tuningdigital.com`; from `hello@updates.tuningdigital.com` |
 | Newsletter Worker | `tuningdigital-subscribe` (`/cloudflare-worker/`) | routes: `tuningdigital.com/api/subscribe`; Custom Domain: `unsub.tuningdigital.com` |
 | Editor identity | Alex Bacsa (Founder & Editor) | `CONFIG.authorName` + `authorRole` in both engines |
@@ -129,8 +130,8 @@ Edit `assets/js/content-engine.js` (`TOPIC_BANK`) or `assets/js/tool-page-engine
 ## 💰 Monetisation
 
 - **AdSense**: live publisher ID across the site. 11 slots created (homepage, blog, tools, articles, multiplex). See [Template.md §6.1](../MD%20Files/TuningDigital/Template.md) for the named-unit inventory.
-- **Affiliate**: deferred until organic traffic > 1K sessions/mo (affiliate programmes routinely reject low-traffic sites — see [Template.md §6.2](../MD%20Files/TuningDigital/Template.md)).
-- **Sponsored content**: clearly labelled when accepted; declined when conflicting with editorial standards.
+- **Affiliate**: **deferred until organic traffic > 1K sessions/mo** — no programmes currently active. The site's standard "Editorial note" callout (top of every article) + footer line + privacy policy §3 + about.html "How We Make Money" all reflect this honestly, with a forward-looking commitment to per-link + per-article disclosure when programmes do activate. Don't reintroduce blanket "may earn a commission" language anywhere — the entire site was swept to align with reality on 2026-06-08 (commits `c44c872` + `c507027`). When the first affiliate programme is approved, update the standard callout exactly once in both engines (it's the same HTML block in `wrapInTemplate()` prompts) and the change propagates to all future cron articles.
+- **Sponsored content**: **never accepted.** This is the durable editorial differentiator (affiliate ≠ sponsored). Hero, footer, X bio, and LinkedIn description all carry the line `"No sponsored coverage. Editorial rankings never for sale."` — true today, future-compatible if/when affiliates activate. Don't soften it.
 - **Newsletter**: native HTML signup form → Cloudflare Worker (`/cloudflare-worker/`) → Resend `audiences.contacts.create` + welcome email via `/emails`. Subscribers managed in Resend audience "General". From address `hello@updates.tuningdigital.com` on the verified `updates.tuningdigital.com` sending subdomain. Unsubscribe: HMAC-signed one-click link to Worker Custom Domain `unsub.tuningdigital.com`.
 
 ---
